@@ -1,0 +1,1933 @@
+openapi: 3.1.0
+info:
+  description: Payment service
+  title: zipper-pay API
+  version: v1
+servers:
+- description: Generated server url
+  url: http://localhost:8089
+security:
+- bearerAuth: []
+paths:
+  /api/v1/open/notifications/payme:
+    post:
+      operationId: payme
+      requestBody:
+        content:
+          application/json:
+            schema:
+              additionalProperties: {}
+        required: true
+      responses:
+        "200":
+          description: OK
+      tags:
+      - payme-open-controller
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /api/v1/open/notifications/payme/subscription:
+    post:
+      operationId: paymeSubscription
+      requestBody:
+        content:
+          application/json:
+            schema:
+              additionalProperties: {}
+        required: true
+      responses:
+        "200":
+          description: OK
+      tags:
+      - payme-subscription-open-controller
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /api/v1/internal/wallet/charges:
+    post:
+      operationId: charge
+      parameters:
+      - explode: false
+        in: header
+        name: Idempotency-Key
+        required: true
+        schema:
+          maxLength: 128
+          minLength: 1
+          pattern: "^[A-Za-z0-9_\\-:.]{1,128}$"
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: caller
+        required: true
+        schema:
+          $ref: '#/components/schemas/AuthenticatedPrincipal'
+        style: form
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WalletChargeRequestDto'
+        required: true
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/WalletChargeResponseDto'
+          description: OK
+      summary: Spend credits from a user's wallet (synchronous)
+      tags:
+      - internal-wallet-charges
+      x-content-type: application/json
+      x-accepts:
+      - '*/*'
+  /api/v1/internal/wallet/charges/{chargeId}/refunds:
+    post:
+      operationId: refundWalletCharge
+      parameters:
+      - explode: false
+        in: path
+        name: chargeId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: Idempotency-Key
+        required: true
+        schema:
+          maxLength: 128
+          minLength: 1
+          pattern: "^[A-Za-z0-9_\\-:.]{1,128}$"
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: principal
+        required: true
+        schema:
+          $ref: '#/components/schemas/AuthenticatedPrincipal'
+        style: form
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefundRequestDto'
+        required: true
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/RefundResponseDto'
+          description: OK
+      tags:
+      - internal-refunds
+      x-content-type: application/json
+      x-accepts:
+      - '*/*'
+  /api/v1/internal/subscriptions:
+    post:
+      operationId: create
+      parameters:
+      - explode: false
+        in: header
+        name: Idempotency-Key
+        required: true
+        schema:
+          maxLength: 128
+          minLength: 1
+          pattern: "^[A-Za-z0-9_\\-:.]{1,128}$"
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: principal
+        required: true
+        schema:
+          $ref: '#/components/schemas/AuthenticatedPrincipal'
+        style: form
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSubscriptionRequestDto'
+        required: true
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SubscriptionResponseDto'
+          description: OK
+      tags:
+      - subscription-internal-controller
+      x-content-type: application/json
+      x-accepts:
+      - '*/*'
+  /api/v1/internal/subscription-plans:
+    get:
+      operationId: list
+      parameters:
+      - explode: true
+        in: query
+        name: pageable
+        required: true
+        schema:
+          $ref: '#/components/schemas/Pageable'
+        style: form
+      - explode: true
+        in: query
+        name: principal
+        required: true
+        schema:
+          $ref: '#/components/schemas/AuthenticatedPrincipal'
+        style: form
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                items:
+                  $ref: '#/components/schemas/SubscriptionPlanResponseDto'
+                type: array
+          description: OK
+      tags:
+      - subscription-plan-internal-controller
+      x-accepts:
+      - '*/*'
+    post:
+      operationId: create_1
+      parameters:
+      - explode: true
+        in: query
+        name: principal
+        required: true
+        schema:
+          $ref: '#/components/schemas/AuthenticatedPrincipal'
+        style: form
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSubscriptionPlanRequestDto'
+        required: true
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SubscriptionPlanResponseDto'
+          description: OK
+      tags:
+      - subscription-plan-internal-controller
+      x-content-type: application/json
+      x-accepts:
+      - '*/*'
+  /api/v1/internal/payment-intents:
+    post:
+      operationId: create_2
+      parameters:
+      - explode: false
+        in: header
+        name: Idempotency-Key
+        required: true
+        schema:
+          maxLength: 128
+          minLength: 1
+          pattern: "^[A-Za-z0-9_\\-:.]{1,128}$"
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: principal
+        required: true
+        schema:
+          $ref: '#/components/schemas/AuthenticatedPrincipal'
+        style: form
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePaymentIntentRequestDto'
+        required: true
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PaymentIntentResponseDto'
+          description: OK
+      tags:
+      - payment-intent-internal-controller
+      x-content-type: application/json
+      x-accepts:
+      - '*/*'
+  /api/v1/internal/payment-intents/{intentId}/refunds:
+    post:
+      operationId: refundPaymentIntent
+      parameters:
+      - explode: false
+        in: path
+        name: intentId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: Idempotency-Key
+        required: true
+        schema:
+          maxLength: 128
+          minLength: 1
+          pattern: "^[A-Za-z0-9_\\-:.]{1,128}$"
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: principal
+        required: true
+        schema:
+          $ref: '#/components/schemas/AuthenticatedPrincipal'
+        style: form
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefundRequestDto'
+        required: true
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/RefundResponseDto'
+          description: OK
+      tags:
+      - internal-refunds
+      x-content-type: application/json
+      x-accepts:
+      - '*/*'
+  /api/v1/admin/wallets/{userId}/{currency}/debit:
+    post:
+      operationId: debit
+      parameters:
+      - explode: false
+        in: path
+        name: userId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: currency
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: principal
+        required: true
+        schema:
+          $ref: '#/components/schemas/AuthenticatedPrincipal'
+        style: form
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminDebitRequestDto'
+        required: true
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/AdminAdjustmentResponseDto'
+          description: OK
+      tags:
+      - admin-wallets
+      x-content-type: application/json
+      x-accepts:
+      - '*/*'
+  /api/v1/admin/wallets/{userId}/{currency}/credit:
+    post:
+      operationId: credit
+      parameters:
+      - explode: false
+        in: path
+        name: userId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: currency
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: principal
+        required: true
+        schema:
+          $ref: '#/components/schemas/AuthenticatedPrincipal'
+        style: form
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminCreditRequestDto'
+        required: true
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/AdminAdjustmentResponseDto'
+          description: OK
+      tags:
+      - admin-wallets
+      x-content-type: application/json
+      x-accepts:
+      - '*/*'
+  /api/v1/admin/journal/adjustments:
+    post:
+      operationId: postFreeForm
+      parameters:
+      - explode: true
+        in: query
+        name: principal
+        required: true
+        schema:
+          $ref: '#/components/schemas/AuthenticatedPrincipal'
+        style: form
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FreeFormJournalRequestDto'
+        required: true
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/JournalEntryDto'
+          description: OK
+      tags:
+      - admin-journal
+      x-content-type: application/json
+      x-accepts:
+      - '*/*'
+  /api/v1/admin/conversion-rates:
+    get:
+      operationId: list_1
+      parameters:
+      - explode: true
+        in: query
+        name: paymentMethod
+        required: false
+        schema:
+          enum:
+          - WALLET
+          - PAYME
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: moneyCurrency
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: creditCurrency
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                items:
+                  $ref: '#/components/schemas/ConversionRateResponseDto'
+                type: array
+          description: OK
+      tags:
+      - admin-conversion-rates
+      x-accepts:
+      - '*/*'
+    post:
+      operationId: insert
+      parameters:
+      - explode: true
+        in: query
+        name: principal
+        required: true
+        schema:
+          $ref: '#/components/schemas/AuthenticatedPrincipal'
+        style: form
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConversionRateRequestDto'
+        required: true
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ConversionRateResponseDto'
+          description: OK
+      tags:
+      - admin-conversion-rates
+      x-content-type: application/json
+      x-accepts:
+      - '*/*'
+  /api/v1/admin/consumer-services:
+    post:
+      operationId: register
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterConsumerRequestDto'
+        required: true
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/RegisterConsumerResponseDto'
+          description: OK
+      tags:
+      - admin-consumer-services
+      x-content-type: application/json
+      x-accepts:
+      - '*/*'
+  /api/v1/admin/consumer-services/{clientId}/rotate-secret:
+    post:
+      operationId: rotate
+      parameters:
+      - explode: false
+        in: path
+        name: clientId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/RotateSecretResponseDto'
+          description: OK
+      tags:
+      - admin-consumer-services
+      x-accepts:
+      - '*/*'
+  /api/v1/internal/subscription-plans/{id}:
+    get:
+      operationId: get
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SubscriptionPlanResponseDto'
+          description: OK
+      tags:
+      - subscription-plan-internal-controller
+      x-accepts:
+      - '*/*'
+    patch:
+      operationId: update
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateSubscriptionPlanRequestDto'
+        required: true
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SubscriptionPlanResponseDto'
+          description: OK
+      tags:
+      - subscription-plan-internal-controller
+      x-content-type: application/json
+      x-accepts:
+      - '*/*'
+  /api/v1/user/wallets:
+    get:
+      operationId: mine
+      parameters:
+      - explode: true
+        in: query
+        name: principal
+        required: true
+        schema:
+          $ref: '#/components/schemas/AuthenticatedPrincipal'
+        style: form
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                items:
+                  $ref: '#/components/schemas/WalletDto'
+                type: array
+          description: OK
+      tags:
+      - user-wallets
+      x-accepts:
+      - '*/*'
+  /api/v1/user/wallets/{currency}/entries:
+    get:
+      operationId: entries
+      parameters:
+      - explode: false
+        in: path
+        name: currency
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: from
+        required: false
+        schema:
+          format: date-time
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: to
+        required: false
+        schema:
+          format: date-time
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: pageable
+        required: true
+        schema:
+          $ref: '#/components/schemas/Pageable'
+        style: form
+      - explode: true
+        in: query
+        name: principal
+        required: true
+        schema:
+          $ref: '#/components/schemas/AuthenticatedPrincipal'
+        style: form
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PageWalletEntryDto'
+          description: OK
+      tags:
+      - user-wallets
+      x-accepts:
+      - '*/*'
+  /api/v1/user/payment-intents/{id}:
+    get:
+      operationId: get_1
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: principal
+        required: true
+        schema:
+          $ref: '#/components/schemas/AuthenticatedPrincipal'
+        style: form
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PaymentIntentResponseDto'
+          description: OK
+      tags:
+      - user-payment-intents
+      x-accepts:
+      - '*/*'
+  /api/v1/user/invoices/{paymentIntentId}:
+    get:
+      operationId: redirectToInvoice
+      parameters:
+      - explode: false
+        in: path
+        name: paymentIntentId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: principal
+        required: true
+        schema:
+          $ref: '#/components/schemas/AuthenticatedPrincipal'
+        style: form
+      responses:
+        "200":
+          description: OK
+      tags:
+      - user-invoices
+      x-accepts:
+      - application/json
+  /api/v1/internal/wallets:
+    get:
+      operationId: list_2
+      parameters:
+      - explode: true
+        in: query
+        name: userId
+        required: true
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                items:
+                  $ref: '#/components/schemas/WalletDto'
+                type: array
+          description: OK
+      tags:
+      - internal-wallets
+      x-accepts:
+      - '*/*'
+  /api/v1/internal/wallets/{userId}/{currency}:
+    get:
+      operationId: getOne
+      parameters:
+      - explode: false
+        in: path
+        name: userId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: currency
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/WalletDto'
+          description: OK
+      tags:
+      - internal-wallets
+      x-accepts:
+      - '*/*'
+  /api/v1/internal/wallets/{userId}/{currency}/entries:
+    get:
+      operationId: entries_1
+      parameters:
+      - explode: false
+        in: path
+        name: userId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: currency
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: from
+        required: false
+        schema:
+          format: date-time
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: to
+        required: false
+        schema:
+          format: date-time
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: pageable
+        required: true
+        schema:
+          $ref: '#/components/schemas/Pageable'
+        style: form
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PageWalletEntryDto'
+          description: OK
+      tags:
+      - internal-wallets
+      x-accepts:
+      - '*/*'
+  /api/v1/internal/subscriptions/{id}:
+    get:
+      operationId: get_2
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SubscriptionResponseDto'
+          description: OK
+      tags:
+      - subscription-internal-controller
+      x-accepts:
+      - '*/*'
+  /api/v1/internal/payment-intents/{id}:
+    get:
+      operationId: get_3
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PaymentIntentResponseDto'
+          description: OK
+      tags:
+      - payment-intent-internal-controller
+      x-accepts:
+      - '*/*'
+  /api/v1/admin/wallets/{userId}:
+    get:
+      operationId: listWallets
+      parameters:
+      - explode: false
+        in: path
+        name: userId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                items:
+                  $ref: '#/components/schemas/WalletDto'
+                type: array
+          description: OK
+      tags:
+      - admin-wallets
+      x-accepts:
+      - '*/*'
+  /api/v1/admin/journal/{refType}/{refId}:
+    get:
+      operationId: getByRef
+      parameters:
+      - explode: false
+        in: path
+        name: refType
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: refId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/JournalEntryTreeDto'
+          description: OK
+      tags:
+      - admin-journal
+      x-accepts:
+      - '*/*'
+components:
+  schemas:
+    WalletChargeRequestDto:
+      example:
+        purposeRefType: purposeRefType
+        metadata:
+          key: ""
+        creditsAmount: 0.08018281904610115
+        issueInvoice: true
+        notifyUrl: notifyUrl
+        purposeDescription: purposeDescription
+        language: language
+        creditCurrency: creditCurrency
+        userId: userId
+        purposeRefId: purposeRefId
+      properties:
+        userId:
+          maxLength: 64
+          minLength: 0
+          type: string
+        creditCurrency:
+          maxLength: 8
+          minLength: 1
+          type: string
+        creditsAmount:
+          minimum: 0.00010
+          type: number
+        purposeRefType:
+          maxLength: 64
+          minLength: 0
+          type: string
+        purposeRefId:
+          maxLength: 128
+          minLength: 0
+          type: string
+        purposeDescription:
+          maxLength: 512
+          minLength: 0
+          type: string
+        language:
+          pattern: en|he
+          type: string
+        notifyUrl:
+          maxLength: 2048
+          minLength: 0
+          type: string
+        issueInvoice:
+          type: boolean
+        metadata:
+          additionalProperties: {}
+      required:
+      - creditCurrency
+      - creditsAmount
+      - userId
+    AuthenticatedPrincipal:
+      properties:
+        userId:
+          type: string
+        consumerService:
+          type: string
+        roles:
+          items:
+            type: string
+          type: array
+          uniqueItems: true
+        isService:
+          type: boolean
+    WalletChargeResponseDto:
+      example:
+        journalEntryId: 0
+        completedAt: 2000-01-23T04:56:07.000+00:00
+        remainingBalance: 6.027456183070403
+        id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        status: status
+      properties:
+        id:
+          format: uuid
+          type: string
+        status:
+          type: string
+        journalEntryId:
+          format: int64
+          type: integer
+        remainingBalance:
+          type: number
+        completedAt:
+          format: date-time
+          type: string
+    RefundRequestDto:
+      example:
+        reason: reason
+        amount: 0.08018281904610115
+        metadata:
+          key: ""
+      properties:
+        amount:
+          minimum: 0.00010
+          type: number
+        reason:
+          maxLength: 500
+          minLength: 0
+          type: string
+        metadata:
+          additionalProperties: {}
+      required:
+      - amount
+      - reason
+    RefundResponseDto:
+      example:
+        journalEntryId: 1
+        completedAt: 2000-01-23T04:56:07.000+00:00
+        parentStatus: PENDING
+        refundStatus: PENDING
+        refundIntentId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        parentIntentId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        providerRefundRef: providerRefundRef
+        refundedAmount: 0.8008281904610115
+        cumulativeRefunded: 6.027456183070403
+      properties:
+        refundIntentId:
+          format: uuid
+          type: string
+        parentIntentId:
+          format: uuid
+          type: string
+        refundStatus:
+          enum:
+          - PENDING
+          - AWAITING_PAYMENT
+          - COMPLETED
+          - FAILED
+          - EXPIRED
+          - REFUNDED
+          - PARTIALLY_REFUNDED
+          type: string
+        parentStatus:
+          enum:
+          - PENDING
+          - AWAITING_PAYMENT
+          - COMPLETED
+          - FAILED
+          - EXPIRED
+          - REFUNDED
+          - PARTIALLY_REFUNDED
+          type: string
+        refundedAmount:
+          type: number
+        cumulativeRefunded:
+          type: number
+        journalEntryId:
+          format: int64
+          type: integer
+        completedAt:
+          format: date-time
+          type: string
+        providerRefundRef:
+          type: string
+    CreateSubscriptionRequestDto:
+      example:
+        metadata:
+          key: ""
+        buyerEmail: buyerEmail
+        notifyUrl: notifyUrl
+        planId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        language: language
+        returnUrl: returnUrl
+        buyerName: buyerName
+        userId: userId
+      properties:
+        userId:
+          maxLength: 64
+          minLength: 0
+          type: string
+        planId:
+          format: uuid
+          type: string
+        returnUrl:
+          maxLength: 2048
+          minLength: 0
+          type: string
+        notifyUrl:
+          maxLength: 2048
+          minLength: 0
+          type: string
+        language:
+          maxLength: 2
+          minLength: 0
+          type: string
+        buyerName:
+          maxLength: 255
+          minLength: 0
+          type: string
+        buyerEmail:
+          format: email
+          maxLength: 255
+          minLength: 0
+          type: string
+        metadata:
+          additionalProperties: {}
+      required:
+      - planId
+      - userId
+    SubscriptionResponseDto:
+      example:
+        currentPeriodStart: 2000-01-23T04:56:07.000+00:00
+        currentPeriodEnd: 2000-01-23T04:56:07.000+00:00
+        userId: userId
+        providerAuthorizationUrl: providerAuthorizationUrl
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        amountCents: 0
+        provider: PAYME
+        providerSubscriptionId: providerSubscriptionId
+        planId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        currency: currency
+        interval: MONTHLY
+        id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        nextBillingAt: 2000-01-23T04:56:07.000+00:00
+        status: PENDING_AUTHORIZATION
+      properties:
+        id:
+          format: uuid
+          type: string
+        planId:
+          format: uuid
+          type: string
+        userId:
+          type: string
+        status:
+          enum:
+          - PENDING_AUTHORIZATION
+          - ACTIVE
+          - PAST_DUE
+          - PAUSED
+          - CANCEL_AT_PERIOD_END
+          - CANCELED
+          - EXPIRED
+          type: string
+        provider:
+          enum:
+          - PAYME
+          type: string
+        providerSubscriptionId:
+          type: string
+        providerAuthorizationUrl:
+          type: string
+        amountCents:
+          format: int64
+          type: integer
+        currency:
+          type: string
+        interval:
+          enum:
+          - MONTHLY
+          - YEARLY
+          type: string
+        currentPeriodStart:
+          format: date-time
+          type: string
+        currentPeriodEnd:
+          format: date-time
+          type: string
+        nextBillingAt:
+          format: date-time
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+    CreateSubscriptionPlanRequestDto:
+      example:
+        amountCents: 1
+        code: code
+        displayName: displayName
+        description: description
+        currency: currency
+        interval: MONTHLY
+      properties:
+        code:
+          maxLength: 64
+          minLength: 0
+          type: string
+        displayName:
+          maxLength: 255
+          minLength: 0
+          type: string
+        description:
+          maxLength: 4000
+          minLength: 0
+          type: string
+        amountCents:
+          format: int64
+          minimum: 1
+          type: integer
+        currency:
+          maxLength: 3
+          minLength: 3
+          type: string
+        interval:
+          enum:
+          - MONTHLY
+          - YEARLY
+          type: string
+      required:
+      - code
+      - currency
+      - displayName
+      - interval
+    SubscriptionPlanResponseDto:
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        amountCents: 0
+        code: code
+        displayName: displayName
+        description: description
+        currency: currency
+        interval: MONTHLY
+        id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        status: ACTIVE
+      properties:
+        id:
+          format: uuid
+          type: string
+        code:
+          type: string
+        displayName:
+          type: string
+        description:
+          type: string
+        amountCents:
+          format: int64
+          type: integer
+        currency:
+          type: string
+        interval:
+          enum:
+          - MONTHLY
+          - YEARLY
+          type: string
+        status:
+          enum:
+          - ACTIVE
+          - ARCHIVED
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+    CreatePaymentIntentRequestDto:
+      example:
+        metadata:
+          key: ""
+        purpose: WALLET_TOPUP
+        buyerEmail: buyerEmail
+        language: language
+        buyerName: buyerName
+        userId: userId
+        purposeRefId: purposeRefId
+        purposeRefType: purposeRefType
+        paymentMethod: WALLET
+        notifyUrl: notifyUrl
+        purposeDescription: purposeDescription
+        creditCurrency: creditCurrency
+        moneyCurrency: moneyCurrency
+        returnUrl: returnUrl
+        moneyAmount: 0.08018281904610115
+      properties:
+        userId:
+          maxLength: 64
+          minLength: 0
+          type: string
+        paymentMethod:
+          enum:
+          - WALLET
+          - PAYME
+          type: string
+        purpose:
+          enum:
+          - WALLET_TOPUP
+          - PRODUCT_PURCHASE
+          - SUBSCRIPTION_RENEWAL
+          - REFUND_WALLET_TOPUP
+          - REFUND_PRODUCT_PURCHASE
+          - REFUND_SUBSCRIPTION_RENEWAL
+          type: string
+        moneyAmount:
+          minimum: 0.00010
+          type: number
+        moneyCurrency:
+          minLength: 1
+          pattern: "[A-Z]{3}"
+          type: string
+        creditCurrency:
+          maxLength: 8
+          minLength: 0
+          type: string
+        purposeRefType:
+          maxLength: 64
+          minLength: 0
+          type: string
+        purposeRefId:
+          maxLength: 128
+          minLength: 0
+          type: string
+        purposeDescription:
+          maxLength: 512
+          minLength: 0
+          type: string
+        notifyUrl:
+          type: string
+        returnUrl:
+          type: string
+        language:
+          pattern: "[a-z]{2}"
+          type: string
+        metadata:
+          additionalProperties: {}
+        buyerName:
+          maxLength: 128
+          minLength: 0
+          type: string
+        buyerEmail:
+          format: email
+          maxLength: 128
+          minLength: 0
+          type: string
+      required:
+      - creditCurrency
+      - moneyAmount
+      - moneyCurrency
+      - paymentMethod
+      - purpose
+      - userId
+    PaymentIntentResponseDto:
+      example:
+        feeAmount: 1.4658129805029452
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        providerRef: providerRef
+        creditsAmount: 0.8008281904610115
+        appliedRate: 6.027456183070403
+        id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        paymentUrl: paymentUrl
+        expiresAt: 2000-01-23T04:56:07.000+00:00
+        status: PENDING
+      properties:
+        id:
+          format: uuid
+          type: string
+        status:
+          enum:
+          - PENDING
+          - AWAITING_PAYMENT
+          - COMPLETED
+          - FAILED
+          - EXPIRED
+          - REFUNDED
+          - PARTIALLY_REFUNDED
+          type: string
+        paymentUrl:
+          type: string
+        providerRef:
+          type: string
+        creditsAmount:
+          type: number
+        appliedRate:
+          type: number
+        feeAmount:
+          type: number
+        expiresAt:
+          format: date-time
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+    AdminDebitRequestDto:
+      example:
+        note: note
+        amount: 0.08018281904610115
+        reasonCode: GOODWILL
+      properties:
+        amount:
+          minimum: 0.00010
+          type: number
+        reasonCode:
+          enum:
+          - GOODWILL
+          - PROMOTION
+          - MANUAL_TOPUP
+          - MIGRATION_FIX
+          - OTHER
+          type: string
+        note:
+          maxLength: 500
+          minLength: 0
+          type: string
+      required:
+      - amount
+      - reasonCode
+    AdminAdjustmentResponseDto:
+      example:
+        journalEntryId: 0
+        adjustedAt: 2000-01-23T04:56:07.000+00:00
+        newBalance: 6.027456183070403
+      properties:
+        journalEntryId:
+          format: int64
+          type: integer
+        newBalance:
+          type: number
+        adjustedAt:
+          format: date-time
+          type: string
+    AdminCreditRequestDto:
+      example:
+        note: note
+        amount: 0.08018281904610115
+        issueInvoice: true
+        reasonCode: GOODWILL
+      properties:
+        amount:
+          minimum: 0.00010
+          type: number
+        reasonCode:
+          enum:
+          - GOODWILL
+          - PROMOTION
+          - MANUAL_TOPUP
+          - MIGRATION_FIX
+          - OTHER
+          type: string
+        note:
+          maxLength: 500
+          minLength: 0
+          type: string
+        issueInvoice:
+          type: boolean
+      required:
+      - amount
+      - reasonCode
+    FreeFormJournalRequestDto:
+      example:
+        refType: refType
+        description: description
+        postings:
+        - accountId: 6
+          amountSigned: 1.4658129805029452
+        - accountId: 6
+          amountSigned: 1.4658129805029452
+        - accountId: 6
+          amountSigned: 1.4658129805029452
+        - accountId: 6
+          amountSigned: 1.4658129805029452
+        - accountId: 6
+          amountSigned: 1.4658129805029452
+        currency: currency
+        eventType: WALLET_TOPUP
+        refId: refId
+      properties:
+        eventType:
+          enum:
+          - WALLET_TOPUP
+          - WALLET_SPEND
+          - REFUND_TOPUP
+          - REFUND_SPEND
+          - OPENING_BALANCE_FROM_LEGACY
+          - ADJUSTMENT_CREDIT
+          - ADJUSTMENT_DEBIT
+          type: string
+        currency:
+          maxLength: 8
+          minLength: 0
+          type: string
+        refType:
+          maxLength: 32
+          minLength: 0
+          type: string
+        refId:
+          maxLength: 64
+          minLength: 0
+          type: string
+        description:
+          maxLength: 255
+          minLength: 0
+          type: string
+        postings:
+          items:
+            $ref: '#/components/schemas/PostingLineDto'
+          maxItems: 2147483647
+          minItems: 2
+          type: array
+      required:
+      - currency
+      - eventType
+      - postings
+    PostingLineDto:
+      example:
+        accountId: 6
+        amountSigned: 1.4658129805029452
+      properties:
+        accountId:
+          format: int64
+          type: integer
+        amountSigned:
+          type: number
+      required:
+      - accountId
+      - amountSigned
+    JournalEntryDto:
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        createdBy: createdBy
+        idempotencyKey: idempotencyKey
+        refType: refType
+        description: description
+        postings:
+        - accountId: 6
+          amountSigned: 1.4658129805029452
+        - accountId: 6
+          amountSigned: 1.4658129805029452
+        currency: currency
+        id: 0
+        eventType: WALLET_TOPUP
+        refId: refId
+      properties:
+        id:
+          format: int64
+          type: integer
+        idempotencyKey:
+          type: string
+        eventType:
+          enum:
+          - WALLET_TOPUP
+          - WALLET_SPEND
+          - REFUND_TOPUP
+          - REFUND_SPEND
+          - OPENING_BALANCE_FROM_LEGACY
+          - ADJUSTMENT_CREDIT
+          - ADJUSTMENT_DEBIT
+          type: string
+        currency:
+          type: string
+        refType:
+          type: string
+        refId:
+          type: string
+        description:
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+        createdBy:
+          type: string
+        postings:
+          items:
+            $ref: '#/components/schemas/PostingLineDto'
+          type: array
+    ConversionRateRequestDto:
+      example:
+        rate: 0.08008282904610114
+        feePercent: 60.27456183070403
+        paymentMethod: WALLET
+        creditCurrency: creditCurrency
+        moneyCurrency: moneyCurrency
+        feeFixed: 0.14658129805029452
+      properties:
+        paymentMethod:
+          enum:
+          - WALLET
+          - PAYME
+          type: string
+        moneyCurrency:
+          minLength: 1
+          pattern: "[A-Z]{3}"
+          type: string
+        creditCurrency:
+          maxLength: 8
+          minLength: 0
+          type: string
+        rate:
+          minimum: 0.000000010
+          type: number
+        feePercent:
+          maximum: 100
+          minimum: 0
+          type: number
+        feeFixed:
+          minimum: 0
+          type: number
+      required:
+      - creditCurrency
+      - moneyCurrency
+      - paymentMethod
+      - rate
+    ConversionRateResponseDto:
+      example:
+        effectiveTo: 2000-01-23T04:56:07.000+00:00
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        rate: 6.027456183070403
+        feePercent: 1.4658129805029452
+        createdBy: createdBy
+        paymentMethod: WALLET
+        id: 0
+        creditCurrency: creditCurrency
+        moneyCurrency: moneyCurrency
+        feeFixed: 5.962133916683182
+        effectiveFrom: 2000-01-23T04:56:07.000+00:00
+      properties:
+        id:
+          format: int64
+          type: integer
+        paymentMethod:
+          enum:
+          - WALLET
+          - PAYME
+          type: string
+        moneyCurrency:
+          type: string
+        creditCurrency:
+          type: string
+        rate:
+          type: number
+        feePercent:
+          type: number
+        feeFixed:
+          type: number
+        effectiveFrom:
+          format: date-time
+          type: string
+        effectiveTo:
+          format: date-time
+          type: string
+        createdBy:
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+    RegisterConsumerRequestDto:
+      example:
+        clientId: clientId
+        displayName: displayName
+      properties:
+        clientId:
+          maxLength: 64
+          minLength: 0
+          pattern: "[A-Za-z0-9_\\-]+"
+          type: string
+        displayName:
+          maxLength: 128
+          minLength: 0
+          type: string
+      required:
+      - clientId
+    RegisterConsumerResponseDto:
+      example:
+        clientId: clientId
+        displayName: displayName
+        notifySecret: notifySecret
+      properties:
+        clientId:
+          type: string
+        displayName:
+          type: string
+        notifySecret:
+          type: string
+    RotateSecretResponseDto:
+      example:
+        clientId: clientId
+        notifySecret: notifySecret
+      properties:
+        clientId:
+          type: string
+        notifySecret:
+          type: string
+    UpdateSubscriptionPlanRequestDto:
+      example:
+        displayName: displayName
+        description: description
+        archive: true
+      properties:
+        displayName:
+          maxLength: 255
+          minLength: 0
+          type: string
+        description:
+          maxLength: 4000
+          minLength: 0
+          type: string
+        archive:
+          type: boolean
+    WalletDto:
+      example:
+        balance: 0.8008281904610115
+        currency: currency
+        userId: userId
+        version: 6
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        userId:
+          type: string
+        currency:
+          type: string
+        balance:
+          type: number
+        version:
+          format: int64
+          type: integer
+        updatedAt:
+          format: date-time
+          type: string
+    Pageable:
+      properties:
+        page:
+          format: int32
+          minimum: 0
+          type: integer
+        size:
+          format: int32
+          minimum: 1
+          type: integer
+        sort:
+          items:
+            type: string
+          type: array
+    PageWalletEntryDto:
+      example:
+        number: 7
+        size: 1
+        last: true
+        numberOfElements: 4
+        totalPages: 0
+        pageable:
+          paged: true
+          pageNumber: 3
+          offset: 9
+          pageSize: 2
+          unpaged: true
+          sort:
+            unsorted: true
+            sorted: true
+            empty: true
+        sort:
+          unsorted: true
+          sorted: true
+          empty: true
+        content:
+        - postingId: 5
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          journalEntryId: 5
+          journalEventType: journalEventType
+          journalDescription: journalDescription
+          refType: refType
+          amountSigned: 2.3021358869347655
+          refId: refId
+        - postingId: 5
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          journalEntryId: 5
+          journalEventType: journalEventType
+          journalDescription: journalDescription
+          refType: refType
+          amountSigned: 2.3021358869347655
+          refId: refId
+        first: true
+        totalElements: 6
+        empty: true
+      properties:
+        totalPages:
+          format: int32
+          type: integer
+        totalElements:
+          format: int64
+          type: integer
+        size:
+          format: int32
+          type: integer
+        content:
+          items:
+            $ref: '#/components/schemas/WalletEntryDto'
+          type: array
+        number:
+          format: int32
+          type: integer
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          format: int32
+          type: integer
+        empty:
+          type: boolean
+    PageableObject:
+      example:
+        paged: true
+        pageNumber: 3
+        offset: 9
+        pageSize: 2
+        unpaged: true
+        sort:
+          unsorted: true
+          sorted: true
+          empty: true
+      properties:
+        offset:
+          format: int64
+          type: integer
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        paged:
+          type: boolean
+        pageNumber:
+          format: int32
+          type: integer
+        pageSize:
+          format: int32
+          type: integer
+        unpaged:
+          type: boolean
+    SortObject:
+      example:
+        unsorted: true
+        sorted: true
+        empty: true
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
+    WalletEntryDto:
+      example:
+        postingId: 5
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        journalEntryId: 5
+        journalEventType: journalEventType
+        journalDescription: journalDescription
+        refType: refType
+        amountSigned: 2.3021358869347655
+        refId: refId
+      properties:
+        postingId:
+          format: int64
+          type: integer
+        journalEntryId:
+          format: int64
+          type: integer
+        journalEventType:
+          type: string
+        journalDescription:
+          type: string
+        refType:
+          type: string
+        refId:
+          type: string
+        amountSigned:
+          type: number
+        createdAt:
+          format: date-time
+          type: string
+    JournalEntryTreeDto:
+      example:
+        entries:
+        - createdAt: 2000-01-23T04:56:07.000+00:00
+          createdBy: createdBy
+          idempotencyKey: idempotencyKey
+          refType: refType
+          description: description
+          postings:
+          - accountId: 6
+            amountSigned: 1.4658129805029452
+          - accountId: 6
+            amountSigned: 1.4658129805029452
+          currency: currency
+          id: 0
+          eventType: WALLET_TOPUP
+          refId: refId
+        - createdAt: 2000-01-23T04:56:07.000+00:00
+          createdBy: createdBy
+          idempotencyKey: idempotencyKey
+          refType: refType
+          description: description
+          postings:
+          - accountId: 6
+            amountSigned: 1.4658129805029452
+          - accountId: 6
+            amountSigned: 1.4658129805029452
+          currency: currency
+          id: 0
+          eventType: WALLET_TOPUP
+          refId: refId
+      properties:
+        entries:
+          items:
+            $ref: '#/components/schemas/JournalEntryDto'
+          type: array
+  securitySchemes:
+    bearerAuth:
+      bearerFormat: JWT
+      scheme: bearer
+      type: http
+
