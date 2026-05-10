@@ -1,17 +1,17 @@
-# PaymeOpenControllerApi
+# InternalUsersApi
 
 All URIs are relative to *http://localhost:8089*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**payme**](PaymeOpenControllerApi.md#payme) | **POST** /api/v1/open/notifications/payme |  |
+| [**onboard**](InternalUsersApi.md#onboard) | **POST** /api/v1/internal/users/onboard | Register a user and provision wallets in all active credit currencies |
 
 
-<a id="payme"></a>
-# **payme**
-> payme()
+<a id="onboard"></a>
+# **onboard**
+> OnboardUserResponseDto onboard(caller, onboardUserRequestDto)
 
-
+Register a user and provision wallets in all active credit currencies
 
 ### Example
 ```java
@@ -21,7 +21,7 @@ import com.zipper.pay.sdk.ApiException;
 import com.zipper.pay.sdk.Configuration;
 import com.zipper.pay.sdk.auth.*;
 import com.zipper.pay.sdk.models.*;
-import com.zipper.pay.sdk.api.PaymeOpenControllerApi;
+import com.zipper.pay.sdk.api.InternalUsersApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -32,11 +32,14 @@ public class Example {
     HttpBearerAuth bearerAuth = (HttpBearerAuth) defaultClient.getAuthentication("bearerAuth");
     bearerAuth.setBearerToken("BEARER TOKEN");
 
-    PaymeOpenControllerApi apiInstance = new PaymeOpenControllerApi(defaultClient);
+    InternalUsersApi apiInstance = new InternalUsersApi(defaultClient);
+    AuthenticatedPrincipal caller = new AuthenticatedPrincipal(); // AuthenticatedPrincipal | 
+    OnboardUserRequestDto onboardUserRequestDto = new OnboardUserRequestDto(); // OnboardUserRequestDto | 
     try {
-      apiInstance.payme();
+      OnboardUserResponseDto result = apiInstance.onboard(caller, onboardUserRequestDto);
+      System.out.println(result);
     } catch (ApiException e) {
-      System.err.println("Exception when calling PaymeOpenControllerApi#payme");
+      System.err.println("Exception when calling InternalUsersApi#onboard");
       System.err.println("Status code: " + e.getCode());
       System.err.println("Reason: " + e.getResponseBody());
       System.err.println("Response headers: " + e.getResponseHeaders());
@@ -47,11 +50,15 @@ public class Example {
 ```
 
 ### Parameters
-This endpoint does not need any parameter.
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **caller** | [**AuthenticatedPrincipal**](.md)|  | |
+| **onboardUserRequestDto** | [**OnboardUserRequestDto**](OnboardUserRequestDto.md)|  | |
 
 ### Return type
 
-null (empty response body)
+[**OnboardUserResponseDto**](OnboardUserResponseDto.md)
 
 ### Authorization
 
@@ -59,8 +66,8 @@ null (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Content-Type**: application/json
+ - **Accept**: */*
 
 ### HTTP response details
 | Status code | Description | Response headers |

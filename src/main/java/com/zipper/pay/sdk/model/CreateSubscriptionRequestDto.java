@@ -63,15 +63,20 @@ public class CreateSubscriptionRequestDto {
   @javax.annotation.Nonnull
   private UUID planId;
 
-  public static final String SERIALIZED_NAME_RETURN_URL = "returnUrl";
-  @SerializedName(SERIALIZED_NAME_RETURN_URL)
+  public static final String SERIALIZED_NAME_SUCCESS_URL = "successUrl";
+  @SerializedName(SERIALIZED_NAME_SUCCESS_URL)
   @javax.annotation.Nullable
-  private String returnUrl;
+  private String successUrl;
 
-  public static final String SERIALIZED_NAME_NOTIFY_URL = "notifyUrl";
-  @SerializedName(SERIALIZED_NAME_NOTIFY_URL)
+  public static final String SERIALIZED_NAME_CANCEL_URL = "cancelUrl";
+  @SerializedName(SERIALIZED_NAME_CANCEL_URL)
   @javax.annotation.Nullable
-  private String notifyUrl;
+  private String cancelUrl;
+
+  public static final String SERIALIZED_NAME_CALLBACK_URL = "callbackUrl";
+  @SerializedName(SERIALIZED_NAME_CALLBACK_URL)
+  @javax.annotation.Nullable
+  private String callbackUrl;
 
   public static final String SERIALIZED_NAME_LANGUAGE = "language";
   @SerializedName(SERIALIZED_NAME_LANGUAGE)
@@ -134,41 +139,60 @@ public class CreateSubscriptionRequestDto {
   }
 
 
-  public CreateSubscriptionRequestDto returnUrl(@javax.annotation.Nullable String returnUrl) {
-    this.returnUrl = returnUrl;
+  public CreateSubscriptionRequestDto successUrl(@javax.annotation.Nullable String successUrl) {
+    this.successUrl = successUrl;
     return this;
   }
 
   /**
-   * Get returnUrl
-   * @return returnUrl
+   * Get successUrl
+   * @return successUrl
    */
   @javax.annotation.Nullable
-  public String getReturnUrl() {
-    return returnUrl;
+  public String getSuccessUrl() {
+    return successUrl;
   }
 
-  public void setReturnUrl(@javax.annotation.Nullable String returnUrl) {
-    this.returnUrl = returnUrl;
+  public void setSuccessUrl(@javax.annotation.Nullable String successUrl) {
+    this.successUrl = successUrl;
   }
 
 
-  public CreateSubscriptionRequestDto notifyUrl(@javax.annotation.Nullable String notifyUrl) {
-    this.notifyUrl = notifyUrl;
+  public CreateSubscriptionRequestDto cancelUrl(@javax.annotation.Nullable String cancelUrl) {
+    this.cancelUrl = cancelUrl;
     return this;
   }
 
   /**
-   * Get notifyUrl
-   * @return notifyUrl
+   * Get cancelUrl
+   * @return cancelUrl
    */
   @javax.annotation.Nullable
-  public String getNotifyUrl() {
-    return notifyUrl;
+  public String getCancelUrl() {
+    return cancelUrl;
   }
 
-  public void setNotifyUrl(@javax.annotation.Nullable String notifyUrl) {
-    this.notifyUrl = notifyUrl;
+  public void setCancelUrl(@javax.annotation.Nullable String cancelUrl) {
+    this.cancelUrl = cancelUrl;
+  }
+
+
+  public CreateSubscriptionRequestDto callbackUrl(@javax.annotation.Nullable String callbackUrl) {
+    this.callbackUrl = callbackUrl;
+    return this;
+  }
+
+  /**
+   * Get callbackUrl
+   * @return callbackUrl
+   */
+  @javax.annotation.Nullable
+  public String getCallbackUrl() {
+    return callbackUrl;
+  }
+
+  public void setCallbackUrl(@javax.annotation.Nullable String callbackUrl) {
+    this.callbackUrl = callbackUrl;
   }
 
 
@@ -268,8 +292,9 @@ public class CreateSubscriptionRequestDto {
     CreateSubscriptionRequestDto createSubscriptionRequestDto = (CreateSubscriptionRequestDto) o;
     return Objects.equals(this.userId, createSubscriptionRequestDto.userId) &&
         Objects.equals(this.planId, createSubscriptionRequestDto.planId) &&
-        Objects.equals(this.returnUrl, createSubscriptionRequestDto.returnUrl) &&
-        Objects.equals(this.notifyUrl, createSubscriptionRequestDto.notifyUrl) &&
+        Objects.equals(this.successUrl, createSubscriptionRequestDto.successUrl) &&
+        Objects.equals(this.cancelUrl, createSubscriptionRequestDto.cancelUrl) &&
+        Objects.equals(this.callbackUrl, createSubscriptionRequestDto.callbackUrl) &&
         Objects.equals(this.language, createSubscriptionRequestDto.language) &&
         Objects.equals(this.buyerName, createSubscriptionRequestDto.buyerName) &&
         Objects.equals(this.buyerEmail, createSubscriptionRequestDto.buyerEmail) &&
@@ -278,7 +303,7 @@ public class CreateSubscriptionRequestDto {
 
   @Override
   public int hashCode() {
-    return Objects.hash(userId, planId, returnUrl, notifyUrl, language, buyerName, buyerEmail, metadata);
+    return Objects.hash(userId, planId, successUrl, cancelUrl, callbackUrl, language, buyerName, buyerEmail, metadata);
   }
 
   @Override
@@ -287,8 +312,9 @@ public class CreateSubscriptionRequestDto {
     sb.append("class CreateSubscriptionRequestDto {\n");
     sb.append("    userId: ").append(toIndentedString(userId)).append("\n");
     sb.append("    planId: ").append(toIndentedString(planId)).append("\n");
-    sb.append("    returnUrl: ").append(toIndentedString(returnUrl)).append("\n");
-    sb.append("    notifyUrl: ").append(toIndentedString(notifyUrl)).append("\n");
+    sb.append("    successUrl: ").append(toIndentedString(successUrl)).append("\n");
+    sb.append("    cancelUrl: ").append(toIndentedString(cancelUrl)).append("\n");
+    sb.append("    callbackUrl: ").append(toIndentedString(callbackUrl)).append("\n");
     sb.append("    language: ").append(toIndentedString(language)).append("\n");
     sb.append("    buyerName: ").append(toIndentedString(buyerName)).append("\n");
     sb.append("    buyerEmail: ").append(toIndentedString(buyerEmail)).append("\n");
@@ -317,8 +343,9 @@ public class CreateSubscriptionRequestDto {
     openapiFields = new HashSet<String>();
     openapiFields.add("userId");
     openapiFields.add("planId");
-    openapiFields.add("returnUrl");
-    openapiFields.add("notifyUrl");
+    openapiFields.add("successUrl");
+    openapiFields.add("cancelUrl");
+    openapiFields.add("callbackUrl");
     openapiFields.add("language");
     openapiFields.add("buyerName");
     openapiFields.add("buyerEmail");
@@ -364,11 +391,14 @@ public class CreateSubscriptionRequestDto {
       if (!jsonObj.get("planId").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `planId` to be a primitive type in the JSON string but got `%s`", jsonObj.get("planId").toString()));
       }
-      if ((jsonObj.get("returnUrl") != null && !jsonObj.get("returnUrl").isJsonNull()) && !jsonObj.get("returnUrl").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `returnUrl` to be a primitive type in the JSON string but got `%s`", jsonObj.get("returnUrl").toString()));
+      if ((jsonObj.get("successUrl") != null && !jsonObj.get("successUrl").isJsonNull()) && !jsonObj.get("successUrl").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `successUrl` to be a primitive type in the JSON string but got `%s`", jsonObj.get("successUrl").toString()));
       }
-      if ((jsonObj.get("notifyUrl") != null && !jsonObj.get("notifyUrl").isJsonNull()) && !jsonObj.get("notifyUrl").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `notifyUrl` to be a primitive type in the JSON string but got `%s`", jsonObj.get("notifyUrl").toString()));
+      if ((jsonObj.get("cancelUrl") != null && !jsonObj.get("cancelUrl").isJsonNull()) && !jsonObj.get("cancelUrl").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `cancelUrl` to be a primitive type in the JSON string but got `%s`", jsonObj.get("cancelUrl").toString()));
+      }
+      if ((jsonObj.get("callbackUrl") != null && !jsonObj.get("callbackUrl").isJsonNull()) && !jsonObj.get("callbackUrl").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `callbackUrl` to be a primitive type in the JSON string but got `%s`", jsonObj.get("callbackUrl").toString()));
       }
       if ((jsonObj.get("language") != null && !jsonObj.get("language").isJsonNull()) && !jsonObj.get("language").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `language` to be a primitive type in the JSON string but got `%s`", jsonObj.get("language").toString()));

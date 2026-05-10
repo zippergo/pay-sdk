@@ -12,18 +12,11 @@ paths:
   /api/v1/open/notifications/payme:
     post:
       operationId: payme
-      requestBody:
-        content:
-          application/json:
-            schema:
-              additionalProperties: {}
-        required: true
       responses:
         "200":
           description: OK
       tags:
       - payme-open-controller
-      x-content-type: application/json
       x-accepts:
       - application/json
   /api/v1/open/notifications/payme/subscription:
@@ -43,6 +36,36 @@ paths:
       x-content-type: application/json
       x-accepts:
       - application/json
+  /api/v1/open/checkout/{id}/select-method:
+    post:
+      operationId: selectMethod
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SelectMethodRequestDto'
+        required: true
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SelectMethodResponseDto'
+          description: OK
+      tags:
+      - checkout-open-controller
+      x-content-type: application/json
+      x-accepts:
+      - '*/*'
   /api/v1/internal/wallet/charges:
     post:
       operationId: charge
@@ -127,6 +150,36 @@ paths:
           description: OK
       tags:
       - internal-refunds
+      x-content-type: application/json
+      x-accepts:
+      - '*/*'
+  /api/v1/internal/users/onboard:
+    post:
+      operationId: onboard
+      parameters:
+      - explode: true
+        in: query
+        name: caller
+        required: true
+        schema:
+          $ref: '#/components/schemas/AuthenticatedPrincipal'
+        style: form
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OnboardUserRequestDto'
+        required: true
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/OnboardUserResponseDto'
+          description: OK
+      summary: Register a user and provision wallets in all active credit currencies
+      tags:
+      - internal-users
       x-content-type: application/json
       x-accepts:
       - '*/*'
@@ -725,6 +778,52 @@ paths:
       - user-invoices
       x-accepts:
       - application/json
+  /api/v1/open/checkout/{id}:
+    get:
+      operationId: getCheckout
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CheckoutDetailsDto'
+          description: OK
+      tags:
+      - checkout-open-controller
+      x-accepts:
+      - '*/*'
+  /api/v1/open/checkout/{id}/status:
+    get:
+      operationId: getStatus
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CheckoutStatusDto'
+          description: OK
+      tags:
+      - checkout-open-controller
+      x-accepts:
+      - '*/*'
   /api/v1/internal/wallets:
     get:
       operationId: list_2
@@ -931,17 +1030,61 @@ paths:
       - '*/*'
 components:
   schemas:
+    SelectMethodRequestDto:
+      example:
+        paymentMethod: WALLET
+        internalReturnUrl: internalReturnUrl
+      properties:
+        paymentMethod:
+          enum:
+          - WALLET
+          - PAYME
+          type: string
+        internalReturnUrl:
+          maxLength: 2048
+          minLength: 0
+          type: string
+      required:
+      - internalReturnUrl
+      - paymentMethod
+    SelectMethodResponseDto:
+      example:
+        paymentUrl: paymentUrl
+        iframe: true
+        expiresAt: 2000-01-23T04:56:07.000+00:00
+        status: PENDING
+      properties:
+        paymentUrl:
+          type: string
+        iframe:
+          type: boolean
+        status:
+          enum:
+          - PENDING
+          - AWAITING_METHOD_SELECTION
+          - AWAITING_PAYMENT
+          - COMPLETED
+          - FAILED
+          - EXPIRED
+          - REFUNDED
+          - PARTIALLY_REFUNDED
+          type: string
+        expiresAt:
+          format: date-time
+          type: string
     WalletChargeRequestDto:
       example:
         purposeRefType: purposeRefType
         metadata:
           key: ""
         creditsAmount: 0.08018281904610115
+        buyerEmail: buyerEmail
         issueInvoice: true
-        notifyUrl: notifyUrl
         purposeDescription: purposeDescription
         language: language
+        callbackUrl: callbackUrl
         creditCurrency: creditCurrency
+        buyerName: buyerName
         userId: userId
         purposeRefId: purposeRefId
       properties:
@@ -971,7 +1114,7 @@ components:
         language:
           pattern: en|he
           type: string
-        notifyUrl:
+        callbackUrl:
           maxLength: 2048
           minLength: 0
           type: string
@@ -979,6 +1122,14 @@ components:
           type: boolean
         metadata:
           additionalProperties: {}
+        buyerName:
+          maxLength: 128
+          minLength: 0
+          type: string
+        buyerEmail:
+          maxLength: 128
+          minLength: 0
+          type: string
       required:
       - creditCurrency
       - creditsAmount
@@ -1057,6 +1208,7 @@ components:
         refundStatus:
           enum:
           - PENDING
+          - AWAITING_METHOD_SELECTION
           - AWAITING_PAYMENT
           - COMPLETED
           - FAILED
@@ -1067,6 +1219,7 @@ components:
         parentStatus:
           enum:
           - PENDING
+          - AWAITING_METHOD_SELECTION
           - AWAITING_PAYMENT
           - COMPLETED
           - FAILED
@@ -1086,15 +1239,116 @@ components:
           type: string
         providerRefundRef:
           type: string
+    OnboardUserRequestDto:
+      example:
+        externalReference: externalReference
+        firstName: firstName
+        lastName: lastName
+        phone: phone
+        postalCode: postalCode
+        company: company
+        userId: userId
+        email: email
+      properties:
+        userId:
+          maxLength: 64
+          minLength: 0
+          type: string
+        externalReference:
+          maxLength: 128
+          minLength: 0
+          type: string
+        email:
+          format: email
+          maxLength: 255
+          minLength: 0
+          type: string
+        phone:
+          maxLength: 32
+          minLength: 0
+          type: string
+        firstName:
+          maxLength: 128
+          minLength: 0
+          type: string
+        lastName:
+          maxLength: 128
+          minLength: 0
+          type: string
+        company:
+          maxLength: 255
+          minLength: 0
+          type: string
+        postalCode:
+          maxLength: 32
+          minLength: 0
+          type: string
+      required:
+      - userId
+    OnboardUserResponseDto:
+      example:
+        externalReference: externalReference
+        firstName: firstName
+        lastName: lastName
+        phone: phone
+        created: true
+        postalCode: postalCode
+        company: company
+        wallets:
+        - accountId: 0
+          balance: 6.027456183070403
+          creditCurrency: creditCurrency
+        - accountId: 0
+          balance: 6.027456183070403
+          creditCurrency: creditCurrency
+        userId: userId
+        email: email
+      properties:
+        userId:
+          type: string
+        externalReference:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        company:
+          type: string
+        postalCode:
+          type: string
+        wallets:
+          items:
+            $ref: '#/components/schemas/WalletSummaryDto'
+          type: array
+        created:
+          type: boolean
+    WalletSummaryDto:
+      example:
+        accountId: 0
+        balance: 6.027456183070403
+        creditCurrency: creditCurrency
+      properties:
+        accountId:
+          format: int64
+          type: integer
+        creditCurrency:
+          type: string
+        balance:
+          type: number
     CreateSubscriptionRequestDto:
       example:
+        cancelUrl: cancelUrl
         metadata:
           key: ""
         buyerEmail: buyerEmail
-        notifyUrl: notifyUrl
+        successUrl: successUrl
         planId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        callbackUrl: callbackUrl
         language: language
-        returnUrl: returnUrl
         buyerName: buyerName
         userId: userId
       properties:
@@ -1105,11 +1359,15 @@ components:
         planId:
           format: uuid
           type: string
-        returnUrl:
+        successUrl:
           maxLength: 2048
           minLength: 0
           type: string
-        notifyUrl:
+        cancelUrl:
+          maxLength: 2048
+          minLength: 0
+          type: string
+        callbackUrl:
           maxLength: 2048
           minLength: 0
           type: string
@@ -1280,28 +1538,53 @@ components:
           key: ""
         purpose: WALLET_TOPUP
         buyerEmail: buyerEmail
+        successUrl: successUrl
+        discountAmount: 0.5962133916683182
         language: language
+        merchantBrand: ZIPPER
         buyerName: buyerName
         userId: userId
         purposeRefId: purposeRefId
+        subtotalAmount: 0.6027456183070403
+        merchantName: merchantName
+        lineItems:
+        - unitPrice: 0.5637376656633328
+          quantity: 1
+          imageUrl: imageUrl
+          name: name
+          description: description
+        - unitPrice: 0.5637376656633328
+          quantity: 1
+          imageUrl: imageUrl
+          name: name
+          description: description
         purposeRefType: purposeRefType
-        paymentMethod: WALLET
-        notifyUrl: notifyUrl
+        cancelUrl: cancelUrl
+        buyerPhone: buyerPhone
+        paymentMethods:
+        - WALLET
+        - WALLET
         purposeDescription: purposeDescription
+        callbackUrl: callbackUrl
         creditCurrency: creditCurrency
+        merchantLogoUrl: merchantLogoUrl
         moneyCurrency: moneyCurrency
-        returnUrl: returnUrl
+        taxAmount: 0.14658129805029452
         moneyAmount: 0.08018281904610115
       properties:
         userId:
           maxLength: 64
           minLength: 0
           type: string
-        paymentMethod:
-          enum:
-          - WALLET
-          - PAYME
-          type: string
+        paymentMethods:
+          items:
+            enum:
+            - WALLET
+            - PAYME
+            type: string
+          minItems: 1
+          type: array
+          uniqueItems: true
         purpose:
           enum:
           - WALLET_TOPUP
@@ -1334,9 +1617,17 @@ components:
           maxLength: 512
           minLength: 0
           type: string
-        notifyUrl:
+        callbackUrl:
+          maxLength: 2048
+          minLength: 0
           type: string
-        returnUrl:
+        successUrl:
+          maxLength: 2048
+          minLength: 0
+          type: string
+        cancelUrl:
+          maxLength: 2048
+          minLength: 0
           type: string
         language:
           pattern: "[a-z]{2}"
@@ -1352,13 +1643,74 @@ components:
           maxLength: 128
           minLength: 0
           type: string
+        buyerPhone:
+          maxLength: 32
+          minLength: 0
+          type: string
+        merchantName:
+          maxLength: 128
+          minLength: 0
+          type: string
+        merchantBrand:
+          enum:
+          - ZIPPER
+          - GENERIC
+          - CUSTOM
+          type: string
+        merchantLogoUrl:
+          maxLength: 2048
+          minLength: 0
+          type: string
+        subtotalAmount:
+          minimum: 0.0
+          type: number
+        taxAmount:
+          minimum: 0.0
+          type: number
+        discountAmount:
+          minimum: 0.0
+          type: number
+        lineItems:
+          items:
+            $ref: '#/components/schemas/LineItemRequestDto'
+          type: array
       required:
       - creditCurrency
       - moneyAmount
       - moneyCurrency
-      - paymentMethod
+      - paymentMethods
       - purpose
       - userId
+    LineItemRequestDto:
+      example:
+        unitPrice: 0.5637376656633328
+        quantity: 1
+        imageUrl: imageUrl
+        name: name
+        description: description
+      properties:
+        name:
+          maxLength: 256
+          minLength: 0
+          type: string
+        description:
+          maxLength: 512
+          minLength: 0
+          type: string
+        imageUrl:
+          maxLength: 2048
+          minLength: 0
+          type: string
+        unitPrice:
+          minimum: 0.0
+          type: number
+        quantity:
+          format: int32
+          minimum: 1
+          type: integer
+      required:
+      - name
+      - unitPrice
     PaymentIntentResponseDto:
       example:
         feeAmount: 1.4658129805029452
@@ -1366,10 +1718,15 @@ components:
         providerRef: providerRef
         creditsAmount: 0.8008281904610115
         appliedRate: 6.027456183070403
+        selectedPaymentMethod: WALLET
+        paymentMethods:
+        - WALLET
+        - WALLET
         id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
         paymentUrl: paymentUrl
         expiresAt: 2000-01-23T04:56:07.000+00:00
         status: PENDING
+        checkoutUrl: checkoutUrl
       properties:
         id:
           format: uuid
@@ -1377,6 +1734,7 @@ components:
         status:
           enum:
           - PENDING
+          - AWAITING_METHOD_SELECTION
           - AWAITING_PAYMENT
           - COMPLETED
           - FAILED
@@ -1384,7 +1742,22 @@ components:
           - REFUNDED
           - PARTIALLY_REFUNDED
           type: string
+        paymentMethods:
+          items:
+            enum:
+            - WALLET
+            - PAYME
+            type: string
+          type: array
+          uniqueItems: true
+        selectedPaymentMethod:
+          enum:
+          - WALLET
+          - PAYME
+          type: string
         paymentUrl:
+          type: string
+        checkoutUrl:
           type: string
         providerRef:
           type: string
@@ -1807,10 +2180,10 @@ components:
         number:
           format: int32
           type: integer
-        sort:
-          $ref: '#/components/schemas/SortObject'
         pageable:
           $ref: '#/components/schemas/PageableObject'
+        sort:
+          $ref: '#/components/schemas/SortObject'
         first:
           type: boolean
         last:
@@ -1835,8 +2208,6 @@ components:
         offset:
           format: int64
           type: integer
-        sort:
-          $ref: '#/components/schemas/SortObject'
         paged:
           type: boolean
         pageNumber:
@@ -1845,6 +2216,8 @@ components:
         pageSize:
           format: int32
           type: integer
+        sort:
+          $ref: '#/components/schemas/SortObject'
         unpaged:
           type: boolean
     SortObject:
@@ -1888,6 +2261,218 @@ components:
           type: number
         createdAt:
           format: date-time
+          type: string
+    CheckoutDetailsDto:
+      example:
+        methods:
+        - method: WALLET
+          displayName: displayName
+          iframe: true
+          supportedCards:
+          - VISA
+          - VISA
+        - method: WALLET
+          displayName: displayName
+          iframe: true
+          supportedCards:
+          - VISA
+          - VISA
+        buyerEmail: buyerEmail
+        merchantCancelUrl: merchantCancelUrl
+        merchantSuccessUrl: merchantSuccessUrl
+        merchant:
+          name: name
+          brand: ZIPPER
+          logoUrl: logoUrl
+        language: language
+        paymentUrl: paymentUrl
+        expiresAt: 2000-01-23T04:56:07.000+00:00
+        lineItems:
+        - unitPrice: 6.027456183070403
+          quantity: 1
+          imageUrl: imageUrl
+          name: name
+          description: description
+        - unitPrice: 6.027456183070403
+          quantity: 1
+          imageUrl: imageUrl
+          name: name
+          description: description
+        selectedPaymentMethod: WALLET
+        priceBreakdown:
+          total: 7.061401241503109
+          subtotal: 5.962133916683182
+          discount: 2.3021358869347655
+          tax: 5.637376656633329
+        id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        moneyCurrency: moneyCurrency
+        status: PENDING
+        moneyAmount: 0.8008281904610115
+      properties:
+        id:
+          format: uuid
+          type: string
+        status:
+          enum:
+          - PENDING
+          - AWAITING_METHOD_SELECTION
+          - AWAITING_PAYMENT
+          - COMPLETED
+          - FAILED
+          - EXPIRED
+          - REFUNDED
+          - PARTIALLY_REFUNDED
+          type: string
+        moneyAmount:
+          type: number
+        moneyCurrency:
+          type: string
+        language:
+          type: string
+        methods:
+          items:
+            $ref: '#/components/schemas/PaymentMethodOptionDto'
+          type: array
+        selectedPaymentMethod:
+          enum:
+          - WALLET
+          - PAYME
+          type: string
+        paymentUrl:
+          type: string
+        merchantSuccessUrl:
+          type: string
+        merchantCancelUrl:
+          type: string
+        expiresAt:
+          format: date-time
+          type: string
+        merchant:
+          $ref: '#/components/schemas/MerchantInfoDto'
+        lineItems:
+          items:
+            $ref: '#/components/schemas/LineItemDto'
+          type: array
+        priceBreakdown:
+          $ref: '#/components/schemas/PriceBreakdownDto'
+        buyerEmail:
+          type: string
+    LineItemDto:
+      example:
+        unitPrice: 6.027456183070403
+        quantity: 1
+        imageUrl: imageUrl
+        name: name
+        description: description
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        imageUrl:
+          type: string
+        unitPrice:
+          type: number
+        quantity:
+          format: int32
+          type: integer
+    MerchantInfoDto:
+      example:
+        name: name
+        brand: ZIPPER
+        logoUrl: logoUrl
+      properties:
+        name:
+          type: string
+        brand:
+          enum:
+          - ZIPPER
+          - GENERIC
+          - CUSTOM
+          type: string
+        logoUrl:
+          type: string
+    PaymentMethodOptionDto:
+      example:
+        method: WALLET
+        displayName: displayName
+        iframe: true
+        supportedCards:
+        - VISA
+        - VISA
+      properties:
+        method:
+          enum:
+          - WALLET
+          - PAYME
+          type: string
+        displayName:
+          type: string
+        iframe:
+          type: boolean
+        supportedCards:
+          items:
+            enum:
+            - VISA
+            - MASTERCARD
+            type: string
+          type: array
+          uniqueItems: true
+    PriceBreakdownDto:
+      example:
+        total: 7.061401241503109
+        subtotal: 5.962133916683182
+        discount: 2.3021358869347655
+        tax: 5.637376656633329
+      properties:
+        subtotal:
+          type: number
+        tax:
+          type: number
+        discount:
+          type: number
+        total:
+          type: number
+    CheckoutStatusDto:
+      example:
+        completedAt: 2000-01-23T04:56:07.000+00:00
+        failureCode: failureCode
+        selectedPaymentMethod: WALLET
+        merchantCancelUrl: merchantCancelUrl
+        merchantSuccessUrl: merchantSuccessUrl
+        id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        failureMessage: failureMessage
+        status: PENDING
+      properties:
+        id:
+          format: uuid
+          type: string
+        status:
+          enum:
+          - PENDING
+          - AWAITING_METHOD_SELECTION
+          - AWAITING_PAYMENT
+          - COMPLETED
+          - FAILED
+          - EXPIRED
+          - REFUNDED
+          - PARTIALLY_REFUNDED
+          type: string
+        selectedPaymentMethod:
+          enum:
+          - WALLET
+          - PAYME
+          type: string
+        merchantSuccessUrl:
+          type: string
+        merchantCancelUrl:
+          type: string
+        completedAt:
+          format: date-time
+          type: string
+        failureCode:
+          type: string
+        failureMessage:
           type: string
     JournalEntryTreeDto:
       example:

@@ -23,6 +23,8 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.Arrays;
+import java.util.LinkedHashSet;
+import java.util.Set;
 import java.util.UUID;
 
 import com.google.gson.Gson;
@@ -64,6 +66,8 @@ public class PaymentIntentResponseDto {
   @JsonAdapter(StatusEnum.Adapter.class)
   public enum StatusEnum {
     PENDING("PENDING"),
+    
+    AWAITING_METHOD_SELECTION("AWAITING_METHOD_SELECTION"),
     
     AWAITING_PAYMENT("AWAITING_PAYMENT"),
     
@@ -125,10 +129,129 @@ public class PaymentIntentResponseDto {
   @javax.annotation.Nullable
   private StatusEnum status;
 
+  /**
+   * Gets or Sets paymentMethods
+   */
+  @JsonAdapter(PaymentMethodsEnum.Adapter.class)
+  public enum PaymentMethodsEnum {
+    WALLET("WALLET"),
+    
+    PAYME("PAYME");
+
+    private String value;
+
+    PaymentMethodsEnum(String value) {
+      this.value = value;
+    }
+
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    public static PaymentMethodsEnum fromValue(String value) {
+      for (PaymentMethodsEnum b : PaymentMethodsEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+
+    public static class Adapter extends TypeAdapter<PaymentMethodsEnum> {
+      @Override
+      public void write(final JsonWriter jsonWriter, final PaymentMethodsEnum enumeration) throws IOException {
+        jsonWriter.value(enumeration.getValue());
+      }
+
+      @Override
+      public PaymentMethodsEnum read(final JsonReader jsonReader) throws IOException {
+        String value =  jsonReader.nextString();
+        return PaymentMethodsEnum.fromValue(value);
+      }
+    }
+
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      String value = jsonElement.getAsString();
+      PaymentMethodsEnum.fromValue(value);
+    }
+  }
+
+  public static final String SERIALIZED_NAME_PAYMENT_METHODS = "paymentMethods";
+  @SerializedName(SERIALIZED_NAME_PAYMENT_METHODS)
+  @javax.annotation.Nullable
+  private Set<PaymentMethodsEnum> paymentMethods = new LinkedHashSet<>();
+
+  /**
+   * Gets or Sets selectedPaymentMethod
+   */
+  @JsonAdapter(SelectedPaymentMethodEnum.Adapter.class)
+  public enum SelectedPaymentMethodEnum {
+    WALLET("WALLET"),
+    
+    PAYME("PAYME");
+
+    private String value;
+
+    SelectedPaymentMethodEnum(String value) {
+      this.value = value;
+    }
+
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    public static SelectedPaymentMethodEnum fromValue(String value) {
+      for (SelectedPaymentMethodEnum b : SelectedPaymentMethodEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+
+    public static class Adapter extends TypeAdapter<SelectedPaymentMethodEnum> {
+      @Override
+      public void write(final JsonWriter jsonWriter, final SelectedPaymentMethodEnum enumeration) throws IOException {
+        jsonWriter.value(enumeration.getValue());
+      }
+
+      @Override
+      public SelectedPaymentMethodEnum read(final JsonReader jsonReader) throws IOException {
+        String value =  jsonReader.nextString();
+        return SelectedPaymentMethodEnum.fromValue(value);
+      }
+    }
+
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      String value = jsonElement.getAsString();
+      SelectedPaymentMethodEnum.fromValue(value);
+    }
+  }
+
+  public static final String SERIALIZED_NAME_SELECTED_PAYMENT_METHOD = "selectedPaymentMethod";
+  @SerializedName(SERIALIZED_NAME_SELECTED_PAYMENT_METHOD)
+  @javax.annotation.Nullable
+  private SelectedPaymentMethodEnum selectedPaymentMethod;
+
   public static final String SERIALIZED_NAME_PAYMENT_URL = "paymentUrl";
   @SerializedName(SERIALIZED_NAME_PAYMENT_URL)
   @javax.annotation.Nullable
   private String paymentUrl;
+
+  public static final String SERIALIZED_NAME_CHECKOUT_URL = "checkoutUrl";
+  @SerializedName(SERIALIZED_NAME_CHECKOUT_URL)
+  @javax.annotation.Nullable
+  private String checkoutUrl;
 
   public static final String SERIALIZED_NAME_PROVIDER_REF = "providerRef";
   @SerializedName(SERIALIZED_NAME_PROVIDER_REF)
@@ -201,6 +324,52 @@ public class PaymentIntentResponseDto {
   }
 
 
+  public PaymentIntentResponseDto paymentMethods(@javax.annotation.Nullable Set<PaymentMethodsEnum> paymentMethods) {
+    this.paymentMethods = paymentMethods;
+    return this;
+  }
+
+  public PaymentIntentResponseDto addPaymentMethodsItem(PaymentMethodsEnum paymentMethodsItem) {
+    if (this.paymentMethods == null) {
+      this.paymentMethods = new LinkedHashSet<>();
+    }
+    this.paymentMethods.add(paymentMethodsItem);
+    return this;
+  }
+
+  /**
+   * Get paymentMethods
+   * @return paymentMethods
+   */
+  @javax.annotation.Nullable
+  public Set<PaymentMethodsEnum> getPaymentMethods() {
+    return paymentMethods;
+  }
+
+  public void setPaymentMethods(@javax.annotation.Nullable Set<PaymentMethodsEnum> paymentMethods) {
+    this.paymentMethods = paymentMethods;
+  }
+
+
+  public PaymentIntentResponseDto selectedPaymentMethod(@javax.annotation.Nullable SelectedPaymentMethodEnum selectedPaymentMethod) {
+    this.selectedPaymentMethod = selectedPaymentMethod;
+    return this;
+  }
+
+  /**
+   * Get selectedPaymentMethod
+   * @return selectedPaymentMethod
+   */
+  @javax.annotation.Nullable
+  public SelectedPaymentMethodEnum getSelectedPaymentMethod() {
+    return selectedPaymentMethod;
+  }
+
+  public void setSelectedPaymentMethod(@javax.annotation.Nullable SelectedPaymentMethodEnum selectedPaymentMethod) {
+    this.selectedPaymentMethod = selectedPaymentMethod;
+  }
+
+
   public PaymentIntentResponseDto paymentUrl(@javax.annotation.Nullable String paymentUrl) {
     this.paymentUrl = paymentUrl;
     return this;
@@ -217,6 +386,25 @@ public class PaymentIntentResponseDto {
 
   public void setPaymentUrl(@javax.annotation.Nullable String paymentUrl) {
     this.paymentUrl = paymentUrl;
+  }
+
+
+  public PaymentIntentResponseDto checkoutUrl(@javax.annotation.Nullable String checkoutUrl) {
+    this.checkoutUrl = checkoutUrl;
+    return this;
+  }
+
+  /**
+   * Get checkoutUrl
+   * @return checkoutUrl
+   */
+  @javax.annotation.Nullable
+  public String getCheckoutUrl() {
+    return checkoutUrl;
+  }
+
+  public void setCheckoutUrl(@javax.annotation.Nullable String checkoutUrl) {
+    this.checkoutUrl = checkoutUrl;
   }
 
 
@@ -346,7 +534,10 @@ public class PaymentIntentResponseDto {
     PaymentIntentResponseDto paymentIntentResponseDto = (PaymentIntentResponseDto) o;
     return Objects.equals(this.id, paymentIntentResponseDto.id) &&
         Objects.equals(this.status, paymentIntentResponseDto.status) &&
+        Objects.equals(this.paymentMethods, paymentIntentResponseDto.paymentMethods) &&
+        Objects.equals(this.selectedPaymentMethod, paymentIntentResponseDto.selectedPaymentMethod) &&
         Objects.equals(this.paymentUrl, paymentIntentResponseDto.paymentUrl) &&
+        Objects.equals(this.checkoutUrl, paymentIntentResponseDto.checkoutUrl) &&
         Objects.equals(this.providerRef, paymentIntentResponseDto.providerRef) &&
         Objects.equals(this.creditsAmount, paymentIntentResponseDto.creditsAmount) &&
         Objects.equals(this.appliedRate, paymentIntentResponseDto.appliedRate) &&
@@ -357,7 +548,7 @@ public class PaymentIntentResponseDto {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, status, paymentUrl, providerRef, creditsAmount, appliedRate, feeAmount, expiresAt, createdAt);
+    return Objects.hash(id, status, paymentMethods, selectedPaymentMethod, paymentUrl, checkoutUrl, providerRef, creditsAmount, appliedRate, feeAmount, expiresAt, createdAt);
   }
 
   @Override
@@ -366,7 +557,10 @@ public class PaymentIntentResponseDto {
     sb.append("class PaymentIntentResponseDto {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
+    sb.append("    paymentMethods: ").append(toIndentedString(paymentMethods)).append("\n");
+    sb.append("    selectedPaymentMethod: ").append(toIndentedString(selectedPaymentMethod)).append("\n");
     sb.append("    paymentUrl: ").append(toIndentedString(paymentUrl)).append("\n");
+    sb.append("    checkoutUrl: ").append(toIndentedString(checkoutUrl)).append("\n");
     sb.append("    providerRef: ").append(toIndentedString(providerRef)).append("\n");
     sb.append("    creditsAmount: ").append(toIndentedString(creditsAmount)).append("\n");
     sb.append("    appliedRate: ").append(toIndentedString(appliedRate)).append("\n");
@@ -397,7 +591,10 @@ public class PaymentIntentResponseDto {
     openapiFields = new HashSet<String>();
     openapiFields.add("id");
     openapiFields.add("status");
+    openapiFields.add("paymentMethods");
+    openapiFields.add("selectedPaymentMethod");
     openapiFields.add("paymentUrl");
+    openapiFields.add("checkoutUrl");
     openapiFields.add("providerRef");
     openapiFields.add("creditsAmount");
     openapiFields.add("appliedRate");
@@ -440,8 +637,22 @@ public class PaymentIntentResponseDto {
       if (jsonObj.get("status") != null && !jsonObj.get("status").isJsonNull()) {
         StatusEnum.validateJsonElement(jsonObj.get("status"));
       }
+      // ensure the optional json data is an array if present
+      if (jsonObj.get("paymentMethods") != null && !jsonObj.get("paymentMethods").isJsonNull() && !jsonObj.get("paymentMethods").isJsonArray()) {
+        throw new IllegalArgumentException(String.format("Expected the field `paymentMethods` to be an array in the JSON string but got `%s`", jsonObj.get("paymentMethods").toString()));
+      }
+      if ((jsonObj.get("selectedPaymentMethod") != null && !jsonObj.get("selectedPaymentMethod").isJsonNull()) && !jsonObj.get("selectedPaymentMethod").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `selectedPaymentMethod` to be a primitive type in the JSON string but got `%s`", jsonObj.get("selectedPaymentMethod").toString()));
+      }
+      // validate the optional field `selectedPaymentMethod`
+      if (jsonObj.get("selectedPaymentMethod") != null && !jsonObj.get("selectedPaymentMethod").isJsonNull()) {
+        SelectedPaymentMethodEnum.validateJsonElement(jsonObj.get("selectedPaymentMethod"));
+      }
       if ((jsonObj.get("paymentUrl") != null && !jsonObj.get("paymentUrl").isJsonNull()) && !jsonObj.get("paymentUrl").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `paymentUrl` to be a primitive type in the JSON string but got `%s`", jsonObj.get("paymentUrl").toString()));
+      }
+      if ((jsonObj.get("checkoutUrl") != null && !jsonObj.get("checkoutUrl").isJsonNull()) && !jsonObj.get("checkoutUrl").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `checkoutUrl` to be a primitive type in the JSON string but got `%s`", jsonObj.get("checkoutUrl").toString()));
       }
       if ((jsonObj.get("providerRef") != null && !jsonObj.get("providerRef").isJsonNull()) && !jsonObj.get("providerRef").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `providerRef` to be a primitive type in the JSON string but got `%s`", jsonObj.get("providerRef").toString()));

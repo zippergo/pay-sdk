@@ -70,6 +70,8 @@ public class RefundResponseDto {
   public enum RefundStatusEnum {
     PENDING("PENDING"),
     
+    AWAITING_METHOD_SELECTION("AWAITING_METHOD_SELECTION"),
+    
     AWAITING_PAYMENT("AWAITING_PAYMENT"),
     
     COMPLETED("COMPLETED"),
@@ -136,6 +138,8 @@ public class RefundResponseDto {
   @JsonAdapter(ParentStatusEnum.Adapter.class)
   public enum ParentStatusEnum {
     PENDING("PENDING"),
+    
+    AWAITING_METHOD_SELECTION("AWAITING_METHOD_SELECTION"),
     
     AWAITING_PAYMENT("AWAITING_PAYMENT"),
     

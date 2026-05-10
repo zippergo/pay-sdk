@@ -56,11 +56,6 @@ public class PageableObject {
   @javax.annotation.Nullable
   private Long offset;
 
-  public static final String SERIALIZED_NAME_SORT = "sort";
-  @SerializedName(SERIALIZED_NAME_SORT)
-  @javax.annotation.Nullable
-  private SortObject sort;
-
   public static final String SERIALIZED_NAME_PAGED = "paged";
   @SerializedName(SERIALIZED_NAME_PAGED)
   @javax.annotation.Nullable
@@ -75,6 +70,11 @@ public class PageableObject {
   @SerializedName(SERIALIZED_NAME_PAGE_SIZE)
   @javax.annotation.Nullable
   private Integer pageSize;
+
+  public static final String SERIALIZED_NAME_SORT = "sort";
+  @SerializedName(SERIALIZED_NAME_SORT)
+  @javax.annotation.Nullable
+  private SortObject sort;
 
   public static final String SERIALIZED_NAME_UNPAGED = "unpaged";
   @SerializedName(SERIALIZED_NAME_UNPAGED)
@@ -100,25 +100,6 @@ public class PageableObject {
 
   public void setOffset(@javax.annotation.Nullable Long offset) {
     this.offset = offset;
-  }
-
-
-  public PageableObject sort(@javax.annotation.Nullable SortObject sort) {
-    this.sort = sort;
-    return this;
-  }
-
-  /**
-   * Get sort
-   * @return sort
-   */
-  @javax.annotation.Nullable
-  public SortObject getSort() {
-    return sort;
-  }
-
-  public void setSort(@javax.annotation.Nullable SortObject sort) {
-    this.sort = sort;
   }
 
 
@@ -179,6 +160,25 @@ public class PageableObject {
   }
 
 
+  public PageableObject sort(@javax.annotation.Nullable SortObject sort) {
+    this.sort = sort;
+    return this;
+  }
+
+  /**
+   * Get sort
+   * @return sort
+   */
+  @javax.annotation.Nullable
+  public SortObject getSort() {
+    return sort;
+  }
+
+  public void setSort(@javax.annotation.Nullable SortObject sort) {
+    this.sort = sort;
+  }
+
+
   public PageableObject unpaged(@javax.annotation.Nullable Boolean unpaged) {
     this.unpaged = unpaged;
     return this;
@@ -209,16 +209,16 @@ public class PageableObject {
     }
     PageableObject pageableObject = (PageableObject) o;
     return Objects.equals(this.offset, pageableObject.offset) &&
-        Objects.equals(this.sort, pageableObject.sort) &&
         Objects.equals(this.paged, pageableObject.paged) &&
         Objects.equals(this.pageNumber, pageableObject.pageNumber) &&
         Objects.equals(this.pageSize, pageableObject.pageSize) &&
+        Objects.equals(this.sort, pageableObject.sort) &&
         Objects.equals(this.unpaged, pageableObject.unpaged);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(offset, sort, paged, pageNumber, pageSize, unpaged);
+    return Objects.hash(offset, paged, pageNumber, pageSize, sort, unpaged);
   }
 
   @Override
@@ -226,10 +226,10 @@ public class PageableObject {
     StringBuilder sb = new StringBuilder();
     sb.append("class PageableObject {\n");
     sb.append("    offset: ").append(toIndentedString(offset)).append("\n");
-    sb.append("    sort: ").append(toIndentedString(sort)).append("\n");
     sb.append("    paged: ").append(toIndentedString(paged)).append("\n");
     sb.append("    pageNumber: ").append(toIndentedString(pageNumber)).append("\n");
     sb.append("    pageSize: ").append(toIndentedString(pageSize)).append("\n");
+    sb.append("    sort: ").append(toIndentedString(sort)).append("\n");
     sb.append("    unpaged: ").append(toIndentedString(unpaged)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -254,10 +254,10 @@ public class PageableObject {
     // a set of all properties/fields (JSON key names)
     openapiFields = new HashSet<String>();
     openapiFields.add("offset");
-    openapiFields.add("sort");
     openapiFields.add("paged");
     openapiFields.add("pageNumber");
     openapiFields.add("pageSize");
+    openapiFields.add("sort");
     openapiFields.add("unpaged");
 
     // a set of required properties/fields (JSON key names)

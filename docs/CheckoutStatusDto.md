@@ -1,6 +1,6 @@
 
 
-# PaymentIntentResponseDto
+# CheckoutStatusDto
 
 
 ## Properties
@@ -9,16 +9,12 @@
 |------------ | ------------- | ------------- | -------------|
 |**id** | **UUID** |  |  [optional] |
 |**status** | [**StatusEnum**](#StatusEnum) |  |  [optional] |
-|**paymentMethods** | [**Set&lt;PaymentMethodsEnum&gt;**](#Set&lt;PaymentMethodsEnum&gt;) |  |  [optional] |
 |**selectedPaymentMethod** | [**SelectedPaymentMethodEnum**](#SelectedPaymentMethodEnum) |  |  [optional] |
-|**paymentUrl** | **String** |  |  [optional] |
-|**checkoutUrl** | **String** |  |  [optional] |
-|**providerRef** | **String** |  |  [optional] |
-|**creditsAmount** | **BigDecimal** |  |  [optional] |
-|**appliedRate** | **BigDecimal** |  |  [optional] |
-|**feeAmount** | **BigDecimal** |  |  [optional] |
-|**expiresAt** | **OffsetDateTime** |  |  [optional] |
-|**createdAt** | **OffsetDateTime** |  |  [optional] |
+|**merchantSuccessUrl** | **String** |  |  [optional] |
+|**merchantCancelUrl** | **String** |  |  [optional] |
+|**completedAt** | **OffsetDateTime** |  |  [optional] |
+|**failureCode** | **String** |  |  [optional] |
+|**failureMessage** | **String** |  |  [optional] |
 
 
 
@@ -34,15 +30,6 @@
 | EXPIRED | &quot;EXPIRED&quot; |
 | REFUNDED | &quot;REFUNDED&quot; |
 | PARTIALLY_REFUNDED | &quot;PARTIALLY_REFUNDED&quot; |
-
-
-
-## Enum: Set&lt;PaymentMethodsEnum&gt;
-
-| Name | Value |
-|---- | -----|
-| WALLET | &quot;WALLET&quot; |
-| PAYME | &quot;PAYME&quot; |
 
 
 

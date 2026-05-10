@@ -80,15 +80,15 @@ public class PageWalletEntryDto {
   @javax.annotation.Nullable
   private Integer number;
 
-  public static final String SERIALIZED_NAME_SORT = "sort";
-  @SerializedName(SERIALIZED_NAME_SORT)
-  @javax.annotation.Nullable
-  private SortObject sort;
-
   public static final String SERIALIZED_NAME_PAGEABLE = "pageable";
   @SerializedName(SERIALIZED_NAME_PAGEABLE)
   @javax.annotation.Nullable
   private PageableObject pageable;
+
+  public static final String SERIALIZED_NAME_SORT = "sort";
+  @SerializedName(SERIALIZED_NAME_SORT)
+  @javax.annotation.Nullable
+  private SortObject sort;
 
   public static final String SERIALIZED_NAME_FIRST = "first";
   @SerializedName(SERIALIZED_NAME_FIRST)
@@ -216,25 +216,6 @@ public class PageWalletEntryDto {
   }
 
 
-  public PageWalletEntryDto sort(@javax.annotation.Nullable SortObject sort) {
-    this.sort = sort;
-    return this;
-  }
-
-  /**
-   * Get sort
-   * @return sort
-   */
-  @javax.annotation.Nullable
-  public SortObject getSort() {
-    return sort;
-  }
-
-  public void setSort(@javax.annotation.Nullable SortObject sort) {
-    this.sort = sort;
-  }
-
-
   public PageWalletEntryDto pageable(@javax.annotation.Nullable PageableObject pageable) {
     this.pageable = pageable;
     return this;
@@ -251,6 +232,25 @@ public class PageWalletEntryDto {
 
   public void setPageable(@javax.annotation.Nullable PageableObject pageable) {
     this.pageable = pageable;
+  }
+
+
+  public PageWalletEntryDto sort(@javax.annotation.Nullable SortObject sort) {
+    this.sort = sort;
+    return this;
+  }
+
+  /**
+   * Get sort
+   * @return sort
+   */
+  @javax.annotation.Nullable
+  public SortObject getSort() {
+    return sort;
+  }
+
+  public void setSort(@javax.annotation.Nullable SortObject sort) {
+    this.sort = sort;
   }
 
 
@@ -345,8 +345,8 @@ public class PageWalletEntryDto {
         Objects.equals(this.size, pageWalletEntryDto.size) &&
         Objects.equals(this.content, pageWalletEntryDto.content) &&
         Objects.equals(this.number, pageWalletEntryDto.number) &&
-        Objects.equals(this.sort, pageWalletEntryDto.sort) &&
         Objects.equals(this.pageable, pageWalletEntryDto.pageable) &&
+        Objects.equals(this.sort, pageWalletEntryDto.sort) &&
         Objects.equals(this.first, pageWalletEntryDto.first) &&
         Objects.equals(this.last, pageWalletEntryDto.last) &&
         Objects.equals(this.numberOfElements, pageWalletEntryDto.numberOfElements) &&
@@ -355,7 +355,7 @@ public class PageWalletEntryDto {
 
   @Override
   public int hashCode() {
-    return Objects.hash(totalPages, totalElements, size, content, number, sort, pageable, first, last, numberOfElements, empty);
+    return Objects.hash(totalPages, totalElements, size, content, number, pageable, sort, first, last, numberOfElements, empty);
   }
 
   @Override
@@ -367,8 +367,8 @@ public class PageWalletEntryDto {
     sb.append("    size: ").append(toIndentedString(size)).append("\n");
     sb.append("    content: ").append(toIndentedString(content)).append("\n");
     sb.append("    number: ").append(toIndentedString(number)).append("\n");
-    sb.append("    sort: ").append(toIndentedString(sort)).append("\n");
     sb.append("    pageable: ").append(toIndentedString(pageable)).append("\n");
+    sb.append("    sort: ").append(toIndentedString(sort)).append("\n");
     sb.append("    first: ").append(toIndentedString(first)).append("\n");
     sb.append("    last: ").append(toIndentedString(last)).append("\n");
     sb.append("    numberOfElements: ").append(toIndentedString(numberOfElements)).append("\n");
@@ -400,8 +400,8 @@ public class PageWalletEntryDto {
     openapiFields.add("size");
     openapiFields.add("content");
     openapiFields.add("number");
-    openapiFields.add("sort");
     openapiFields.add("pageable");
+    openapiFields.add("sort");
     openapiFields.add("first");
     openapiFields.add("last");
     openapiFields.add("numberOfElements");
@@ -446,13 +446,13 @@ public class PageWalletEntryDto {
           };
         }
       }
-      // validate the optional field `sort`
-      if (jsonObj.get("sort") != null && !jsonObj.get("sort").isJsonNull()) {
-        SortObject.validateJsonElement(jsonObj.get("sort"));
-      }
       // validate the optional field `pageable`
       if (jsonObj.get("pageable") != null && !jsonObj.get("pageable").isJsonNull()) {
         PageableObject.validateJsonElement(jsonObj.get("pageable"));
+      }
+      // validate the optional field `sort`
+      if (jsonObj.get("sort") != null && !jsonObj.get("sort").isJsonNull()) {
+        SortObject.validateJsonElement(jsonObj.get("sort"));
       }
   }
 

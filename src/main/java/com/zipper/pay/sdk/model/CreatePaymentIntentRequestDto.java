@@ -19,11 +19,16 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import com.zipper.pay.sdk.model.LineItemRequestDto;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -59,17 +64,17 @@ public class CreatePaymentIntentRequestDto {
   private String userId;
 
   /**
-   * Gets or Sets paymentMethod
+   * Gets or Sets paymentMethods
    */
-  @JsonAdapter(PaymentMethodEnum.Adapter.class)
-  public enum PaymentMethodEnum {
+  @JsonAdapter(PaymentMethodsEnum.Adapter.class)
+  public enum PaymentMethodsEnum {
     WALLET("WALLET"),
     
     PAYME("PAYME");
 
     private String value;
 
-    PaymentMethodEnum(String value) {
+    PaymentMethodsEnum(String value) {
       this.value = value;
     }
 
@@ -82,8 +87,8 @@ public class CreatePaymentIntentRequestDto {
       return String.valueOf(value);
     }
 
-    public static PaymentMethodEnum fromValue(String value) {
-      for (PaymentMethodEnum b : PaymentMethodEnum.values()) {
+    public static PaymentMethodsEnum fromValue(String value) {
+      for (PaymentMethodsEnum b : PaymentMethodsEnum.values()) {
         if (b.value.equals(value)) {
           return b;
         }
@@ -91,29 +96,29 @@ public class CreatePaymentIntentRequestDto {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
 
-    public static class Adapter extends TypeAdapter<PaymentMethodEnum> {
+    public static class Adapter extends TypeAdapter<PaymentMethodsEnum> {
       @Override
-      public void write(final JsonWriter jsonWriter, final PaymentMethodEnum enumeration) throws IOException {
+      public void write(final JsonWriter jsonWriter, final PaymentMethodsEnum enumeration) throws IOException {
         jsonWriter.value(enumeration.getValue());
       }
 
       @Override
-      public PaymentMethodEnum read(final JsonReader jsonReader) throws IOException {
+      public PaymentMethodsEnum read(final JsonReader jsonReader) throws IOException {
         String value =  jsonReader.nextString();
-        return PaymentMethodEnum.fromValue(value);
+        return PaymentMethodsEnum.fromValue(value);
       }
     }
 
     public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       String value = jsonElement.getAsString();
-      PaymentMethodEnum.fromValue(value);
+      PaymentMethodsEnum.fromValue(value);
     }
   }
 
-  public static final String SERIALIZED_NAME_PAYMENT_METHOD = "paymentMethod";
-  @SerializedName(SERIALIZED_NAME_PAYMENT_METHOD)
+  public static final String SERIALIZED_NAME_PAYMENT_METHODS = "paymentMethods";
+  @SerializedName(SERIALIZED_NAME_PAYMENT_METHODS)
   @javax.annotation.Nonnull
-  private PaymentMethodEnum paymentMethod;
+  private Set<PaymentMethodsEnum> paymentMethods = new LinkedHashSet<>();
 
   /**
    * Gets or Sets purpose
@@ -210,15 +215,20 @@ public class CreatePaymentIntentRequestDto {
   @javax.annotation.Nullable
   private String purposeDescription;
 
-  public static final String SERIALIZED_NAME_NOTIFY_URL = "notifyUrl";
-  @SerializedName(SERIALIZED_NAME_NOTIFY_URL)
+  public static final String SERIALIZED_NAME_CALLBACK_URL = "callbackUrl";
+  @SerializedName(SERIALIZED_NAME_CALLBACK_URL)
   @javax.annotation.Nullable
-  private String notifyUrl;
+  private String callbackUrl;
 
-  public static final String SERIALIZED_NAME_RETURN_URL = "returnUrl";
-  @SerializedName(SERIALIZED_NAME_RETURN_URL)
+  public static final String SERIALIZED_NAME_SUCCESS_URL = "successUrl";
+  @SerializedName(SERIALIZED_NAME_SUCCESS_URL)
   @javax.annotation.Nullable
-  private String returnUrl;
+  private String successUrl;
+
+  public static final String SERIALIZED_NAME_CANCEL_URL = "cancelUrl";
+  @SerializedName(SERIALIZED_NAME_CANCEL_URL)
+  @javax.annotation.Nullable
+  private String cancelUrl;
 
   public static final String SERIALIZED_NAME_LANGUAGE = "language";
   @SerializedName(SERIALIZED_NAME_LANGUAGE)
@@ -239,6 +249,100 @@ public class CreatePaymentIntentRequestDto {
   @SerializedName(SERIALIZED_NAME_BUYER_EMAIL)
   @javax.annotation.Nullable
   private String buyerEmail;
+
+  public static final String SERIALIZED_NAME_BUYER_PHONE = "buyerPhone";
+  @SerializedName(SERIALIZED_NAME_BUYER_PHONE)
+  @javax.annotation.Nullable
+  private String buyerPhone;
+
+  public static final String SERIALIZED_NAME_MERCHANT_NAME = "merchantName";
+  @SerializedName(SERIALIZED_NAME_MERCHANT_NAME)
+  @javax.annotation.Nullable
+  private String merchantName;
+
+  /**
+   * Gets or Sets merchantBrand
+   */
+  @JsonAdapter(MerchantBrandEnum.Adapter.class)
+  public enum MerchantBrandEnum {
+    ZIPPER("ZIPPER"),
+    
+    GENERIC("GENERIC"),
+    
+    CUSTOM("CUSTOM");
+
+    private String value;
+
+    MerchantBrandEnum(String value) {
+      this.value = value;
+    }
+
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    public static MerchantBrandEnum fromValue(String value) {
+      for (MerchantBrandEnum b : MerchantBrandEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+
+    public static class Adapter extends TypeAdapter<MerchantBrandEnum> {
+      @Override
+      public void write(final JsonWriter jsonWriter, final MerchantBrandEnum enumeration) throws IOException {
+        jsonWriter.value(enumeration.getValue());
+      }
+
+      @Override
+      public MerchantBrandEnum read(final JsonReader jsonReader) throws IOException {
+        String value =  jsonReader.nextString();
+        return MerchantBrandEnum.fromValue(value);
+      }
+    }
+
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      String value = jsonElement.getAsString();
+      MerchantBrandEnum.fromValue(value);
+    }
+  }
+
+  public static final String SERIALIZED_NAME_MERCHANT_BRAND = "merchantBrand";
+  @SerializedName(SERIALIZED_NAME_MERCHANT_BRAND)
+  @javax.annotation.Nullable
+  private MerchantBrandEnum merchantBrand;
+
+  public static final String SERIALIZED_NAME_MERCHANT_LOGO_URL = "merchantLogoUrl";
+  @SerializedName(SERIALIZED_NAME_MERCHANT_LOGO_URL)
+  @javax.annotation.Nullable
+  private String merchantLogoUrl;
+
+  public static final String SERIALIZED_NAME_SUBTOTAL_AMOUNT = "subtotalAmount";
+  @SerializedName(SERIALIZED_NAME_SUBTOTAL_AMOUNT)
+  @javax.annotation.Nullable
+  private BigDecimal subtotalAmount;
+
+  public static final String SERIALIZED_NAME_TAX_AMOUNT = "taxAmount";
+  @SerializedName(SERIALIZED_NAME_TAX_AMOUNT)
+  @javax.annotation.Nullable
+  private BigDecimal taxAmount;
+
+  public static final String SERIALIZED_NAME_DISCOUNT_AMOUNT = "discountAmount";
+  @SerializedName(SERIALIZED_NAME_DISCOUNT_AMOUNT)
+  @javax.annotation.Nullable
+  private BigDecimal discountAmount;
+
+  public static final String SERIALIZED_NAME_LINE_ITEMS = "lineItems";
+  @SerializedName(SERIALIZED_NAME_LINE_ITEMS)
+  @javax.annotation.Nullable
+  private List<LineItemRequestDto> lineItems = new ArrayList<>();
 
   public CreatePaymentIntentRequestDto() {
   }
@@ -262,22 +366,30 @@ public class CreatePaymentIntentRequestDto {
   }
 
 
-  public CreatePaymentIntentRequestDto paymentMethod(@javax.annotation.Nonnull PaymentMethodEnum paymentMethod) {
-    this.paymentMethod = paymentMethod;
+  public CreatePaymentIntentRequestDto paymentMethods(@javax.annotation.Nonnull Set<PaymentMethodsEnum> paymentMethods) {
+    this.paymentMethods = paymentMethods;
+    return this;
+  }
+
+  public CreatePaymentIntentRequestDto addPaymentMethodsItem(PaymentMethodsEnum paymentMethodsItem) {
+    if (this.paymentMethods == null) {
+      this.paymentMethods = new LinkedHashSet<>();
+    }
+    this.paymentMethods.add(paymentMethodsItem);
     return this;
   }
 
   /**
-   * Get paymentMethod
-   * @return paymentMethod
+   * Get paymentMethods
+   * @return paymentMethods
    */
   @javax.annotation.Nonnull
-  public PaymentMethodEnum getPaymentMethod() {
-    return paymentMethod;
+  public Set<PaymentMethodsEnum> getPaymentMethods() {
+    return paymentMethods;
   }
 
-  public void setPaymentMethod(@javax.annotation.Nonnull PaymentMethodEnum paymentMethod) {
-    this.paymentMethod = paymentMethod;
+  public void setPaymentMethods(@javax.annotation.Nonnull Set<PaymentMethodsEnum> paymentMethods) {
+    this.paymentMethods = paymentMethods;
   }
 
 
@@ -415,41 +527,60 @@ public class CreatePaymentIntentRequestDto {
   }
 
 
-  public CreatePaymentIntentRequestDto notifyUrl(@javax.annotation.Nullable String notifyUrl) {
-    this.notifyUrl = notifyUrl;
+  public CreatePaymentIntentRequestDto callbackUrl(@javax.annotation.Nullable String callbackUrl) {
+    this.callbackUrl = callbackUrl;
     return this;
   }
 
   /**
-   * Get notifyUrl
-   * @return notifyUrl
+   * Get callbackUrl
+   * @return callbackUrl
    */
   @javax.annotation.Nullable
-  public String getNotifyUrl() {
-    return notifyUrl;
+  public String getCallbackUrl() {
+    return callbackUrl;
   }
 
-  public void setNotifyUrl(@javax.annotation.Nullable String notifyUrl) {
-    this.notifyUrl = notifyUrl;
+  public void setCallbackUrl(@javax.annotation.Nullable String callbackUrl) {
+    this.callbackUrl = callbackUrl;
   }
 
 
-  public CreatePaymentIntentRequestDto returnUrl(@javax.annotation.Nullable String returnUrl) {
-    this.returnUrl = returnUrl;
+  public CreatePaymentIntentRequestDto successUrl(@javax.annotation.Nullable String successUrl) {
+    this.successUrl = successUrl;
     return this;
   }
 
   /**
-   * Get returnUrl
-   * @return returnUrl
+   * Get successUrl
+   * @return successUrl
    */
   @javax.annotation.Nullable
-  public String getReturnUrl() {
-    return returnUrl;
+  public String getSuccessUrl() {
+    return successUrl;
   }
 
-  public void setReturnUrl(@javax.annotation.Nullable String returnUrl) {
-    this.returnUrl = returnUrl;
+  public void setSuccessUrl(@javax.annotation.Nullable String successUrl) {
+    this.successUrl = successUrl;
+  }
+
+
+  public CreatePaymentIntentRequestDto cancelUrl(@javax.annotation.Nullable String cancelUrl) {
+    this.cancelUrl = cancelUrl;
+    return this;
+  }
+
+  /**
+   * Get cancelUrl
+   * @return cancelUrl
+   */
+  @javax.annotation.Nullable
+  public String getCancelUrl() {
+    return cancelUrl;
+  }
+
+  public void setCancelUrl(@javax.annotation.Nullable String cancelUrl) {
+    this.cancelUrl = cancelUrl;
   }
 
 
@@ -537,6 +668,169 @@ public class CreatePaymentIntentRequestDto {
   }
 
 
+  public CreatePaymentIntentRequestDto buyerPhone(@javax.annotation.Nullable String buyerPhone) {
+    this.buyerPhone = buyerPhone;
+    return this;
+  }
+
+  /**
+   * Get buyerPhone
+   * @return buyerPhone
+   */
+  @javax.annotation.Nullable
+  public String getBuyerPhone() {
+    return buyerPhone;
+  }
+
+  public void setBuyerPhone(@javax.annotation.Nullable String buyerPhone) {
+    this.buyerPhone = buyerPhone;
+  }
+
+
+  public CreatePaymentIntentRequestDto merchantName(@javax.annotation.Nullable String merchantName) {
+    this.merchantName = merchantName;
+    return this;
+  }
+
+  /**
+   * Get merchantName
+   * @return merchantName
+   */
+  @javax.annotation.Nullable
+  public String getMerchantName() {
+    return merchantName;
+  }
+
+  public void setMerchantName(@javax.annotation.Nullable String merchantName) {
+    this.merchantName = merchantName;
+  }
+
+
+  public CreatePaymentIntentRequestDto merchantBrand(@javax.annotation.Nullable MerchantBrandEnum merchantBrand) {
+    this.merchantBrand = merchantBrand;
+    return this;
+  }
+
+  /**
+   * Get merchantBrand
+   * @return merchantBrand
+   */
+  @javax.annotation.Nullable
+  public MerchantBrandEnum getMerchantBrand() {
+    return merchantBrand;
+  }
+
+  public void setMerchantBrand(@javax.annotation.Nullable MerchantBrandEnum merchantBrand) {
+    this.merchantBrand = merchantBrand;
+  }
+
+
+  public CreatePaymentIntentRequestDto merchantLogoUrl(@javax.annotation.Nullable String merchantLogoUrl) {
+    this.merchantLogoUrl = merchantLogoUrl;
+    return this;
+  }
+
+  /**
+   * Get merchantLogoUrl
+   * @return merchantLogoUrl
+   */
+  @javax.annotation.Nullable
+  public String getMerchantLogoUrl() {
+    return merchantLogoUrl;
+  }
+
+  public void setMerchantLogoUrl(@javax.annotation.Nullable String merchantLogoUrl) {
+    this.merchantLogoUrl = merchantLogoUrl;
+  }
+
+
+  public CreatePaymentIntentRequestDto subtotalAmount(@javax.annotation.Nullable BigDecimal subtotalAmount) {
+    this.subtotalAmount = subtotalAmount;
+    return this;
+  }
+
+  /**
+   * Get subtotalAmount
+   * minimum: 0.0
+   * @return subtotalAmount
+   */
+  @javax.annotation.Nullable
+  public BigDecimal getSubtotalAmount() {
+    return subtotalAmount;
+  }
+
+  public void setSubtotalAmount(@javax.annotation.Nullable BigDecimal subtotalAmount) {
+    this.subtotalAmount = subtotalAmount;
+  }
+
+
+  public CreatePaymentIntentRequestDto taxAmount(@javax.annotation.Nullable BigDecimal taxAmount) {
+    this.taxAmount = taxAmount;
+    return this;
+  }
+
+  /**
+   * Get taxAmount
+   * minimum: 0.0
+   * @return taxAmount
+   */
+  @javax.annotation.Nullable
+  public BigDecimal getTaxAmount() {
+    return taxAmount;
+  }
+
+  public void setTaxAmount(@javax.annotation.Nullable BigDecimal taxAmount) {
+    this.taxAmount = taxAmount;
+  }
+
+
+  public CreatePaymentIntentRequestDto discountAmount(@javax.annotation.Nullable BigDecimal discountAmount) {
+    this.discountAmount = discountAmount;
+    return this;
+  }
+
+  /**
+   * Get discountAmount
+   * minimum: 0.0
+   * @return discountAmount
+   */
+  @javax.annotation.Nullable
+  public BigDecimal getDiscountAmount() {
+    return discountAmount;
+  }
+
+  public void setDiscountAmount(@javax.annotation.Nullable BigDecimal discountAmount) {
+    this.discountAmount = discountAmount;
+  }
+
+
+  public CreatePaymentIntentRequestDto lineItems(@javax.annotation.Nullable List<LineItemRequestDto> lineItems) {
+    this.lineItems = lineItems;
+    return this;
+  }
+
+  public CreatePaymentIntentRequestDto addLineItemsItem(LineItemRequestDto lineItemsItem) {
+    if (this.lineItems == null) {
+      this.lineItems = new ArrayList<>();
+    }
+    this.lineItems.add(lineItemsItem);
+    return this;
+  }
+
+  /**
+   * Get lineItems
+   * @return lineItems
+   */
+  @javax.annotation.Nullable
+  public List<LineItemRequestDto> getLineItems() {
+    return lineItems;
+  }
+
+  public void setLineItems(@javax.annotation.Nullable List<LineItemRequestDto> lineItems) {
+    this.lineItems = lineItems;
+  }
+
+
 
   @Override
   public boolean equals(Object o) {
@@ -548,7 +842,7 @@ public class CreatePaymentIntentRequestDto {
     }
     CreatePaymentIntentRequestDto createPaymentIntentRequestDto = (CreatePaymentIntentRequestDto) o;
     return Objects.equals(this.userId, createPaymentIntentRequestDto.userId) &&
-        Objects.equals(this.paymentMethod, createPaymentIntentRequestDto.paymentMethod) &&
+        Objects.equals(this.paymentMethods, createPaymentIntentRequestDto.paymentMethods) &&
         Objects.equals(this.purpose, createPaymentIntentRequestDto.purpose) &&
         Objects.equals(this.moneyAmount, createPaymentIntentRequestDto.moneyAmount) &&
         Objects.equals(this.moneyCurrency, createPaymentIntentRequestDto.moneyCurrency) &&
@@ -556,17 +850,26 @@ public class CreatePaymentIntentRequestDto {
         Objects.equals(this.purposeRefType, createPaymentIntentRequestDto.purposeRefType) &&
         Objects.equals(this.purposeRefId, createPaymentIntentRequestDto.purposeRefId) &&
         Objects.equals(this.purposeDescription, createPaymentIntentRequestDto.purposeDescription) &&
-        Objects.equals(this.notifyUrl, createPaymentIntentRequestDto.notifyUrl) &&
-        Objects.equals(this.returnUrl, createPaymentIntentRequestDto.returnUrl) &&
+        Objects.equals(this.callbackUrl, createPaymentIntentRequestDto.callbackUrl) &&
+        Objects.equals(this.successUrl, createPaymentIntentRequestDto.successUrl) &&
+        Objects.equals(this.cancelUrl, createPaymentIntentRequestDto.cancelUrl) &&
         Objects.equals(this.language, createPaymentIntentRequestDto.language) &&
         Objects.equals(this.metadata, createPaymentIntentRequestDto.metadata) &&
         Objects.equals(this.buyerName, createPaymentIntentRequestDto.buyerName) &&
-        Objects.equals(this.buyerEmail, createPaymentIntentRequestDto.buyerEmail);
+        Objects.equals(this.buyerEmail, createPaymentIntentRequestDto.buyerEmail) &&
+        Objects.equals(this.buyerPhone, createPaymentIntentRequestDto.buyerPhone) &&
+        Objects.equals(this.merchantName, createPaymentIntentRequestDto.merchantName) &&
+        Objects.equals(this.merchantBrand, createPaymentIntentRequestDto.merchantBrand) &&
+        Objects.equals(this.merchantLogoUrl, createPaymentIntentRequestDto.merchantLogoUrl) &&
+        Objects.equals(this.subtotalAmount, createPaymentIntentRequestDto.subtotalAmount) &&
+        Objects.equals(this.taxAmount, createPaymentIntentRequestDto.taxAmount) &&
+        Objects.equals(this.discountAmount, createPaymentIntentRequestDto.discountAmount) &&
+        Objects.equals(this.lineItems, createPaymentIntentRequestDto.lineItems);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(userId, paymentMethod, purpose, moneyAmount, moneyCurrency, creditCurrency, purposeRefType, purposeRefId, purposeDescription, notifyUrl, returnUrl, language, metadata, buyerName, buyerEmail);
+    return Objects.hash(userId, paymentMethods, purpose, moneyAmount, moneyCurrency, creditCurrency, purposeRefType, purposeRefId, purposeDescription, callbackUrl, successUrl, cancelUrl, language, metadata, buyerName, buyerEmail, buyerPhone, merchantName, merchantBrand, merchantLogoUrl, subtotalAmount, taxAmount, discountAmount, lineItems);
   }
 
   @Override
@@ -574,7 +877,7 @@ public class CreatePaymentIntentRequestDto {
     StringBuilder sb = new StringBuilder();
     sb.append("class CreatePaymentIntentRequestDto {\n");
     sb.append("    userId: ").append(toIndentedString(userId)).append("\n");
-    sb.append("    paymentMethod: ").append(toIndentedString(paymentMethod)).append("\n");
+    sb.append("    paymentMethods: ").append(toIndentedString(paymentMethods)).append("\n");
     sb.append("    purpose: ").append(toIndentedString(purpose)).append("\n");
     sb.append("    moneyAmount: ").append(toIndentedString(moneyAmount)).append("\n");
     sb.append("    moneyCurrency: ").append(toIndentedString(moneyCurrency)).append("\n");
@@ -582,12 +885,21 @@ public class CreatePaymentIntentRequestDto {
     sb.append("    purposeRefType: ").append(toIndentedString(purposeRefType)).append("\n");
     sb.append("    purposeRefId: ").append(toIndentedString(purposeRefId)).append("\n");
     sb.append("    purposeDescription: ").append(toIndentedString(purposeDescription)).append("\n");
-    sb.append("    notifyUrl: ").append(toIndentedString(notifyUrl)).append("\n");
-    sb.append("    returnUrl: ").append(toIndentedString(returnUrl)).append("\n");
+    sb.append("    callbackUrl: ").append(toIndentedString(callbackUrl)).append("\n");
+    sb.append("    successUrl: ").append(toIndentedString(successUrl)).append("\n");
+    sb.append("    cancelUrl: ").append(toIndentedString(cancelUrl)).append("\n");
     sb.append("    language: ").append(toIndentedString(language)).append("\n");
     sb.append("    metadata: ").append(toIndentedString(metadata)).append("\n");
     sb.append("    buyerName: ").append(toIndentedString(buyerName)).append("\n");
     sb.append("    buyerEmail: ").append(toIndentedString(buyerEmail)).append("\n");
+    sb.append("    buyerPhone: ").append(toIndentedString(buyerPhone)).append("\n");
+    sb.append("    merchantName: ").append(toIndentedString(merchantName)).append("\n");
+    sb.append("    merchantBrand: ").append(toIndentedString(merchantBrand)).append("\n");
+    sb.append("    merchantLogoUrl: ").append(toIndentedString(merchantLogoUrl)).append("\n");
+    sb.append("    subtotalAmount: ").append(toIndentedString(subtotalAmount)).append("\n");
+    sb.append("    taxAmount: ").append(toIndentedString(taxAmount)).append("\n");
+    sb.append("    discountAmount: ").append(toIndentedString(discountAmount)).append("\n");
+    sb.append("    lineItems: ").append(toIndentedString(lineItems)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -611,7 +923,7 @@ public class CreatePaymentIntentRequestDto {
     // a set of all properties/fields (JSON key names)
     openapiFields = new HashSet<String>();
     openapiFields.add("userId");
-    openapiFields.add("paymentMethod");
+    openapiFields.add("paymentMethods");
     openapiFields.add("purpose");
     openapiFields.add("moneyAmount");
     openapiFields.add("moneyCurrency");
@@ -619,17 +931,26 @@ public class CreatePaymentIntentRequestDto {
     openapiFields.add("purposeRefType");
     openapiFields.add("purposeRefId");
     openapiFields.add("purposeDescription");
-    openapiFields.add("notifyUrl");
-    openapiFields.add("returnUrl");
+    openapiFields.add("callbackUrl");
+    openapiFields.add("successUrl");
+    openapiFields.add("cancelUrl");
     openapiFields.add("language");
     openapiFields.add("metadata");
     openapiFields.add("buyerName");
     openapiFields.add("buyerEmail");
+    openapiFields.add("buyerPhone");
+    openapiFields.add("merchantName");
+    openapiFields.add("merchantBrand");
+    openapiFields.add("merchantLogoUrl");
+    openapiFields.add("subtotalAmount");
+    openapiFields.add("taxAmount");
+    openapiFields.add("discountAmount");
+    openapiFields.add("lineItems");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();
     openapiRequiredFields.add("userId");
-    openapiRequiredFields.add("paymentMethod");
+    openapiRequiredFields.add("paymentMethods");
     openapiRequiredFields.add("purpose");
     openapiRequiredFields.add("moneyAmount");
     openapiRequiredFields.add("moneyCurrency");
@@ -667,11 +988,12 @@ public class CreatePaymentIntentRequestDto {
       if (!jsonObj.get("userId").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `userId` to be a primitive type in the JSON string but got `%s`", jsonObj.get("userId").toString()));
       }
-      if (!jsonObj.get("paymentMethod").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `paymentMethod` to be a primitive type in the JSON string but got `%s`", jsonObj.get("paymentMethod").toString()));
+      // ensure the required json array is present
+      if (jsonObj.get("paymentMethods") == null) {
+        throw new IllegalArgumentException("Expected the field `linkedContent` to be an array in the JSON string but got `null`");
+      } else if (!jsonObj.get("paymentMethods").isJsonArray()) {
+        throw new IllegalArgumentException(String.format("Expected the field `paymentMethods` to be an array in the JSON string but got `%s`", jsonObj.get("paymentMethods").toString()));
       }
-      // validate the required field `paymentMethod`
-      PaymentMethodEnum.validateJsonElement(jsonObj.get("paymentMethod"));
       if (!jsonObj.get("purpose").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `purpose` to be a primitive type in the JSON string but got `%s`", jsonObj.get("purpose").toString()));
       }
@@ -692,11 +1014,14 @@ public class CreatePaymentIntentRequestDto {
       if ((jsonObj.get("purposeDescription") != null && !jsonObj.get("purposeDescription").isJsonNull()) && !jsonObj.get("purposeDescription").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `purposeDescription` to be a primitive type in the JSON string but got `%s`", jsonObj.get("purposeDescription").toString()));
       }
-      if ((jsonObj.get("notifyUrl") != null && !jsonObj.get("notifyUrl").isJsonNull()) && !jsonObj.get("notifyUrl").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `notifyUrl` to be a primitive type in the JSON string but got `%s`", jsonObj.get("notifyUrl").toString()));
+      if ((jsonObj.get("callbackUrl") != null && !jsonObj.get("callbackUrl").isJsonNull()) && !jsonObj.get("callbackUrl").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `callbackUrl` to be a primitive type in the JSON string but got `%s`", jsonObj.get("callbackUrl").toString()));
       }
-      if ((jsonObj.get("returnUrl") != null && !jsonObj.get("returnUrl").isJsonNull()) && !jsonObj.get("returnUrl").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `returnUrl` to be a primitive type in the JSON string but got `%s`", jsonObj.get("returnUrl").toString()));
+      if ((jsonObj.get("successUrl") != null && !jsonObj.get("successUrl").isJsonNull()) && !jsonObj.get("successUrl").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `successUrl` to be a primitive type in the JSON string but got `%s`", jsonObj.get("successUrl").toString()));
+      }
+      if ((jsonObj.get("cancelUrl") != null && !jsonObj.get("cancelUrl").isJsonNull()) && !jsonObj.get("cancelUrl").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `cancelUrl` to be a primitive type in the JSON string but got `%s`", jsonObj.get("cancelUrl").toString()));
       }
       if ((jsonObj.get("language") != null && !jsonObj.get("language").isJsonNull()) && !jsonObj.get("language").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `language` to be a primitive type in the JSON string but got `%s`", jsonObj.get("language").toString()));
@@ -706,6 +1031,36 @@ public class CreatePaymentIntentRequestDto {
       }
       if ((jsonObj.get("buyerEmail") != null && !jsonObj.get("buyerEmail").isJsonNull()) && !jsonObj.get("buyerEmail").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `buyerEmail` to be a primitive type in the JSON string but got `%s`", jsonObj.get("buyerEmail").toString()));
+      }
+      if ((jsonObj.get("buyerPhone") != null && !jsonObj.get("buyerPhone").isJsonNull()) && !jsonObj.get("buyerPhone").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `buyerPhone` to be a primitive type in the JSON string but got `%s`", jsonObj.get("buyerPhone").toString()));
+      }
+      if ((jsonObj.get("merchantName") != null && !jsonObj.get("merchantName").isJsonNull()) && !jsonObj.get("merchantName").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `merchantName` to be a primitive type in the JSON string but got `%s`", jsonObj.get("merchantName").toString()));
+      }
+      if ((jsonObj.get("merchantBrand") != null && !jsonObj.get("merchantBrand").isJsonNull()) && !jsonObj.get("merchantBrand").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `merchantBrand` to be a primitive type in the JSON string but got `%s`", jsonObj.get("merchantBrand").toString()));
+      }
+      // validate the optional field `merchantBrand`
+      if (jsonObj.get("merchantBrand") != null && !jsonObj.get("merchantBrand").isJsonNull()) {
+        MerchantBrandEnum.validateJsonElement(jsonObj.get("merchantBrand"));
+      }
+      if ((jsonObj.get("merchantLogoUrl") != null && !jsonObj.get("merchantLogoUrl").isJsonNull()) && !jsonObj.get("merchantLogoUrl").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `merchantLogoUrl` to be a primitive type in the JSON string but got `%s`", jsonObj.get("merchantLogoUrl").toString()));
+      }
+      if (jsonObj.get("lineItems") != null && !jsonObj.get("lineItems").isJsonNull()) {
+        JsonArray jsonArraylineItems = jsonObj.getAsJsonArray("lineItems");
+        if (jsonArraylineItems != null) {
+          // ensure the json data is an array
+          if (!jsonObj.get("lineItems").isJsonArray()) {
+            throw new IllegalArgumentException(String.format("Expected the field `lineItems` to be an array in the JSON string but got `%s`", jsonObj.get("lineItems").toString()));
+          }
+
+          // validate the optional field `lineItems` (array)
+          for (int i = 0; i < jsonArraylineItems.size(); i++) {
+            LineItemRequestDto.validateJsonElement(jsonArraylineItems.get(i));
+          };
+        }
       }
   }
 

@@ -128,8 +128,12 @@ Class | Method | HTTP request | Description
 *AdminWalletsApi* | [**credit**](docs/AdminWalletsApi.md#credit) | **POST** /api/v1/admin/wallets/{userId}/{currency}/credit | 
 *AdminWalletsApi* | [**debit**](docs/AdminWalletsApi.md#debit) | **POST** /api/v1/admin/wallets/{userId}/{currency}/debit | 
 *AdminWalletsApi* | [**listWallets**](docs/AdminWalletsApi.md#listWallets) | **GET** /api/v1/admin/wallets/{userId} | 
+*CheckoutOpenControllerApi* | [**getCheckout**](docs/CheckoutOpenControllerApi.md#getCheckout) | **GET** /api/v1/open/checkout/{id} | 
+*CheckoutOpenControllerApi* | [**getStatus**](docs/CheckoutOpenControllerApi.md#getStatus) | **GET** /api/v1/open/checkout/{id}/status | 
+*CheckoutOpenControllerApi* | [**selectMethod**](docs/CheckoutOpenControllerApi.md#selectMethod) | **POST** /api/v1/open/checkout/{id}/select-method | 
 *InternalRefundsApi* | [**refundPaymentIntent**](docs/InternalRefundsApi.md#refundPaymentIntent) | **POST** /api/v1/internal/payment-intents/{intentId}/refunds | 
 *InternalRefundsApi* | [**refundWalletCharge**](docs/InternalRefundsApi.md#refundWalletCharge) | **POST** /api/v1/internal/wallet/charges/{chargeId}/refunds | 
+*InternalUsersApi* | [**onboard**](docs/InternalUsersApi.md#onboard) | **POST** /api/v1/internal/users/onboard | Register a user and provision wallets in all active credit currencies
 *InternalWalletChargesApi* | [**charge**](docs/InternalWalletChargesApi.md#charge) | **POST** /api/v1/internal/wallet/charges | Spend credits from a user&#39;s wallet (synchronous)
 *InternalWalletsApi* | [**entries1**](docs/InternalWalletsApi.md#entries1) | **GET** /api/v1/internal/wallets/{userId}/{currency}/entries | 
 *InternalWalletsApi* | [**getOne**](docs/InternalWalletsApi.md#getOne) | **GET** /api/v1/internal/wallets/{userId}/{currency} | 
@@ -156,6 +160,8 @@ Class | Method | HTTP request | Description
  - [AdminCreditRequestDto](docs/AdminCreditRequestDto.md)
  - [AdminDebitRequestDto](docs/AdminDebitRequestDto.md)
  - [AuthenticatedPrincipal](docs/AuthenticatedPrincipal.md)
+ - [CheckoutDetailsDto](docs/CheckoutDetailsDto.md)
+ - [CheckoutStatusDto](docs/CheckoutStatusDto.md)
  - [ConversionRateRequestDto](docs/ConversionRateRequestDto.md)
  - [ConversionRateResponseDto](docs/ConversionRateResponseDto.md)
  - [CreatePaymentIntentRequestDto](docs/CreatePaymentIntentRequestDto.md)
@@ -164,16 +170,25 @@ Class | Method | HTTP request | Description
  - [FreeFormJournalRequestDto](docs/FreeFormJournalRequestDto.md)
  - [JournalEntryDto](docs/JournalEntryDto.md)
  - [JournalEntryTreeDto](docs/JournalEntryTreeDto.md)
+ - [LineItemDto](docs/LineItemDto.md)
+ - [LineItemRequestDto](docs/LineItemRequestDto.md)
+ - [MerchantInfoDto](docs/MerchantInfoDto.md)
+ - [OnboardUserRequestDto](docs/OnboardUserRequestDto.md)
+ - [OnboardUserResponseDto](docs/OnboardUserResponseDto.md)
  - [PageWalletEntryDto](docs/PageWalletEntryDto.md)
  - [Pageable](docs/Pageable.md)
  - [PageableObject](docs/PageableObject.md)
  - [PaymentIntentResponseDto](docs/PaymentIntentResponseDto.md)
+ - [PaymentMethodOptionDto](docs/PaymentMethodOptionDto.md)
  - [PostingLineDto](docs/PostingLineDto.md)
+ - [PriceBreakdownDto](docs/PriceBreakdownDto.md)
  - [RefundRequestDto](docs/RefundRequestDto.md)
  - [RefundResponseDto](docs/RefundResponseDto.md)
  - [RegisterConsumerRequestDto](docs/RegisterConsumerRequestDto.md)
  - [RegisterConsumerResponseDto](docs/RegisterConsumerResponseDto.md)
  - [RotateSecretResponseDto](docs/RotateSecretResponseDto.md)
+ - [SelectMethodRequestDto](docs/SelectMethodRequestDto.md)
+ - [SelectMethodResponseDto](docs/SelectMethodResponseDto.md)
  - [SortObject](docs/SortObject.md)
  - [SubscriptionPlanResponseDto](docs/SubscriptionPlanResponseDto.md)
  - [SubscriptionResponseDto](docs/SubscriptionResponseDto.md)
@@ -182,6 +197,7 @@ Class | Method | HTTP request | Description
  - [WalletChargeResponseDto](docs/WalletChargeResponseDto.md)
  - [WalletDto](docs/WalletDto.md)
  - [WalletEntryDto](docs/WalletEntryDto.md)
+ - [WalletSummaryDto](docs/WalletSummaryDto.md)
 
 
 <a id="documentation-for-authorization"></a>

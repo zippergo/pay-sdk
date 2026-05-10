@@ -9,8 +9,9 @@
 |------------ | ------------- | ------------- | -------------|
 |**userId** | **String** |  |  |
 |**planId** | **UUID** |  |  |
-|**returnUrl** | **String** |  |  [optional] |
-|**notifyUrl** | **String** |  |  [optional] |
+|**successUrl** | **String** |  |  [optional] |
+|**cancelUrl** | **String** |  |  [optional] |
+|**callbackUrl** | **String** |  |  [optional] |
 |**language** | **String** |  |  [optional] |
 |**buyerName** | **String** |  |  [optional] |
 |**buyerEmail** | **String** |  |  [optional] |

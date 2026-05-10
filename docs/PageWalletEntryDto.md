@@ -12,8 +12,8 @@
 |**size** | **Integer** |  |  [optional] |
 |**content** | [**List&lt;WalletEntryDto&gt;**](WalletEntryDto.md) |  |  [optional] |
 |**number** | **Integer** |  |  [optional] |
-|**sort** | [**SortObject**](SortObject.md) |  |  [optional] |
 |**pageable** | [**PageableObject**](PageableObject.md) |  |  [optional] |
+|**sort** | [**SortObject**](SortObject.md) |  |  [optional] |
 |**first** | **Boolean** |  |  [optional] |
 |**last** | **Boolean** |  |  [optional] |
 |**numberOfElements** | **Integer** |  |  [optional] |

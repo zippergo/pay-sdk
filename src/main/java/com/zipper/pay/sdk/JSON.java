@@ -100,6 +100,8 @@ public class JSON {
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.pay.sdk.model.AdminCreditRequestDto.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.pay.sdk.model.AdminDebitRequestDto.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.pay.sdk.model.AuthenticatedPrincipal.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.zipper.pay.sdk.model.CheckoutDetailsDto.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.zipper.pay.sdk.model.CheckoutStatusDto.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.pay.sdk.model.ConversionRateRequestDto.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.pay.sdk.model.ConversionRateResponseDto.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.pay.sdk.model.CreatePaymentIntentRequestDto.CustomTypeAdapterFactory());
@@ -108,16 +110,25 @@ public class JSON {
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.pay.sdk.model.FreeFormJournalRequestDto.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.pay.sdk.model.JournalEntryDto.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.pay.sdk.model.JournalEntryTreeDto.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.zipper.pay.sdk.model.LineItemDto.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.zipper.pay.sdk.model.LineItemRequestDto.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.zipper.pay.sdk.model.MerchantInfoDto.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.zipper.pay.sdk.model.OnboardUserRequestDto.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.zipper.pay.sdk.model.OnboardUserResponseDto.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.pay.sdk.model.PageWalletEntryDto.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.pay.sdk.model.Pageable.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.pay.sdk.model.PageableObject.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.pay.sdk.model.PaymentIntentResponseDto.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.zipper.pay.sdk.model.PaymentMethodOptionDto.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.pay.sdk.model.PostingLineDto.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.zipper.pay.sdk.model.PriceBreakdownDto.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.pay.sdk.model.RefundRequestDto.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.pay.sdk.model.RefundResponseDto.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.pay.sdk.model.RegisterConsumerRequestDto.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.pay.sdk.model.RegisterConsumerResponseDto.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.pay.sdk.model.RotateSecretResponseDto.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.zipper.pay.sdk.model.SelectMethodRequestDto.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.zipper.pay.sdk.model.SelectMethodResponseDto.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.pay.sdk.model.SortObject.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.pay.sdk.model.SubscriptionPlanResponseDto.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.pay.sdk.model.SubscriptionResponseDto.CustomTypeAdapterFactory());
@@ -126,6 +137,7 @@ public class JSON {
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.pay.sdk.model.WalletChargeResponseDto.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.pay.sdk.model.WalletDto.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.pay.sdk.model.WalletEntryDto.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.zipper.pay.sdk.model.WalletSummaryDto.CustomTypeAdapterFactory());
         gson = gsonBuilder.create();
     }
 

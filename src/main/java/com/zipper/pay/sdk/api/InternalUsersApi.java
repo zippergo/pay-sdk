@@ -27,6 +27,9 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 
 
+import com.zipper.pay.sdk.model.AuthenticatedPrincipal;
+import com.zipper.pay.sdk.model.OnboardUserRequestDto;
+import com.zipper.pay.sdk.model.OnboardUserResponseDto;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -34,16 +37,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PaymeOpenControllerApi {
+public class InternalUsersApi {
     private ApiClient localVarApiClient;
     private int localHostIndex;
     private String localCustomBaseUrl;
 
-    public PaymeOpenControllerApi() {
+    public InternalUsersApi() {
         this(Configuration.getDefaultApiClient());
     }
 
-    public PaymeOpenControllerApi(ApiClient apiClient) {
+    public InternalUsersApi(ApiClient apiClient) {
         this.localVarApiClient = apiClient;
     }
 
@@ -72,7 +75,9 @@ public class PaymeOpenControllerApi {
     }
 
     /**
-     * Build call for payme
+     * Build call for onboard
+     * @param caller  (required)
+     * @param onboardUserRequestDto  (required)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -83,7 +88,7 @@ public class PaymeOpenControllerApi {
         <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call paymeCall(final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call onboardCall(@javax.annotation.Nonnull AuthenticatedPrincipal caller, @javax.annotation.Nonnull OnboardUserRequestDto onboardUserRequestDto, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -97,10 +102,10 @@ public class PaymeOpenControllerApi {
             basePath = null;
         }
 
-        Object localVarPostBody = null;
+        Object localVarPostBody = onboardUserRequestDto;
 
         // create path and map variables
-        String localVarPath = "/api/v1/open/notifications/payme";
+        String localVarPath = "/api/v1/internal/users/onboard";
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -108,7 +113,12 @@ public class PaymeOpenControllerApi {
         Map<String, String> localVarCookieParams = new HashMap<String, String>();
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
+        if (caller != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("caller", caller));
+        }
+
         final String[] localVarAccepts = {
+            "*/*"
         };
         final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -116,6 +126,7 @@ public class PaymeOpenControllerApi {
         }
 
         final String[] localVarContentTypes = {
+            "application/json"
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
@@ -127,14 +138,27 @@ public class PaymeOpenControllerApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call paymeValidateBeforeCall(final ApiCallback _callback) throws ApiException {
-        return paymeCall(_callback);
+    private okhttp3.Call onboardValidateBeforeCall(@javax.annotation.Nonnull AuthenticatedPrincipal caller, @javax.annotation.Nonnull OnboardUserRequestDto onboardUserRequestDto, final ApiCallback _callback) throws ApiException {
+        // verify the required parameter 'caller' is set
+        if (caller == null) {
+            throw new ApiException("Missing the required parameter 'caller' when calling onboard(Async)");
+        }
+
+        // verify the required parameter 'onboardUserRequestDto' is set
+        if (onboardUserRequestDto == null) {
+            throw new ApiException("Missing the required parameter 'onboardUserRequestDto' when calling onboard(Async)");
+        }
+
+        return onboardCall(caller, onboardUserRequestDto, _callback);
 
     }
 
     /**
+     * Register a user and provision wallets in all active credit currencies
      * 
-     * 
+     * @param caller  (required)
+     * @param onboardUserRequestDto  (required)
+     * @return OnboardUserResponseDto
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
@@ -143,14 +167,17 @@ public class PaymeOpenControllerApi {
         <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
      </table>
      */
-    public void payme() throws ApiException {
-        paymeWithHttpInfo();
+    public OnboardUserResponseDto onboard(@javax.annotation.Nonnull AuthenticatedPrincipal caller, @javax.annotation.Nonnull OnboardUserRequestDto onboardUserRequestDto) throws ApiException {
+        ApiResponse<OnboardUserResponseDto> localVarResp = onboardWithHttpInfo(caller, onboardUserRequestDto);
+        return localVarResp.getData();
     }
 
     /**
+     * Register a user and provision wallets in all active credit currencies
      * 
-     * 
-     * @return ApiResponse&lt;Void&gt;
+     * @param caller  (required)
+     * @param onboardUserRequestDto  (required)
+     * @return ApiResponse&lt;OnboardUserResponseDto&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
@@ -159,14 +186,17 @@ public class PaymeOpenControllerApi {
         <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> paymeWithHttpInfo() throws ApiException {
-        okhttp3.Call localVarCall = paymeValidateBeforeCall(null);
-        return localVarApiClient.execute(localVarCall);
+    public ApiResponse<OnboardUserResponseDto> onboardWithHttpInfo(@javax.annotation.Nonnull AuthenticatedPrincipal caller, @javax.annotation.Nonnull OnboardUserRequestDto onboardUserRequestDto) throws ApiException {
+        okhttp3.Call localVarCall = onboardValidateBeforeCall(caller, onboardUserRequestDto, null);
+        Type localVarReturnType = new TypeToken<OnboardUserResponseDto>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
-     *  (asynchronously)
+     * Register a user and provision wallets in all active credit currencies (asynchronously)
      * 
+     * @param caller  (required)
+     * @param onboardUserRequestDto  (required)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -177,10 +207,11 @@ public class PaymeOpenControllerApi {
         <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call paymeAsync(final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call onboardAsync(@javax.annotation.Nonnull AuthenticatedPrincipal caller, @javax.annotation.Nonnull OnboardUserRequestDto onboardUserRequestDto, final ApiCallback<OnboardUserResponseDto> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = paymeValidateBeforeCall(_callback);
-        localVarApiClient.executeAsync(localVarCall, _callback);
+        okhttp3.Call localVarCall = onboardValidateBeforeCall(caller, onboardUserRequestDto, _callback);
+        Type localVarReturnType = new TypeToken<OnboardUserResponseDto>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
 }

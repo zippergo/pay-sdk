@@ -88,10 +88,10 @@ public class WalletChargeRequestDto {
   @javax.annotation.Nullable
   private String language;
 
-  public static final String SERIALIZED_NAME_NOTIFY_URL = "notifyUrl";
-  @SerializedName(SERIALIZED_NAME_NOTIFY_URL)
+  public static final String SERIALIZED_NAME_CALLBACK_URL = "callbackUrl";
+  @SerializedName(SERIALIZED_NAME_CALLBACK_URL)
   @javax.annotation.Nullable
-  private String notifyUrl;
+  private String callbackUrl;
 
   public static final String SERIALIZED_NAME_ISSUE_INVOICE = "issueInvoice";
   @SerializedName(SERIALIZED_NAME_ISSUE_INVOICE)
@@ -102,6 +102,16 @@ public class WalletChargeRequestDto {
   @SerializedName(SERIALIZED_NAME_METADATA)
   @javax.annotation.Nullable
   private Map<String, Object> metadata = new HashMap<>();
+
+  public static final String SERIALIZED_NAME_BUYER_NAME = "buyerName";
+  @SerializedName(SERIALIZED_NAME_BUYER_NAME)
+  @javax.annotation.Nullable
+  private String buyerName;
+
+  public static final String SERIALIZED_NAME_BUYER_EMAIL = "buyerEmail";
+  @SerializedName(SERIALIZED_NAME_BUYER_EMAIL)
+  @javax.annotation.Nullable
+  private String buyerEmail;
 
   public WalletChargeRequestDto() {
   }
@@ -240,22 +250,22 @@ public class WalletChargeRequestDto {
   }
 
 
-  public WalletChargeRequestDto notifyUrl(@javax.annotation.Nullable String notifyUrl) {
-    this.notifyUrl = notifyUrl;
+  public WalletChargeRequestDto callbackUrl(@javax.annotation.Nullable String callbackUrl) {
+    this.callbackUrl = callbackUrl;
     return this;
   }
 
   /**
-   * Get notifyUrl
-   * @return notifyUrl
+   * Get callbackUrl
+   * @return callbackUrl
    */
   @javax.annotation.Nullable
-  public String getNotifyUrl() {
-    return notifyUrl;
+  public String getCallbackUrl() {
+    return callbackUrl;
   }
 
-  public void setNotifyUrl(@javax.annotation.Nullable String notifyUrl) {
-    this.notifyUrl = notifyUrl;
+  public void setCallbackUrl(@javax.annotation.Nullable String callbackUrl) {
+    this.callbackUrl = callbackUrl;
   }
 
 
@@ -305,6 +315,44 @@ public class WalletChargeRequestDto {
   }
 
 
+  public WalletChargeRequestDto buyerName(@javax.annotation.Nullable String buyerName) {
+    this.buyerName = buyerName;
+    return this;
+  }
+
+  /**
+   * Get buyerName
+   * @return buyerName
+   */
+  @javax.annotation.Nullable
+  public String getBuyerName() {
+    return buyerName;
+  }
+
+  public void setBuyerName(@javax.annotation.Nullable String buyerName) {
+    this.buyerName = buyerName;
+  }
+
+
+  public WalletChargeRequestDto buyerEmail(@javax.annotation.Nullable String buyerEmail) {
+    this.buyerEmail = buyerEmail;
+    return this;
+  }
+
+  /**
+   * Get buyerEmail
+   * @return buyerEmail
+   */
+  @javax.annotation.Nullable
+  public String getBuyerEmail() {
+    return buyerEmail;
+  }
+
+  public void setBuyerEmail(@javax.annotation.Nullable String buyerEmail) {
+    this.buyerEmail = buyerEmail;
+  }
+
+
 
   @Override
   public boolean equals(Object o) {
@@ -322,14 +370,16 @@ public class WalletChargeRequestDto {
         Objects.equals(this.purposeRefId, walletChargeRequestDto.purposeRefId) &&
         Objects.equals(this.purposeDescription, walletChargeRequestDto.purposeDescription) &&
         Objects.equals(this.language, walletChargeRequestDto.language) &&
-        Objects.equals(this.notifyUrl, walletChargeRequestDto.notifyUrl) &&
+        Objects.equals(this.callbackUrl, walletChargeRequestDto.callbackUrl) &&
         Objects.equals(this.issueInvoice, walletChargeRequestDto.issueInvoice) &&
-        Objects.equals(this.metadata, walletChargeRequestDto.metadata);
+        Objects.equals(this.metadata, walletChargeRequestDto.metadata) &&
+        Objects.equals(this.buyerName, walletChargeRequestDto.buyerName) &&
+        Objects.equals(this.buyerEmail, walletChargeRequestDto.buyerEmail);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(userId, creditCurrency, creditsAmount, purposeRefType, purposeRefId, purposeDescription, language, notifyUrl, issueInvoice, metadata);
+    return Objects.hash(userId, creditCurrency, creditsAmount, purposeRefType, purposeRefId, purposeDescription, language, callbackUrl, issueInvoice, metadata, buyerName, buyerEmail);
   }
 
   @Override
@@ -343,9 +393,11 @@ public class WalletChargeRequestDto {
     sb.append("    purposeRefId: ").append(toIndentedString(purposeRefId)).append("\n");
     sb.append("    purposeDescription: ").append(toIndentedString(purposeDescription)).append("\n");
     sb.append("    language: ").append(toIndentedString(language)).append("\n");
-    sb.append("    notifyUrl: ").append(toIndentedString(notifyUrl)).append("\n");
+    sb.append("    callbackUrl: ").append(toIndentedString(callbackUrl)).append("\n");
     sb.append("    issueInvoice: ").append(toIndentedString(issueInvoice)).append("\n");
     sb.append("    metadata: ").append(toIndentedString(metadata)).append("\n");
+    sb.append("    buyerName: ").append(toIndentedString(buyerName)).append("\n");
+    sb.append("    buyerEmail: ").append(toIndentedString(buyerEmail)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -375,9 +427,11 @@ public class WalletChargeRequestDto {
     openapiFields.add("purposeRefId");
     openapiFields.add("purposeDescription");
     openapiFields.add("language");
-    openapiFields.add("notifyUrl");
+    openapiFields.add("callbackUrl");
     openapiFields.add("issueInvoice");
     openapiFields.add("metadata");
+    openapiFields.add("buyerName");
+    openapiFields.add("buyerEmail");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();
@@ -432,8 +486,14 @@ public class WalletChargeRequestDto {
       if ((jsonObj.get("language") != null && !jsonObj.get("language").isJsonNull()) && !jsonObj.get("language").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `language` to be a primitive type in the JSON string but got `%s`", jsonObj.get("language").toString()));
       }
-      if ((jsonObj.get("notifyUrl") != null && !jsonObj.get("notifyUrl").isJsonNull()) && !jsonObj.get("notifyUrl").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `notifyUrl` to be a primitive type in the JSON string but got `%s`", jsonObj.get("notifyUrl").toString()));
+      if ((jsonObj.get("callbackUrl") != null && !jsonObj.get("callbackUrl").isJsonNull()) && !jsonObj.get("callbackUrl").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `callbackUrl` to be a primitive type in the JSON string but got `%s`", jsonObj.get("callbackUrl").toString()));
+      }
+      if ((jsonObj.get("buyerName") != null && !jsonObj.get("buyerName").isJsonNull()) && !jsonObj.get("buyerName").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `buyerName` to be a primitive type in the JSON string but got `%s`", jsonObj.get("buyerName").toString()));
+      }
+      if ((jsonObj.get("buyerEmail") != null && !jsonObj.get("buyerEmail").isJsonNull()) && !jsonObj.get("buyerEmail").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `buyerEmail` to be a primitive type in the JSON string but got `%s`", jsonObj.get("buyerEmail").toString()));
       }
   }
 

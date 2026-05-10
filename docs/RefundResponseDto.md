@@ -24,6 +24,7 @@
 | Name | Value |
 |---- | -----|
 | PENDING | &quot;PENDING&quot; |
+| AWAITING_METHOD_SELECTION | &quot;AWAITING_METHOD_SELECTION&quot; |
 | AWAITING_PAYMENT | &quot;AWAITING_PAYMENT&quot; |
 | COMPLETED | &quot;COMPLETED&quot; |
 | FAILED | &quot;FAILED&quot; |
@@ -38,6 +39,7 @@
 | Name | Value |
 |---- | -----|
 | PENDING | &quot;PENDING&quot; |
+| AWAITING_METHOD_SELECTION | &quot;AWAITING_METHOD_SELECTION&quot; |
 | AWAITING_PAYMENT | &quot;AWAITING_PAYMENT&quot; |
 | COMPLETED | &quot;COMPLETED&quot; |
 | FAILED | &quot;FAILED&quot; |
