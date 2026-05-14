@@ -10,9 +10,8 @@
 |**userId** | **String** |  |  |
 |**paymentMethods** | [**Set&lt;PaymentMethodsEnum&gt;**](#Set&lt;PaymentMethodsEnum&gt;) |  |  |
 |**purpose** | [**PurposeEnum**](#PurposeEnum) |  |  |
-|**moneyAmount** | **BigDecimal** |  |  |
-|**moneyCurrency** | **String** |  |  |
-|**creditCurrency** | **String** |  |  |
+|**amount** | **BigDecimal** |  |  |
+|**currency** | **String** |  |  |
 |**purposeRefType** | **String** |  |  [optional] |
 |**purposeRefId** | **String** |  |  [optional] |
 |**purposeDescription** | **String** |  |  [optional] |

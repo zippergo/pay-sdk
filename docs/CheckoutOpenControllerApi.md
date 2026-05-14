@@ -4,10 +4,79 @@ All URIs are relative to *http://localhost:8089*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
+| [**confirm**](CheckoutOpenControllerApi.md#confirm) | **POST** /api/v1/open/checkout/{id}/confirm |  |
 | [**getCheckout**](CheckoutOpenControllerApi.md#getCheckout) | **GET** /api/v1/open/checkout/{id} |  |
 | [**getStatus**](CheckoutOpenControllerApi.md#getStatus) | **GET** /api/v1/open/checkout/{id}/status |  |
+| [**resendOtp**](CheckoutOpenControllerApi.md#resendOtp) | **POST** /api/v1/open/checkout/{id}/resend-otp |  |
 | [**selectMethod**](CheckoutOpenControllerApi.md#selectMethod) | **POST** /api/v1/open/checkout/{id}/select-method |  |
 
+
+<a id="confirm"></a>
+# **confirm**
+> ConfirmCheckoutResponseDto confirm(id, confirmCheckoutRequestDto)
+
+
+
+### Example
+```java
+// Import classes:
+import com.zipper.pay.sdk.ApiClient;
+import com.zipper.pay.sdk.ApiException;
+import com.zipper.pay.sdk.Configuration;
+import com.zipper.pay.sdk.auth.*;
+import com.zipper.pay.sdk.models.*;
+import com.zipper.pay.sdk.api.CheckoutOpenControllerApi;
+
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("http://localhost:8089");
+    
+    // Configure HTTP bearer authorization: bearerAuth
+    HttpBearerAuth bearerAuth = (HttpBearerAuth) defaultClient.getAuthentication("bearerAuth");
+    bearerAuth.setBearerToken("BEARER TOKEN");
+
+    CheckoutOpenControllerApi apiInstance = new CheckoutOpenControllerApi(defaultClient);
+    UUID id = UUID.randomUUID(); // UUID | 
+    ConfirmCheckoutRequestDto confirmCheckoutRequestDto = new ConfirmCheckoutRequestDto(); // ConfirmCheckoutRequestDto | 
+    try {
+      ConfirmCheckoutResponseDto result = apiInstance.confirm(id, confirmCheckoutRequestDto);
+      System.out.println(result);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling CheckoutOpenControllerApi#confirm");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **id** | **UUID**|  | |
+| **confirmCheckoutRequestDto** | [**ConfirmCheckoutRequestDto**](ConfirmCheckoutRequestDto.md)|  | |
+
+### Return type
+
+[**ConfirmCheckoutResponseDto**](ConfirmCheckoutResponseDto.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: */*
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | OK |  -  |
 
 <a id="getCheckout"></a>
 # **getCheckout**
@@ -124,6 +193,71 @@ public class Example {
 ### Return type
 
 [**CheckoutStatusDto**](CheckoutStatusDto.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: */*
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | OK |  -  |
+
+<a id="resendOtp"></a>
+# **resendOtp**
+> ResendOtpResponseDto resendOtp(id)
+
+
+
+### Example
+```java
+// Import classes:
+import com.zipper.pay.sdk.ApiClient;
+import com.zipper.pay.sdk.ApiException;
+import com.zipper.pay.sdk.Configuration;
+import com.zipper.pay.sdk.auth.*;
+import com.zipper.pay.sdk.models.*;
+import com.zipper.pay.sdk.api.CheckoutOpenControllerApi;
+
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("http://localhost:8089");
+    
+    // Configure HTTP bearer authorization: bearerAuth
+    HttpBearerAuth bearerAuth = (HttpBearerAuth) defaultClient.getAuthentication("bearerAuth");
+    bearerAuth.setBearerToken("BEARER TOKEN");
+
+    CheckoutOpenControllerApi apiInstance = new CheckoutOpenControllerApi(defaultClient);
+    UUID id = UUID.randomUUID(); // UUID | 
+    try {
+      ResendOtpResponseDto result = apiInstance.resendOtp(id);
+      System.out.println(result);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling CheckoutOpenControllerApi#resendOtp");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **id** | **UUID**|  | |
+
+### Return type
+
+[**ResendOtpResponseDto**](ResendOtpResponseDto.md)
 
 ### Authorization
 

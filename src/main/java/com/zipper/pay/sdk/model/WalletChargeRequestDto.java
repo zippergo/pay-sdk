@@ -58,15 +58,15 @@ public class WalletChargeRequestDto {
   @javax.annotation.Nonnull
   private String userId;
 
-  public static final String SERIALIZED_NAME_CREDIT_CURRENCY = "creditCurrency";
-  @SerializedName(SERIALIZED_NAME_CREDIT_CURRENCY)
+  public static final String SERIALIZED_NAME_CURRENCY = "currency";
+  @SerializedName(SERIALIZED_NAME_CURRENCY)
   @javax.annotation.Nonnull
-  private String creditCurrency;
+  private String currency;
 
-  public static final String SERIALIZED_NAME_CREDITS_AMOUNT = "creditsAmount";
-  @SerializedName(SERIALIZED_NAME_CREDITS_AMOUNT)
+  public static final String SERIALIZED_NAME_AMOUNT = "amount";
+  @SerializedName(SERIALIZED_NAME_AMOUNT)
   @javax.annotation.Nonnull
-  private BigDecimal creditsAmount;
+  private BigDecimal amount;
 
   public static final String SERIALIZED_NAME_PURPOSE_REF_TYPE = "purposeRefType";
   @SerializedName(SERIALIZED_NAME_PURPOSE_REF_TYPE)
@@ -135,42 +135,42 @@ public class WalletChargeRequestDto {
   }
 
 
-  public WalletChargeRequestDto creditCurrency(@javax.annotation.Nonnull String creditCurrency) {
-    this.creditCurrency = creditCurrency;
+  public WalletChargeRequestDto currency(@javax.annotation.Nonnull String currency) {
+    this.currency = currency;
     return this;
   }
 
   /**
-   * Get creditCurrency
-   * @return creditCurrency
+   * Get currency
+   * @return currency
    */
   @javax.annotation.Nonnull
-  public String getCreditCurrency() {
-    return creditCurrency;
+  public String getCurrency() {
+    return currency;
   }
 
-  public void setCreditCurrency(@javax.annotation.Nonnull String creditCurrency) {
-    this.creditCurrency = creditCurrency;
+  public void setCurrency(@javax.annotation.Nonnull String currency) {
+    this.currency = currency;
   }
 
 
-  public WalletChargeRequestDto creditsAmount(@javax.annotation.Nonnull BigDecimal creditsAmount) {
-    this.creditsAmount = creditsAmount;
+  public WalletChargeRequestDto amount(@javax.annotation.Nonnull BigDecimal amount) {
+    this.amount = amount;
     return this;
   }
 
   /**
-   * Get creditsAmount
+   * Get amount
    * minimum: 0.00010
-   * @return creditsAmount
+   * @return amount
    */
   @javax.annotation.Nonnull
-  public BigDecimal getCreditsAmount() {
-    return creditsAmount;
+  public BigDecimal getAmount() {
+    return amount;
   }
 
-  public void setCreditsAmount(@javax.annotation.Nonnull BigDecimal creditsAmount) {
-    this.creditsAmount = creditsAmount;
+  public void setAmount(@javax.annotation.Nonnull BigDecimal amount) {
+    this.amount = amount;
   }
 
 
@@ -364,8 +364,8 @@ public class WalletChargeRequestDto {
     }
     WalletChargeRequestDto walletChargeRequestDto = (WalletChargeRequestDto) o;
     return Objects.equals(this.userId, walletChargeRequestDto.userId) &&
-        Objects.equals(this.creditCurrency, walletChargeRequestDto.creditCurrency) &&
-        Objects.equals(this.creditsAmount, walletChargeRequestDto.creditsAmount) &&
+        Objects.equals(this.currency, walletChargeRequestDto.currency) &&
+        Objects.equals(this.amount, walletChargeRequestDto.amount) &&
         Objects.equals(this.purposeRefType, walletChargeRequestDto.purposeRefType) &&
         Objects.equals(this.purposeRefId, walletChargeRequestDto.purposeRefId) &&
         Objects.equals(this.purposeDescription, walletChargeRequestDto.purposeDescription) &&
@@ -379,7 +379,7 @@ public class WalletChargeRequestDto {
 
   @Override
   public int hashCode() {
-    return Objects.hash(userId, creditCurrency, creditsAmount, purposeRefType, purposeRefId, purposeDescription, language, callbackUrl, issueInvoice, metadata, buyerName, buyerEmail);
+    return Objects.hash(userId, currency, amount, purposeRefType, purposeRefId, purposeDescription, language, callbackUrl, issueInvoice, metadata, buyerName, buyerEmail);
   }
 
   @Override
@@ -387,8 +387,8 @@ public class WalletChargeRequestDto {
     StringBuilder sb = new StringBuilder();
     sb.append("class WalletChargeRequestDto {\n");
     sb.append("    userId: ").append(toIndentedString(userId)).append("\n");
-    sb.append("    creditCurrency: ").append(toIndentedString(creditCurrency)).append("\n");
-    sb.append("    creditsAmount: ").append(toIndentedString(creditsAmount)).append("\n");
+    sb.append("    currency: ").append(toIndentedString(currency)).append("\n");
+    sb.append("    amount: ").append(toIndentedString(amount)).append("\n");
     sb.append("    purposeRefType: ").append(toIndentedString(purposeRefType)).append("\n");
     sb.append("    purposeRefId: ").append(toIndentedString(purposeRefId)).append("\n");
     sb.append("    purposeDescription: ").append(toIndentedString(purposeDescription)).append("\n");
@@ -421,8 +421,8 @@ public class WalletChargeRequestDto {
     // a set of all properties/fields (JSON key names)
     openapiFields = new HashSet<String>();
     openapiFields.add("userId");
-    openapiFields.add("creditCurrency");
-    openapiFields.add("creditsAmount");
+    openapiFields.add("currency");
+    openapiFields.add("amount");
     openapiFields.add("purposeRefType");
     openapiFields.add("purposeRefId");
     openapiFields.add("purposeDescription");
@@ -436,8 +436,8 @@ public class WalletChargeRequestDto {
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();
     openapiRequiredFields.add("userId");
-    openapiRequiredFields.add("creditCurrency");
-    openapiRequiredFields.add("creditsAmount");
+    openapiRequiredFields.add("currency");
+    openapiRequiredFields.add("amount");
   }
 
   /**
@@ -471,8 +471,8 @@ public class WalletChargeRequestDto {
       if (!jsonObj.get("userId").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `userId` to be a primitive type in the JSON string but got `%s`", jsonObj.get("userId").toString()));
       }
-      if (!jsonObj.get("creditCurrency").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `creditCurrency` to be a primitive type in the JSON string but got `%s`", jsonObj.get("creditCurrency").toString()));
+      if (!jsonObj.get("currency").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `currency` to be a primitive type in the JSON string but got `%s`", jsonObj.get("currency").toString()));
       }
       if ((jsonObj.get("purposeRefType") != null && !jsonObj.get("purposeRefType").isJsonNull()) && !jsonObj.get("purposeRefType").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `purposeRefType` to be a primitive type in the JSON string but got `%s`", jsonObj.get("purposeRefType").toString()));

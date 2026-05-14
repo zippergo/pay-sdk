@@ -258,10 +258,15 @@ public class PaymentIntentResponseDto {
   @javax.annotation.Nullable
   private String providerRef;
 
-  public static final String SERIALIZED_NAME_CREDITS_AMOUNT = "creditsAmount";
-  @SerializedName(SERIALIZED_NAME_CREDITS_AMOUNT)
+  public static final String SERIALIZED_NAME_AMOUNT = "amount";
+  @SerializedName(SERIALIZED_NAME_AMOUNT)
   @javax.annotation.Nullable
-  private BigDecimal creditsAmount;
+  private BigDecimal amount;
+
+  public static final String SERIALIZED_NAME_CURRENCY = "currency";
+  @SerializedName(SERIALIZED_NAME_CURRENCY)
+  @javax.annotation.Nullable
+  private String currency;
 
   public static final String SERIALIZED_NAME_APPLIED_RATE = "appliedRate";
   @SerializedName(SERIALIZED_NAME_APPLIED_RATE)
@@ -427,22 +432,41 @@ public class PaymentIntentResponseDto {
   }
 
 
-  public PaymentIntentResponseDto creditsAmount(@javax.annotation.Nullable BigDecimal creditsAmount) {
-    this.creditsAmount = creditsAmount;
+  public PaymentIntentResponseDto amount(@javax.annotation.Nullable BigDecimal amount) {
+    this.amount = amount;
     return this;
   }
 
   /**
-   * Get creditsAmount
-   * @return creditsAmount
+   * Get amount
+   * @return amount
    */
   @javax.annotation.Nullable
-  public BigDecimal getCreditsAmount() {
-    return creditsAmount;
+  public BigDecimal getAmount() {
+    return amount;
   }
 
-  public void setCreditsAmount(@javax.annotation.Nullable BigDecimal creditsAmount) {
-    this.creditsAmount = creditsAmount;
+  public void setAmount(@javax.annotation.Nullable BigDecimal amount) {
+    this.amount = amount;
+  }
+
+
+  public PaymentIntentResponseDto currency(@javax.annotation.Nullable String currency) {
+    this.currency = currency;
+    return this;
+  }
+
+  /**
+   * Get currency
+   * @return currency
+   */
+  @javax.annotation.Nullable
+  public String getCurrency() {
+    return currency;
+  }
+
+  public void setCurrency(@javax.annotation.Nullable String currency) {
+    this.currency = currency;
   }
 
 
@@ -539,7 +563,8 @@ public class PaymentIntentResponseDto {
         Objects.equals(this.paymentUrl, paymentIntentResponseDto.paymentUrl) &&
         Objects.equals(this.checkoutUrl, paymentIntentResponseDto.checkoutUrl) &&
         Objects.equals(this.providerRef, paymentIntentResponseDto.providerRef) &&
-        Objects.equals(this.creditsAmount, paymentIntentResponseDto.creditsAmount) &&
+        Objects.equals(this.amount, paymentIntentResponseDto.amount) &&
+        Objects.equals(this.currency, paymentIntentResponseDto.currency) &&
         Objects.equals(this.appliedRate, paymentIntentResponseDto.appliedRate) &&
         Objects.equals(this.feeAmount, paymentIntentResponseDto.feeAmount) &&
         Objects.equals(this.expiresAt, paymentIntentResponseDto.expiresAt) &&
@@ -548,7 +573,7 @@ public class PaymentIntentResponseDto {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, status, paymentMethods, selectedPaymentMethod, paymentUrl, checkoutUrl, providerRef, creditsAmount, appliedRate, feeAmount, expiresAt, createdAt);
+    return Objects.hash(id, status, paymentMethods, selectedPaymentMethod, paymentUrl, checkoutUrl, providerRef, amount, currency, appliedRate, feeAmount, expiresAt, createdAt);
   }
 
   @Override
@@ -562,7 +587,8 @@ public class PaymentIntentResponseDto {
     sb.append("    paymentUrl: ").append(toIndentedString(paymentUrl)).append("\n");
     sb.append("    checkoutUrl: ").append(toIndentedString(checkoutUrl)).append("\n");
     sb.append("    providerRef: ").append(toIndentedString(providerRef)).append("\n");
-    sb.append("    creditsAmount: ").append(toIndentedString(creditsAmount)).append("\n");
+    sb.append("    amount: ").append(toIndentedString(amount)).append("\n");
+    sb.append("    currency: ").append(toIndentedString(currency)).append("\n");
     sb.append("    appliedRate: ").append(toIndentedString(appliedRate)).append("\n");
     sb.append("    feeAmount: ").append(toIndentedString(feeAmount)).append("\n");
     sb.append("    expiresAt: ").append(toIndentedString(expiresAt)).append("\n");
@@ -596,7 +622,8 @@ public class PaymentIntentResponseDto {
     openapiFields.add("paymentUrl");
     openapiFields.add("checkoutUrl");
     openapiFields.add("providerRef");
-    openapiFields.add("creditsAmount");
+    openapiFields.add("amount");
+    openapiFields.add("currency");
     openapiFields.add("appliedRate");
     openapiFields.add("feeAmount");
     openapiFields.add("expiresAt");
@@ -656,6 +683,9 @@ public class PaymentIntentResponseDto {
       }
       if ((jsonObj.get("providerRef") != null && !jsonObj.get("providerRef").isJsonNull()) && !jsonObj.get("providerRef").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `providerRef` to be a primitive type in the JSON string but got `%s`", jsonObj.get("providerRef").toString()));
+      }
+      if ((jsonObj.get("currency") != null && !jsonObj.get("currency").isJsonNull()) && !jsonObj.get("currency").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `currency` to be a primitive type in the JSON string but got `%s`", jsonObj.get("currency").toString()));
       }
   }
 

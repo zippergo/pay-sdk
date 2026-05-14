@@ -9,8 +9,8 @@
 |------------ | ------------- | ------------- | -------------|
 |**id** | **UUID** |  |  [optional] |
 |**status** | [**StatusEnum**](#StatusEnum) |  |  [optional] |
-|**moneyAmount** | **BigDecimal** |  |  [optional] |
-|**moneyCurrency** | **String** |  |  [optional] |
+|**amount** | **BigDecimal** |  |  [optional] |
+|**currency** | **String** |  |  [optional] |
 |**language** | **String** |  |  [optional] |
 |**methods** | [**List&lt;PaymentMethodOptionDto&gt;**](PaymentMethodOptionDto.md) |  |  [optional] |
 |**selectedPaymentMethod** | [**SelectedPaymentMethodEnum**](#SelectedPaymentMethodEnum) |  |  [optional] |
@@ -22,6 +22,7 @@
 |**lineItems** | [**List&lt;LineItemDto&gt;**](LineItemDto.md) |  |  [optional] |
 |**priceBreakdown** | [**PriceBreakdownDto**](PriceBreakdownDto.md) |  |  [optional] |
 |**buyerEmail** | **String** |  |  [optional] |
+|**purpose** | [**PurposeEnum**](#PurposeEnum) |  |  [optional] |
 
 
 
@@ -46,6 +47,19 @@
 |---- | -----|
 | WALLET | &quot;WALLET&quot; |
 | PAYME | &quot;PAYME&quot; |
+
+
+
+## Enum: PurposeEnum
+
+| Name | Value |
+|---- | -----|
+| WALLET_TOPUP | &quot;WALLET_TOPUP&quot; |
+| PRODUCT_PURCHASE | &quot;PRODUCT_PURCHASE&quot; |
+| SUBSCRIPTION_RENEWAL | &quot;SUBSCRIPTION_RENEWAL&quot; |
+| REFUND_WALLET_TOPUP | &quot;REFUND_WALLET_TOPUP&quot; |
+| REFUND_PRODUCT_PURCHASE | &quot;REFUND_PRODUCT_PURCHASE&quot; |
+| REFUND_SUBSCRIPTION_RENEWAL | &quot;REFUND_SUBSCRIPTION_RENEWAL&quot; |
 
 
 

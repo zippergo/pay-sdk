@@ -8,8 +8,8 @@
 | Name | Type | Description | Notes |
 |------------ | ------------- | ------------- | -------------|
 |**userId** | **String** |  |  |
-|**creditCurrency** | **String** |  |  |
-|**creditsAmount** | **BigDecimal** |  |  |
+|**currency** | **String** |  |  |
+|**amount** | **BigDecimal** |  |  |
 |**purposeRefType** | **String** |  |  [optional] |
 |**purposeRefId** | **String** |  |  [optional] |
 |**purposeDescription** | **String** |  |  [optional] |

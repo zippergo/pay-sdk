@@ -29,6 +29,9 @@ import java.io.IOException;
 
 import com.zipper.pay.sdk.model.CheckoutDetailsDto;
 import com.zipper.pay.sdk.model.CheckoutStatusDto;
+import com.zipper.pay.sdk.model.ConfirmCheckoutRequestDto;
+import com.zipper.pay.sdk.model.ConfirmCheckoutResponseDto;
+import com.zipper.pay.sdk.model.ResendOtpResponseDto;
 import com.zipper.pay.sdk.model.SelectMethodRequestDto;
 import com.zipper.pay.sdk.model.SelectMethodResponseDto;
 import java.util.UUID;
@@ -76,6 +79,143 @@ public class CheckoutOpenControllerApi {
         this.localCustomBaseUrl = customBaseUrl;
     }
 
+    /**
+     * Build call for confirm
+     * @param id  (required)
+     * @param confirmCheckoutRequestDto  (required)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call confirmCall(@javax.annotation.Nonnull UUID id, @javax.annotation.Nonnull ConfirmCheckoutRequestDto confirmCheckoutRequestDto, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = confirmCheckoutRequestDto;
+
+        // create path and map variables
+        String localVarPath = "/api/v1/open/checkout/{id}/confirm"
+            .replace("{" + "id" + "}", localVarApiClient.escapeString(id.toString()));
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        final String[] localVarAccepts = {
+            "*/*"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            "application/json"
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
+
+        String[] localVarAuthNames = new String[] { "bearerAuth" };
+        return localVarApiClient.buildCall(basePath, localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call confirmValidateBeforeCall(@javax.annotation.Nonnull UUID id, @javax.annotation.Nonnull ConfirmCheckoutRequestDto confirmCheckoutRequestDto, final ApiCallback _callback) throws ApiException {
+        // verify the required parameter 'id' is set
+        if (id == null) {
+            throw new ApiException("Missing the required parameter 'id' when calling confirm(Async)");
+        }
+
+        // verify the required parameter 'confirmCheckoutRequestDto' is set
+        if (confirmCheckoutRequestDto == null) {
+            throw new ApiException("Missing the required parameter 'confirmCheckoutRequestDto' when calling confirm(Async)");
+        }
+
+        return confirmCall(id, confirmCheckoutRequestDto, _callback);
+
+    }
+
+    /**
+     * 
+     * 
+     * @param id  (required)
+     * @param confirmCheckoutRequestDto  (required)
+     * @return ConfirmCheckoutResponseDto
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
+     </table>
+     */
+    public ConfirmCheckoutResponseDto confirm(@javax.annotation.Nonnull UUID id, @javax.annotation.Nonnull ConfirmCheckoutRequestDto confirmCheckoutRequestDto) throws ApiException {
+        ApiResponse<ConfirmCheckoutResponseDto> localVarResp = confirmWithHttpInfo(id, confirmCheckoutRequestDto);
+        return localVarResp.getData();
+    }
+
+    /**
+     * 
+     * 
+     * @param id  (required)
+     * @param confirmCheckoutRequestDto  (required)
+     * @return ApiResponse&lt;ConfirmCheckoutResponseDto&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
+     </table>
+     */
+    public ApiResponse<ConfirmCheckoutResponseDto> confirmWithHttpInfo(@javax.annotation.Nonnull UUID id, @javax.annotation.Nonnull ConfirmCheckoutRequestDto confirmCheckoutRequestDto) throws ApiException {
+        okhttp3.Call localVarCall = confirmValidateBeforeCall(id, confirmCheckoutRequestDto, null);
+        Type localVarReturnType = new TypeToken<ConfirmCheckoutResponseDto>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     *  (asynchronously)
+     * 
+     * @param id  (required)
+     * @param confirmCheckoutRequestDto  (required)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call confirmAsync(@javax.annotation.Nonnull UUID id, @javax.annotation.Nonnull ConfirmCheckoutRequestDto confirmCheckoutRequestDto, final ApiCallback<ConfirmCheckoutResponseDto> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = confirmValidateBeforeCall(id, confirmCheckoutRequestDto, _callback);
+        Type localVarReturnType = new TypeToken<ConfirmCheckoutResponseDto>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
     /**
      * Build call for getCheckout
      * @param id  (required)
@@ -327,6 +467,133 @@ public class CheckoutOpenControllerApi {
 
         okhttp3.Call localVarCall = getStatusValidateBeforeCall(id, _callback);
         Type localVarReturnType = new TypeToken<CheckoutStatusDto>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for resendOtp
+     * @param id  (required)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call resendOtpCall(@javax.annotation.Nonnull UUID id, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = null;
+
+        // create path and map variables
+        String localVarPath = "/api/v1/open/checkout/{id}/resend-otp"
+            .replace("{" + "id" + "}", localVarApiClient.escapeString(id.toString()));
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        final String[] localVarAccepts = {
+            "*/*"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
+
+        String[] localVarAuthNames = new String[] { "bearerAuth" };
+        return localVarApiClient.buildCall(basePath, localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call resendOtpValidateBeforeCall(@javax.annotation.Nonnull UUID id, final ApiCallback _callback) throws ApiException {
+        // verify the required parameter 'id' is set
+        if (id == null) {
+            throw new ApiException("Missing the required parameter 'id' when calling resendOtp(Async)");
+        }
+
+        return resendOtpCall(id, _callback);
+
+    }
+
+    /**
+     * 
+     * 
+     * @param id  (required)
+     * @return ResendOtpResponseDto
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
+     </table>
+     */
+    public ResendOtpResponseDto resendOtp(@javax.annotation.Nonnull UUID id) throws ApiException {
+        ApiResponse<ResendOtpResponseDto> localVarResp = resendOtpWithHttpInfo(id);
+        return localVarResp.getData();
+    }
+
+    /**
+     * 
+     * 
+     * @param id  (required)
+     * @return ApiResponse&lt;ResendOtpResponseDto&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
+     </table>
+     */
+    public ApiResponse<ResendOtpResponseDto> resendOtpWithHttpInfo(@javax.annotation.Nonnull UUID id) throws ApiException {
+        okhttp3.Call localVarCall = resendOtpValidateBeforeCall(id, null);
+        Type localVarReturnType = new TypeToken<ResendOtpResponseDto>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     *  (asynchronously)
+     * 
+     * @param id  (required)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call resendOtpAsync(@javax.annotation.Nonnull UUID id, final ApiCallback<ResendOtpResponseDto> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = resendOtpValidateBeforeCall(id, _callback);
+        Type localVarReturnType = new TypeToken<ResendOtpResponseDto>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }

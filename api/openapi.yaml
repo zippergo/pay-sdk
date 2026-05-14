@@ -66,6 +66,59 @@ paths:
       x-content-type: application/json
       x-accepts:
       - '*/*'
+  /api/v1/open/checkout/{id}/resend-otp:
+    post:
+      operationId: resendOtp
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResendOtpResponseDto'
+          description: OK
+      tags:
+      - checkout-open-controller
+      x-accepts:
+      - '*/*'
+  /api/v1/open/checkout/{id}/confirm:
+    post:
+      operationId: confirm
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfirmCheckoutRequestDto'
+        required: true
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ConfirmCheckoutResponseDto'
+          description: OK
+      tags:
+      - checkout-open-controller
+      x-content-type: application/json
+      x-accepts:
+      - '*/*'
   /api/v1/internal/wallet/charges:
     post:
       operationId: charge
@@ -1072,18 +1125,76 @@ components:
         expiresAt:
           format: date-time
           type: string
+    ResendOtpResponseDto:
+      example:
+        id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        expiresAt: 2000-01-23T04:56:07.000+00:00
+        status: PENDING
+      properties:
+        id:
+          format: uuid
+          type: string
+        status:
+          enum:
+          - PENDING
+          - AWAITING_METHOD_SELECTION
+          - AWAITING_PAYMENT
+          - COMPLETED
+          - FAILED
+          - EXPIRED
+          - REFUNDED
+          - PARTIALLY_REFUNDED
+          type: string
+        expiresAt:
+          format: date-time
+          type: string
+    ConfirmCheckoutRequestDto:
+      example:
+        otp: otp
+      properties:
+        otp:
+          minLength: 1
+          pattern: "\\d{6}"
+          type: string
+      required:
+      - otp
+    ConfirmCheckoutResponseDto:
+      example:
+        selectedPaymentMethod: WALLET
+        id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        status: PENDING
+      properties:
+        id:
+          format: uuid
+          type: string
+        status:
+          enum:
+          - PENDING
+          - AWAITING_METHOD_SELECTION
+          - AWAITING_PAYMENT
+          - COMPLETED
+          - FAILED
+          - EXPIRED
+          - REFUNDED
+          - PARTIALLY_REFUNDED
+          type: string
+        selectedPaymentMethod:
+          enum:
+          - WALLET
+          - PAYME
+          type: string
     WalletChargeRequestDto:
       example:
         purposeRefType: purposeRefType
+        amount: 0.08018281904610115
         metadata:
           key: ""
-        creditsAmount: 0.08018281904610115
         buyerEmail: buyerEmail
         issueInvoice: true
+        currency: currency
         purposeDescription: purposeDescription
         language: language
         callbackUrl: callbackUrl
-        creditCurrency: creditCurrency
         buyerName: buyerName
         userId: userId
         purposeRefId: purposeRefId
@@ -1092,11 +1203,11 @@ components:
           maxLength: 64
           minLength: 0
           type: string
-        creditCurrency:
-          maxLength: 8
+        currency:
           minLength: 1
+          pattern: "[A-Z]{3}"
           type: string
-        creditsAmount:
+        amount:
           minimum: 0.00010
           type: number
         purposeRefType:
@@ -1131,8 +1242,8 @@ components:
           minLength: 0
           type: string
       required:
-      - creditCurrency
-      - creditsAmount
+      - amount
+      - currency
       - userId
     AuthenticatedPrincipal:
       properties:
@@ -1534,6 +1645,7 @@ components:
           type: string
     CreatePaymentIntentRequestDto:
       example:
+        amount: 0.08018281904610115
         metadata:
           key: ""
         purpose: WALLET_TOPUP
@@ -1564,13 +1676,11 @@ components:
         paymentMethods:
         - WALLET
         - WALLET
+        currency: currency
         purposeDescription: purposeDescription
         callbackUrl: callbackUrl
-        creditCurrency: creditCurrency
         merchantLogoUrl: merchantLogoUrl
-        moneyCurrency: moneyCurrency
         taxAmount: 0.14658129805029452
-        moneyAmount: 0.08018281904610115
       properties:
         userId:
           maxLength: 64
@@ -1594,16 +1704,12 @@ components:
           - REFUND_PRODUCT_PURCHASE
           - REFUND_SUBSCRIPTION_RENEWAL
           type: string
-        moneyAmount:
+        amount:
           minimum: 0.00010
           type: number
-        moneyCurrency:
+        currency:
           minLength: 1
           pattern: "[A-Z]{3}"
-          type: string
-        creditCurrency:
-          maxLength: 8
-          minLength: 0
           type: string
         purposeRefType:
           maxLength: 64
@@ -1675,9 +1781,8 @@ components:
             $ref: '#/components/schemas/LineItemRequestDto'
           type: array
       required:
-      - creditCurrency
-      - moneyAmount
-      - moneyCurrency
+      - amount
+      - currency
       - paymentMethods
       - purpose
       - userId
@@ -1713,20 +1818,21 @@ components:
       - unitPrice
     PaymentIntentResponseDto:
       example:
+        amount: 0.8008281904610115
+        paymentUrl: paymentUrl
+        expiresAt: 2000-01-23T04:56:07.000+00:00
+        checkoutUrl: checkoutUrl
         feeAmount: 1.4658129805029452
         createdAt: 2000-01-23T04:56:07.000+00:00
         providerRef: providerRef
-        creditsAmount: 0.8008281904610115
         appliedRate: 6.027456183070403
         selectedPaymentMethod: WALLET
         paymentMethods:
         - WALLET
         - WALLET
+        currency: currency
         id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-        paymentUrl: paymentUrl
-        expiresAt: 2000-01-23T04:56:07.000+00:00
         status: PENDING
-        checkoutUrl: checkoutUrl
       properties:
         id:
           format: uuid
@@ -1761,8 +1867,10 @@ components:
           type: string
         providerRef:
           type: string
-        creditsAmount:
+        amount:
           type: number
+        currency:
+          type: string
         appliedRate:
           type: number
         feeAmount:
@@ -2264,6 +2372,8 @@ components:
           type: string
     CheckoutDetailsDto:
       example:
+        amount: 0.8008281904610115
+        purpose: WALLET_TOPUP
         methods:
         - method: WALLET
           displayName: displayName
@@ -2304,10 +2414,9 @@ components:
           subtotal: 5.962133916683182
           discount: 2.3021358869347655
           tax: 5.637376656633329
+        currency: currency
         id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-        moneyCurrency: moneyCurrency
         status: PENDING
-        moneyAmount: 0.8008281904610115
       properties:
         id:
           format: uuid
@@ -2323,9 +2432,9 @@ components:
           - REFUNDED
           - PARTIALLY_REFUNDED
           type: string
-        moneyAmount:
+        amount:
           type: number
-        moneyCurrency:
+        currency:
           type: string
         language:
           type: string
@@ -2356,6 +2465,15 @@ components:
         priceBreakdown:
           $ref: '#/components/schemas/PriceBreakdownDto'
         buyerEmail:
+          type: string
+        purpose:
+          enum:
+          - WALLET_TOPUP
+          - PRODUCT_PURCHASE
+          - SUBSCRIPTION_RENEWAL
+          - REFUND_WALLET_TOPUP
+          - REFUND_PRODUCT_PURCHASE
+          - REFUND_SUBSCRIPTION_RENEWAL
           type: string
     LineItemDto:
       example:

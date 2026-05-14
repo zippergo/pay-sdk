@@ -133,15 +133,15 @@ public class CheckoutDetailsDto {
   @javax.annotation.Nullable
   private StatusEnum status;
 
-  public static final String SERIALIZED_NAME_MONEY_AMOUNT = "moneyAmount";
-  @SerializedName(SERIALIZED_NAME_MONEY_AMOUNT)
+  public static final String SERIALIZED_NAME_AMOUNT = "amount";
+  @SerializedName(SERIALIZED_NAME_AMOUNT)
   @javax.annotation.Nullable
-  private BigDecimal moneyAmount;
+  private BigDecimal amount;
 
-  public static final String SERIALIZED_NAME_MONEY_CURRENCY = "moneyCurrency";
-  @SerializedName(SERIALIZED_NAME_MONEY_CURRENCY)
+  public static final String SERIALIZED_NAME_CURRENCY = "currency";
+  @SerializedName(SERIALIZED_NAME_CURRENCY)
   @javax.annotation.Nullable
-  private String moneyCurrency;
+  private String currency;
 
   public static final String SERIALIZED_NAME_LANGUAGE = "language";
   @SerializedName(SERIALIZED_NAME_LANGUAGE)
@@ -250,6 +250,71 @@ public class CheckoutDetailsDto {
   @javax.annotation.Nullable
   private String buyerEmail;
 
+  /**
+   * Gets or Sets purpose
+   */
+  @JsonAdapter(PurposeEnum.Adapter.class)
+  public enum PurposeEnum {
+    WALLET_TOPUP("WALLET_TOPUP"),
+    
+    PRODUCT_PURCHASE("PRODUCT_PURCHASE"),
+    
+    SUBSCRIPTION_RENEWAL("SUBSCRIPTION_RENEWAL"),
+    
+    REFUND_WALLET_TOPUP("REFUND_WALLET_TOPUP"),
+    
+    REFUND_PRODUCT_PURCHASE("REFUND_PRODUCT_PURCHASE"),
+    
+    REFUND_SUBSCRIPTION_RENEWAL("REFUND_SUBSCRIPTION_RENEWAL");
+
+    private String value;
+
+    PurposeEnum(String value) {
+      this.value = value;
+    }
+
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    public static PurposeEnum fromValue(String value) {
+      for (PurposeEnum b : PurposeEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+
+    public static class Adapter extends TypeAdapter<PurposeEnum> {
+      @Override
+      public void write(final JsonWriter jsonWriter, final PurposeEnum enumeration) throws IOException {
+        jsonWriter.value(enumeration.getValue());
+      }
+
+      @Override
+      public PurposeEnum read(final JsonReader jsonReader) throws IOException {
+        String value =  jsonReader.nextString();
+        return PurposeEnum.fromValue(value);
+      }
+    }
+
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      String value = jsonElement.getAsString();
+      PurposeEnum.fromValue(value);
+    }
+  }
+
+  public static final String SERIALIZED_NAME_PURPOSE = "purpose";
+  @SerializedName(SERIALIZED_NAME_PURPOSE)
+  @javax.annotation.Nullable
+  private PurposeEnum purpose;
+
   public CheckoutDetailsDto() {
   }
 
@@ -291,41 +356,41 @@ public class CheckoutDetailsDto {
   }
 
 
-  public CheckoutDetailsDto moneyAmount(@javax.annotation.Nullable BigDecimal moneyAmount) {
-    this.moneyAmount = moneyAmount;
+  public CheckoutDetailsDto amount(@javax.annotation.Nullable BigDecimal amount) {
+    this.amount = amount;
     return this;
   }
 
   /**
-   * Get moneyAmount
-   * @return moneyAmount
+   * Get amount
+   * @return amount
    */
   @javax.annotation.Nullable
-  public BigDecimal getMoneyAmount() {
-    return moneyAmount;
+  public BigDecimal getAmount() {
+    return amount;
   }
 
-  public void setMoneyAmount(@javax.annotation.Nullable BigDecimal moneyAmount) {
-    this.moneyAmount = moneyAmount;
+  public void setAmount(@javax.annotation.Nullable BigDecimal amount) {
+    this.amount = amount;
   }
 
 
-  public CheckoutDetailsDto moneyCurrency(@javax.annotation.Nullable String moneyCurrency) {
-    this.moneyCurrency = moneyCurrency;
+  public CheckoutDetailsDto currency(@javax.annotation.Nullable String currency) {
+    this.currency = currency;
     return this;
   }
 
   /**
-   * Get moneyCurrency
-   * @return moneyCurrency
+   * Get currency
+   * @return currency
    */
   @javax.annotation.Nullable
-  public String getMoneyCurrency() {
-    return moneyCurrency;
+  public String getCurrency() {
+    return currency;
   }
 
-  public void setMoneyCurrency(@javax.annotation.Nullable String moneyCurrency) {
-    this.moneyCurrency = moneyCurrency;
+  public void setCurrency(@javax.annotation.Nullable String currency) {
+    this.currency = currency;
   }
 
 
@@ -554,6 +619,25 @@ public class CheckoutDetailsDto {
   }
 
 
+  public CheckoutDetailsDto purpose(@javax.annotation.Nullable PurposeEnum purpose) {
+    this.purpose = purpose;
+    return this;
+  }
+
+  /**
+   * Get purpose
+   * @return purpose
+   */
+  @javax.annotation.Nullable
+  public PurposeEnum getPurpose() {
+    return purpose;
+  }
+
+  public void setPurpose(@javax.annotation.Nullable PurposeEnum purpose) {
+    this.purpose = purpose;
+  }
+
+
 
   @Override
   public boolean equals(Object o) {
@@ -566,8 +650,8 @@ public class CheckoutDetailsDto {
     CheckoutDetailsDto checkoutDetailsDto = (CheckoutDetailsDto) o;
     return Objects.equals(this.id, checkoutDetailsDto.id) &&
         Objects.equals(this.status, checkoutDetailsDto.status) &&
-        Objects.equals(this.moneyAmount, checkoutDetailsDto.moneyAmount) &&
-        Objects.equals(this.moneyCurrency, checkoutDetailsDto.moneyCurrency) &&
+        Objects.equals(this.amount, checkoutDetailsDto.amount) &&
+        Objects.equals(this.currency, checkoutDetailsDto.currency) &&
         Objects.equals(this.language, checkoutDetailsDto.language) &&
         Objects.equals(this.methods, checkoutDetailsDto.methods) &&
         Objects.equals(this.selectedPaymentMethod, checkoutDetailsDto.selectedPaymentMethod) &&
@@ -578,12 +662,13 @@ public class CheckoutDetailsDto {
         Objects.equals(this.merchant, checkoutDetailsDto.merchant) &&
         Objects.equals(this.lineItems, checkoutDetailsDto.lineItems) &&
         Objects.equals(this.priceBreakdown, checkoutDetailsDto.priceBreakdown) &&
-        Objects.equals(this.buyerEmail, checkoutDetailsDto.buyerEmail);
+        Objects.equals(this.buyerEmail, checkoutDetailsDto.buyerEmail) &&
+        Objects.equals(this.purpose, checkoutDetailsDto.purpose);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, status, moneyAmount, moneyCurrency, language, methods, selectedPaymentMethod, paymentUrl, merchantSuccessUrl, merchantCancelUrl, expiresAt, merchant, lineItems, priceBreakdown, buyerEmail);
+    return Objects.hash(id, status, amount, currency, language, methods, selectedPaymentMethod, paymentUrl, merchantSuccessUrl, merchantCancelUrl, expiresAt, merchant, lineItems, priceBreakdown, buyerEmail, purpose);
   }
 
   @Override
@@ -592,8 +677,8 @@ public class CheckoutDetailsDto {
     sb.append("class CheckoutDetailsDto {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
-    sb.append("    moneyAmount: ").append(toIndentedString(moneyAmount)).append("\n");
-    sb.append("    moneyCurrency: ").append(toIndentedString(moneyCurrency)).append("\n");
+    sb.append("    amount: ").append(toIndentedString(amount)).append("\n");
+    sb.append("    currency: ").append(toIndentedString(currency)).append("\n");
     sb.append("    language: ").append(toIndentedString(language)).append("\n");
     sb.append("    methods: ").append(toIndentedString(methods)).append("\n");
     sb.append("    selectedPaymentMethod: ").append(toIndentedString(selectedPaymentMethod)).append("\n");
@@ -605,6 +690,7 @@ public class CheckoutDetailsDto {
     sb.append("    lineItems: ").append(toIndentedString(lineItems)).append("\n");
     sb.append("    priceBreakdown: ").append(toIndentedString(priceBreakdown)).append("\n");
     sb.append("    buyerEmail: ").append(toIndentedString(buyerEmail)).append("\n");
+    sb.append("    purpose: ").append(toIndentedString(purpose)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -629,8 +715,8 @@ public class CheckoutDetailsDto {
     openapiFields = new HashSet<String>();
     openapiFields.add("id");
     openapiFields.add("status");
-    openapiFields.add("moneyAmount");
-    openapiFields.add("moneyCurrency");
+    openapiFields.add("amount");
+    openapiFields.add("currency");
     openapiFields.add("language");
     openapiFields.add("methods");
     openapiFields.add("selectedPaymentMethod");
@@ -642,6 +728,7 @@ public class CheckoutDetailsDto {
     openapiFields.add("lineItems");
     openapiFields.add("priceBreakdown");
     openapiFields.add("buyerEmail");
+    openapiFields.add("purpose");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();
@@ -678,8 +765,8 @@ public class CheckoutDetailsDto {
       if (jsonObj.get("status") != null && !jsonObj.get("status").isJsonNull()) {
         StatusEnum.validateJsonElement(jsonObj.get("status"));
       }
-      if ((jsonObj.get("moneyCurrency") != null && !jsonObj.get("moneyCurrency").isJsonNull()) && !jsonObj.get("moneyCurrency").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `moneyCurrency` to be a primitive type in the JSON string but got `%s`", jsonObj.get("moneyCurrency").toString()));
+      if ((jsonObj.get("currency") != null && !jsonObj.get("currency").isJsonNull()) && !jsonObj.get("currency").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `currency` to be a primitive type in the JSON string but got `%s`", jsonObj.get("currency").toString()));
       }
       if ((jsonObj.get("language") != null && !jsonObj.get("language").isJsonNull()) && !jsonObj.get("language").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `language` to be a primitive type in the JSON string but got `%s`", jsonObj.get("language").toString()));
@@ -738,6 +825,13 @@ public class CheckoutDetailsDto {
       }
       if ((jsonObj.get("buyerEmail") != null && !jsonObj.get("buyerEmail").isJsonNull()) && !jsonObj.get("buyerEmail").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `buyerEmail` to be a primitive type in the JSON string but got `%s`", jsonObj.get("buyerEmail").toString()));
+      }
+      if ((jsonObj.get("purpose") != null && !jsonObj.get("purpose").isJsonNull()) && !jsonObj.get("purpose").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `purpose` to be a primitive type in the JSON string but got `%s`", jsonObj.get("purpose").toString()));
+      }
+      // validate the optional field `purpose`
+      if (jsonObj.get("purpose") != null && !jsonObj.get("purpose").isJsonNull()) {
+        PurposeEnum.validateJsonElement(jsonObj.get("purpose"));
       }
   }
 

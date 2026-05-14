@@ -17,6 +17,8 @@ docs/AuthenticatedPrincipal.md
 docs/CheckoutDetailsDto.md
 docs/CheckoutOpenControllerApi.md
 docs/CheckoutStatusDto.md
+docs/ConfirmCheckoutRequestDto.md
+docs/ConfirmCheckoutResponseDto.md
 docs/ConversionRateRequestDto.md
 docs/ConversionRateResponseDto.md
 docs/CreatePaymentIntentRequestDto.md
@@ -48,6 +50,7 @@ docs/RefundRequestDto.md
 docs/RefundResponseDto.md
 docs/RegisterConsumerRequestDto.md
 docs/RegisterConsumerResponseDto.md
+docs/ResendOtpResponseDto.md
 docs/RotateSecretResponseDto.md
 docs/SelectMethodRequestDto.md
 docs/SelectMethodResponseDto.md
@@ -115,6 +118,8 @@ src/main/java/com/zipper/pay/sdk/model/AdminDebitRequestDto.java
 src/main/java/com/zipper/pay/sdk/model/AuthenticatedPrincipal.java
 src/main/java/com/zipper/pay/sdk/model/CheckoutDetailsDto.java
 src/main/java/com/zipper/pay/sdk/model/CheckoutStatusDto.java
+src/main/java/com/zipper/pay/sdk/model/ConfirmCheckoutRequestDto.java
+src/main/java/com/zipper/pay/sdk/model/ConfirmCheckoutResponseDto.java
 src/main/java/com/zipper/pay/sdk/model/ConversionRateRequestDto.java
 src/main/java/com/zipper/pay/sdk/model/ConversionRateResponseDto.java
 src/main/java/com/zipper/pay/sdk/model/CreatePaymentIntentRequestDto.java
@@ -139,6 +144,7 @@ src/main/java/com/zipper/pay/sdk/model/RefundRequestDto.java
 src/main/java/com/zipper/pay/sdk/model/RefundResponseDto.java
 src/main/java/com/zipper/pay/sdk/model/RegisterConsumerRequestDto.java
 src/main/java/com/zipper/pay/sdk/model/RegisterConsumerResponseDto.java
+src/main/java/com/zipper/pay/sdk/model/ResendOtpResponseDto.java
 src/main/java/com/zipper/pay/sdk/model/RotateSecretResponseDto.java
 src/main/java/com/zipper/pay/sdk/model/SelectMethodRequestDto.java
 src/main/java/com/zipper/pay/sdk/model/SelectMethodResponseDto.java

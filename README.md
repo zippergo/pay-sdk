@@ -128,8 +128,10 @@ Class | Method | HTTP request | Description
 *AdminWalletsApi* | [**credit**](docs/AdminWalletsApi.md#credit) | **POST** /api/v1/admin/wallets/{userId}/{currency}/credit | 
 *AdminWalletsApi* | [**debit**](docs/AdminWalletsApi.md#debit) | **POST** /api/v1/admin/wallets/{userId}/{currency}/debit | 
 *AdminWalletsApi* | [**listWallets**](docs/AdminWalletsApi.md#listWallets) | **GET** /api/v1/admin/wallets/{userId} | 
+*CheckoutOpenControllerApi* | [**confirm**](docs/CheckoutOpenControllerApi.md#confirm) | **POST** /api/v1/open/checkout/{id}/confirm | 
 *CheckoutOpenControllerApi* | [**getCheckout**](docs/CheckoutOpenControllerApi.md#getCheckout) | **GET** /api/v1/open/checkout/{id} | 
 *CheckoutOpenControllerApi* | [**getStatus**](docs/CheckoutOpenControllerApi.md#getStatus) | **GET** /api/v1/open/checkout/{id}/status | 
+*CheckoutOpenControllerApi* | [**resendOtp**](docs/CheckoutOpenControllerApi.md#resendOtp) | **POST** /api/v1/open/checkout/{id}/resend-otp | 
 *CheckoutOpenControllerApi* | [**selectMethod**](docs/CheckoutOpenControllerApi.md#selectMethod) | **POST** /api/v1/open/checkout/{id}/select-method | 
 *InternalRefundsApi* | [**refundPaymentIntent**](docs/InternalRefundsApi.md#refundPaymentIntent) | **POST** /api/v1/internal/payment-intents/{intentId}/refunds | 
 *InternalRefundsApi* | [**refundWalletCharge**](docs/InternalRefundsApi.md#refundWalletCharge) | **POST** /api/v1/internal/wallet/charges/{chargeId}/refunds | 
@@ -162,6 +164,8 @@ Class | Method | HTTP request | Description
  - [AuthenticatedPrincipal](docs/AuthenticatedPrincipal.md)
  - [CheckoutDetailsDto](docs/CheckoutDetailsDto.md)
  - [CheckoutStatusDto](docs/CheckoutStatusDto.md)
+ - [ConfirmCheckoutRequestDto](docs/ConfirmCheckoutRequestDto.md)
+ - [ConfirmCheckoutResponseDto](docs/ConfirmCheckoutResponseDto.md)
  - [ConversionRateRequestDto](docs/ConversionRateRequestDto.md)
  - [ConversionRateResponseDto](docs/ConversionRateResponseDto.md)
  - [CreatePaymentIntentRequestDto](docs/CreatePaymentIntentRequestDto.md)
@@ -186,6 +190,7 @@ Class | Method | HTTP request | Description
  - [RefundResponseDto](docs/RefundResponseDto.md)
  - [RegisterConsumerRequestDto](docs/RegisterConsumerRequestDto.md)
  - [RegisterConsumerResponseDto](docs/RegisterConsumerResponseDto.md)
+ - [ResendOtpResponseDto](docs/ResendOtpResponseDto.md)
  - [RotateSecretResponseDto](docs/RotateSecretResponseDto.md)
  - [SelectMethodRequestDto](docs/SelectMethodRequestDto.md)
  - [SelectMethodResponseDto](docs/SelectMethodResponseDto.md)

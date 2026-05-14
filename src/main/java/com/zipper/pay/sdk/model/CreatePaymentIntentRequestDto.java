@@ -185,20 +185,15 @@ public class CreatePaymentIntentRequestDto {
   @javax.annotation.Nonnull
   private PurposeEnum purpose;
 
-  public static final String SERIALIZED_NAME_MONEY_AMOUNT = "moneyAmount";
-  @SerializedName(SERIALIZED_NAME_MONEY_AMOUNT)
+  public static final String SERIALIZED_NAME_AMOUNT = "amount";
+  @SerializedName(SERIALIZED_NAME_AMOUNT)
   @javax.annotation.Nonnull
-  private BigDecimal moneyAmount;
+  private BigDecimal amount;
 
-  public static final String SERIALIZED_NAME_MONEY_CURRENCY = "moneyCurrency";
-  @SerializedName(SERIALIZED_NAME_MONEY_CURRENCY)
+  public static final String SERIALIZED_NAME_CURRENCY = "currency";
+  @SerializedName(SERIALIZED_NAME_CURRENCY)
   @javax.annotation.Nonnull
-  private String moneyCurrency;
-
-  public static final String SERIALIZED_NAME_CREDIT_CURRENCY = "creditCurrency";
-  @SerializedName(SERIALIZED_NAME_CREDIT_CURRENCY)
-  @javax.annotation.Nonnull
-  private String creditCurrency;
+  private String currency;
 
   public static final String SERIALIZED_NAME_PURPOSE_REF_TYPE = "purposeRefType";
   @SerializedName(SERIALIZED_NAME_PURPOSE_REF_TYPE)
@@ -412,61 +407,42 @@ public class CreatePaymentIntentRequestDto {
   }
 
 
-  public CreatePaymentIntentRequestDto moneyAmount(@javax.annotation.Nonnull BigDecimal moneyAmount) {
-    this.moneyAmount = moneyAmount;
+  public CreatePaymentIntentRequestDto amount(@javax.annotation.Nonnull BigDecimal amount) {
+    this.amount = amount;
     return this;
   }
 
   /**
-   * Get moneyAmount
+   * Get amount
    * minimum: 0.00010
-   * @return moneyAmount
+   * @return amount
    */
   @javax.annotation.Nonnull
-  public BigDecimal getMoneyAmount() {
-    return moneyAmount;
+  public BigDecimal getAmount() {
+    return amount;
   }
 
-  public void setMoneyAmount(@javax.annotation.Nonnull BigDecimal moneyAmount) {
-    this.moneyAmount = moneyAmount;
+  public void setAmount(@javax.annotation.Nonnull BigDecimal amount) {
+    this.amount = amount;
   }
 
 
-  public CreatePaymentIntentRequestDto moneyCurrency(@javax.annotation.Nonnull String moneyCurrency) {
-    this.moneyCurrency = moneyCurrency;
+  public CreatePaymentIntentRequestDto currency(@javax.annotation.Nonnull String currency) {
+    this.currency = currency;
     return this;
   }
 
   /**
-   * Get moneyCurrency
-   * @return moneyCurrency
+   * Get currency
+   * @return currency
    */
   @javax.annotation.Nonnull
-  public String getMoneyCurrency() {
-    return moneyCurrency;
+  public String getCurrency() {
+    return currency;
   }
 
-  public void setMoneyCurrency(@javax.annotation.Nonnull String moneyCurrency) {
-    this.moneyCurrency = moneyCurrency;
-  }
-
-
-  public CreatePaymentIntentRequestDto creditCurrency(@javax.annotation.Nonnull String creditCurrency) {
-    this.creditCurrency = creditCurrency;
-    return this;
-  }
-
-  /**
-   * Get creditCurrency
-   * @return creditCurrency
-   */
-  @javax.annotation.Nonnull
-  public String getCreditCurrency() {
-    return creditCurrency;
-  }
-
-  public void setCreditCurrency(@javax.annotation.Nonnull String creditCurrency) {
-    this.creditCurrency = creditCurrency;
+  public void setCurrency(@javax.annotation.Nonnull String currency) {
+    this.currency = currency;
   }
 
 
@@ -844,9 +820,8 @@ public class CreatePaymentIntentRequestDto {
     return Objects.equals(this.userId, createPaymentIntentRequestDto.userId) &&
         Objects.equals(this.paymentMethods, createPaymentIntentRequestDto.paymentMethods) &&
         Objects.equals(this.purpose, createPaymentIntentRequestDto.purpose) &&
-        Objects.equals(this.moneyAmount, createPaymentIntentRequestDto.moneyAmount) &&
-        Objects.equals(this.moneyCurrency, createPaymentIntentRequestDto.moneyCurrency) &&
-        Objects.equals(this.creditCurrency, createPaymentIntentRequestDto.creditCurrency) &&
+        Objects.equals(this.amount, createPaymentIntentRequestDto.amount) &&
+        Objects.equals(this.currency, createPaymentIntentRequestDto.currency) &&
         Objects.equals(this.purposeRefType, createPaymentIntentRequestDto.purposeRefType) &&
         Objects.equals(this.purposeRefId, createPaymentIntentRequestDto.purposeRefId) &&
         Objects.equals(this.purposeDescription, createPaymentIntentRequestDto.purposeDescription) &&
@@ -869,7 +844,7 @@ public class CreatePaymentIntentRequestDto {
 
   @Override
   public int hashCode() {
-    return Objects.hash(userId, paymentMethods, purpose, moneyAmount, moneyCurrency, creditCurrency, purposeRefType, purposeRefId, purposeDescription, callbackUrl, successUrl, cancelUrl, language, metadata, buyerName, buyerEmail, buyerPhone, merchantName, merchantBrand, merchantLogoUrl, subtotalAmount, taxAmount, discountAmount, lineItems);
+    return Objects.hash(userId, paymentMethods, purpose, amount, currency, purposeRefType, purposeRefId, purposeDescription, callbackUrl, successUrl, cancelUrl, language, metadata, buyerName, buyerEmail, buyerPhone, merchantName, merchantBrand, merchantLogoUrl, subtotalAmount, taxAmount, discountAmount, lineItems);
   }
 
   @Override
@@ -879,9 +854,8 @@ public class CreatePaymentIntentRequestDto {
     sb.append("    userId: ").append(toIndentedString(userId)).append("\n");
     sb.append("    paymentMethods: ").append(toIndentedString(paymentMethods)).append("\n");
     sb.append("    purpose: ").append(toIndentedString(purpose)).append("\n");
-    sb.append("    moneyAmount: ").append(toIndentedString(moneyAmount)).append("\n");
-    sb.append("    moneyCurrency: ").append(toIndentedString(moneyCurrency)).append("\n");
-    sb.append("    creditCurrency: ").append(toIndentedString(creditCurrency)).append("\n");
+    sb.append("    amount: ").append(toIndentedString(amount)).append("\n");
+    sb.append("    currency: ").append(toIndentedString(currency)).append("\n");
     sb.append("    purposeRefType: ").append(toIndentedString(purposeRefType)).append("\n");
     sb.append("    purposeRefId: ").append(toIndentedString(purposeRefId)).append("\n");
     sb.append("    purposeDescription: ").append(toIndentedString(purposeDescription)).append("\n");
@@ -925,9 +899,8 @@ public class CreatePaymentIntentRequestDto {
     openapiFields.add("userId");
     openapiFields.add("paymentMethods");
     openapiFields.add("purpose");
-    openapiFields.add("moneyAmount");
-    openapiFields.add("moneyCurrency");
-    openapiFields.add("creditCurrency");
+    openapiFields.add("amount");
+    openapiFields.add("currency");
     openapiFields.add("purposeRefType");
     openapiFields.add("purposeRefId");
     openapiFields.add("purposeDescription");
@@ -952,9 +925,8 @@ public class CreatePaymentIntentRequestDto {
     openapiRequiredFields.add("userId");
     openapiRequiredFields.add("paymentMethods");
     openapiRequiredFields.add("purpose");
-    openapiRequiredFields.add("moneyAmount");
-    openapiRequiredFields.add("moneyCurrency");
-    openapiRequiredFields.add("creditCurrency");
+    openapiRequiredFields.add("amount");
+    openapiRequiredFields.add("currency");
   }
 
   /**
@@ -999,11 +971,8 @@ public class CreatePaymentIntentRequestDto {
       }
       // validate the required field `purpose`
       PurposeEnum.validateJsonElement(jsonObj.get("purpose"));
-      if (!jsonObj.get("moneyCurrency").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `moneyCurrency` to be a primitive type in the JSON string but got `%s`", jsonObj.get("moneyCurrency").toString()));
-      }
-      if (!jsonObj.get("creditCurrency").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `creditCurrency` to be a primitive type in the JSON string but got `%s`", jsonObj.get("creditCurrency").toString()));
+      if (!jsonObj.get("currency").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `currency` to be a primitive type in the JSON string but got `%s`", jsonObj.get("currency").toString()));
       }
       if ((jsonObj.get("purposeRefType") != null && !jsonObj.get("purposeRefType").isJsonNull()) && !jsonObj.get("purposeRefType").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `purposeRefType` to be a primitive type in the JSON string but got `%s`", jsonObj.get("purposeRefType").toString()));

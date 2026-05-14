@@ -1,0 +1,13 @@
+
+
+# ConfirmCheckoutRequestDto
+
+
+## Properties
+
+| Name | Type | Description | Notes |
+|------------ | ------------- | ------------- | -------------|
+|**otp** | **String** |  |  |
+
+
+
