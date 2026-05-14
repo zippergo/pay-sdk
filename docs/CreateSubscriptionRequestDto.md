@@ -11,6 +11,7 @@
 |**planId** | **UUID** |  |  |
 |**successUrl** | **String** |  |  [optional] |
 |**cancelUrl** | **String** |  |  [optional] |
+|**failureUrl** | **String** |  |  [optional] |
 |**callbackUrl** | **String** |  |  [optional] |
 |**language** | **String** |  |  [optional] |
 |**buyerName** | **String** |  |  [optional] |

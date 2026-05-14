@@ -193,6 +193,11 @@ public class CheckoutStatusDto {
   @javax.annotation.Nullable
   private String merchantCancelUrl;
 
+  public static final String SERIALIZED_NAME_MERCHANT_FAILURE_URL = "merchantFailureUrl";
+  @SerializedName(SERIALIZED_NAME_MERCHANT_FAILURE_URL)
+  @javax.annotation.Nullable
+  private String merchantFailureUrl;
+
   public static final String SERIALIZED_NAME_COMPLETED_AT = "completedAt";
   @SerializedName(SERIALIZED_NAME_COMPLETED_AT)
   @javax.annotation.Nullable
@@ -306,6 +311,25 @@ public class CheckoutStatusDto {
   }
 
 
+  public CheckoutStatusDto merchantFailureUrl(@javax.annotation.Nullable String merchantFailureUrl) {
+    this.merchantFailureUrl = merchantFailureUrl;
+    return this;
+  }
+
+  /**
+   * Get merchantFailureUrl
+   * @return merchantFailureUrl
+   */
+  @javax.annotation.Nullable
+  public String getMerchantFailureUrl() {
+    return merchantFailureUrl;
+  }
+
+  public void setMerchantFailureUrl(@javax.annotation.Nullable String merchantFailureUrl) {
+    this.merchantFailureUrl = merchantFailureUrl;
+  }
+
+
   public CheckoutStatusDto completedAt(@javax.annotation.Nullable OffsetDateTime completedAt) {
     this.completedAt = completedAt;
     return this;
@@ -378,6 +402,7 @@ public class CheckoutStatusDto {
         Objects.equals(this.selectedPaymentMethod, checkoutStatusDto.selectedPaymentMethod) &&
         Objects.equals(this.merchantSuccessUrl, checkoutStatusDto.merchantSuccessUrl) &&
         Objects.equals(this.merchantCancelUrl, checkoutStatusDto.merchantCancelUrl) &&
+        Objects.equals(this.merchantFailureUrl, checkoutStatusDto.merchantFailureUrl) &&
         Objects.equals(this.completedAt, checkoutStatusDto.completedAt) &&
         Objects.equals(this.failureCode, checkoutStatusDto.failureCode) &&
         Objects.equals(this.failureMessage, checkoutStatusDto.failureMessage);
@@ -385,7 +410,7 @@ public class CheckoutStatusDto {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, status, selectedPaymentMethod, merchantSuccessUrl, merchantCancelUrl, completedAt, failureCode, failureMessage);
+    return Objects.hash(id, status, selectedPaymentMethod, merchantSuccessUrl, merchantCancelUrl, merchantFailureUrl, completedAt, failureCode, failureMessage);
   }
 
   @Override
@@ -397,6 +422,7 @@ public class CheckoutStatusDto {
     sb.append("    selectedPaymentMethod: ").append(toIndentedString(selectedPaymentMethod)).append("\n");
     sb.append("    merchantSuccessUrl: ").append(toIndentedString(merchantSuccessUrl)).append("\n");
     sb.append("    merchantCancelUrl: ").append(toIndentedString(merchantCancelUrl)).append("\n");
+    sb.append("    merchantFailureUrl: ").append(toIndentedString(merchantFailureUrl)).append("\n");
     sb.append("    completedAt: ").append(toIndentedString(completedAt)).append("\n");
     sb.append("    failureCode: ").append(toIndentedString(failureCode)).append("\n");
     sb.append("    failureMessage: ").append(toIndentedString(failureMessage)).append("\n");
@@ -427,6 +453,7 @@ public class CheckoutStatusDto {
     openapiFields.add("selectedPaymentMethod");
     openapiFields.add("merchantSuccessUrl");
     openapiFields.add("merchantCancelUrl");
+    openapiFields.add("merchantFailureUrl");
     openapiFields.add("completedAt");
     openapiFields.add("failureCode");
     openapiFields.add("failureMessage");
@@ -478,6 +505,9 @@ public class CheckoutStatusDto {
       }
       if ((jsonObj.get("merchantCancelUrl") != null && !jsonObj.get("merchantCancelUrl").isJsonNull()) && !jsonObj.get("merchantCancelUrl").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `merchantCancelUrl` to be a primitive type in the JSON string but got `%s`", jsonObj.get("merchantCancelUrl").toString()));
+      }
+      if ((jsonObj.get("merchantFailureUrl") != null && !jsonObj.get("merchantFailureUrl").isJsonNull()) && !jsonObj.get("merchantFailureUrl").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `merchantFailureUrl` to be a primitive type in the JSON string but got `%s`", jsonObj.get("merchantFailureUrl").toString()));
       }
       if ((jsonObj.get("failureCode") != null && !jsonObj.get("failureCode").isJsonNull()) && !jsonObj.get("failureCode").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `failureCode` to be a primitive type in the JSON string but got `%s`", jsonObj.get("failureCode").toString()));

@@ -18,6 +18,7 @@
 |**callbackUrl** | **String** |  |  [optional] |
 |**successUrl** | **String** |  |  [optional] |
 |**cancelUrl** | **String** |  |  [optional] |
+|**failureUrl** | **String** |  |  [optional] |
 |**language** | **String** |  |  [optional] |
 |**metadata** | **Map&lt;String, Object&gt;** |  |  [optional] |
 |**buyerName** | **String** |  |  [optional] |

@@ -1462,6 +1462,7 @@ components:
         language: language
         buyerName: buyerName
         userId: userId
+        failureUrl: failureUrl
       properties:
         userId:
           maxLength: 64
@@ -1475,6 +1476,10 @@ components:
           minLength: 0
           type: string
         cancelUrl:
+          maxLength: 2048
+          minLength: 0
+          type: string
+        failureUrl:
           maxLength: 2048
           minLength: 0
           type: string
@@ -1658,6 +1663,7 @@ components:
         userId: userId
         purposeRefId: purposeRefId
         subtotalAmount: 0.6027456183070403
+        failureUrl: failureUrl
         merchantName: merchantName
         lineItems:
         - unitPrice: 0.5637376656633328
@@ -1732,6 +1738,10 @@ components:
           minLength: 0
           type: string
         cancelUrl:
+          maxLength: 2048
+          minLength: 0
+          type: string
+        failureUrl:
           maxLength: 2048
           minLength: 0
           type: string
@@ -2397,6 +2407,7 @@ components:
         language: language
         paymentUrl: paymentUrl
         expiresAt: 2000-01-23T04:56:07.000+00:00
+        merchantFailureUrl: merchantFailureUrl
         lineItems:
         - unitPrice: 6.027456183070403
           quantity: 1
@@ -2452,6 +2463,8 @@ components:
         merchantSuccessUrl:
           type: string
         merchantCancelUrl:
+          type: string
+        merchantFailureUrl:
           type: string
         expiresAt:
           format: date-time
@@ -2561,6 +2574,7 @@ components:
         id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
         failureMessage: failureMessage
         status: PENDING
+        merchantFailureUrl: merchantFailureUrl
       properties:
         id:
           format: uuid
@@ -2584,6 +2598,8 @@ components:
         merchantSuccessUrl:
           type: string
         merchantCancelUrl:
+          type: string
+        merchantFailureUrl:
           type: string
         completedAt:
           format: date-time

@@ -12,6 +12,7 @@
 |**selectedPaymentMethod** | [**SelectedPaymentMethodEnum**](#SelectedPaymentMethodEnum) |  |  [optional] |
 |**merchantSuccessUrl** | **String** |  |  [optional] |
 |**merchantCancelUrl** | **String** |  |  [optional] |
+|**merchantFailureUrl** | **String** |  |  [optional] |
 |**completedAt** | **OffsetDateTime** |  |  [optional] |
 |**failureCode** | **String** |  |  [optional] |
 |**failureMessage** | **String** |  |  [optional] |

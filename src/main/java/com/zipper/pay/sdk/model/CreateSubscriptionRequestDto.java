@@ -73,6 +73,11 @@ public class CreateSubscriptionRequestDto {
   @javax.annotation.Nullable
   private String cancelUrl;
 
+  public static final String SERIALIZED_NAME_FAILURE_URL = "failureUrl";
+  @SerializedName(SERIALIZED_NAME_FAILURE_URL)
+  @javax.annotation.Nullable
+  private String failureUrl;
+
   public static final String SERIALIZED_NAME_CALLBACK_URL = "callbackUrl";
   @SerializedName(SERIALIZED_NAME_CALLBACK_URL)
   @javax.annotation.Nullable
@@ -174,6 +179,25 @@ public class CreateSubscriptionRequestDto {
 
   public void setCancelUrl(@javax.annotation.Nullable String cancelUrl) {
     this.cancelUrl = cancelUrl;
+  }
+
+
+  public CreateSubscriptionRequestDto failureUrl(@javax.annotation.Nullable String failureUrl) {
+    this.failureUrl = failureUrl;
+    return this;
+  }
+
+  /**
+   * Get failureUrl
+   * @return failureUrl
+   */
+  @javax.annotation.Nullable
+  public String getFailureUrl() {
+    return failureUrl;
+  }
+
+  public void setFailureUrl(@javax.annotation.Nullable String failureUrl) {
+    this.failureUrl = failureUrl;
   }
 
 
@@ -294,6 +318,7 @@ public class CreateSubscriptionRequestDto {
         Objects.equals(this.planId, createSubscriptionRequestDto.planId) &&
         Objects.equals(this.successUrl, createSubscriptionRequestDto.successUrl) &&
         Objects.equals(this.cancelUrl, createSubscriptionRequestDto.cancelUrl) &&
+        Objects.equals(this.failureUrl, createSubscriptionRequestDto.failureUrl) &&
         Objects.equals(this.callbackUrl, createSubscriptionRequestDto.callbackUrl) &&
         Objects.equals(this.language, createSubscriptionRequestDto.language) &&
         Objects.equals(this.buyerName, createSubscriptionRequestDto.buyerName) &&
@@ -303,7 +328,7 @@ public class CreateSubscriptionRequestDto {
 
   @Override
   public int hashCode() {
-    return Objects.hash(userId, planId, successUrl, cancelUrl, callbackUrl, language, buyerName, buyerEmail, metadata);
+    return Objects.hash(userId, planId, successUrl, cancelUrl, failureUrl, callbackUrl, language, buyerName, buyerEmail, metadata);
   }
 
   @Override
@@ -314,6 +339,7 @@ public class CreateSubscriptionRequestDto {
     sb.append("    planId: ").append(toIndentedString(planId)).append("\n");
     sb.append("    successUrl: ").append(toIndentedString(successUrl)).append("\n");
     sb.append("    cancelUrl: ").append(toIndentedString(cancelUrl)).append("\n");
+    sb.append("    failureUrl: ").append(toIndentedString(failureUrl)).append("\n");
     sb.append("    callbackUrl: ").append(toIndentedString(callbackUrl)).append("\n");
     sb.append("    language: ").append(toIndentedString(language)).append("\n");
     sb.append("    buyerName: ").append(toIndentedString(buyerName)).append("\n");
@@ -345,6 +371,7 @@ public class CreateSubscriptionRequestDto {
     openapiFields.add("planId");
     openapiFields.add("successUrl");
     openapiFields.add("cancelUrl");
+    openapiFields.add("failureUrl");
     openapiFields.add("callbackUrl");
     openapiFields.add("language");
     openapiFields.add("buyerName");
@@ -396,6 +423,9 @@ public class CreateSubscriptionRequestDto {
       }
       if ((jsonObj.get("cancelUrl") != null && !jsonObj.get("cancelUrl").isJsonNull()) && !jsonObj.get("cancelUrl").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `cancelUrl` to be a primitive type in the JSON string but got `%s`", jsonObj.get("cancelUrl").toString()));
+      }
+      if ((jsonObj.get("failureUrl") != null && !jsonObj.get("failureUrl").isJsonNull()) && !jsonObj.get("failureUrl").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `failureUrl` to be a primitive type in the JSON string but got `%s`", jsonObj.get("failureUrl").toString()));
       }
       if ((jsonObj.get("callbackUrl") != null && !jsonObj.get("callbackUrl").isJsonNull()) && !jsonObj.get("callbackUrl").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `callbackUrl` to be a primitive type in the JSON string but got `%s`", jsonObj.get("callbackUrl").toString()));

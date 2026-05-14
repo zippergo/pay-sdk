@@ -225,6 +225,11 @@ public class CreatePaymentIntentRequestDto {
   @javax.annotation.Nullable
   private String cancelUrl;
 
+  public static final String SERIALIZED_NAME_FAILURE_URL = "failureUrl";
+  @SerializedName(SERIALIZED_NAME_FAILURE_URL)
+  @javax.annotation.Nullable
+  private String failureUrl;
+
   public static final String SERIALIZED_NAME_LANGUAGE = "language";
   @SerializedName(SERIALIZED_NAME_LANGUAGE)
   @javax.annotation.Nullable
@@ -560,6 +565,25 @@ public class CreatePaymentIntentRequestDto {
   }
 
 
+  public CreatePaymentIntentRequestDto failureUrl(@javax.annotation.Nullable String failureUrl) {
+    this.failureUrl = failureUrl;
+    return this;
+  }
+
+  /**
+   * Get failureUrl
+   * @return failureUrl
+   */
+  @javax.annotation.Nullable
+  public String getFailureUrl() {
+    return failureUrl;
+  }
+
+  public void setFailureUrl(@javax.annotation.Nullable String failureUrl) {
+    this.failureUrl = failureUrl;
+  }
+
+
   public CreatePaymentIntentRequestDto language(@javax.annotation.Nullable String language) {
     this.language = language;
     return this;
@@ -828,6 +852,7 @@ public class CreatePaymentIntentRequestDto {
         Objects.equals(this.callbackUrl, createPaymentIntentRequestDto.callbackUrl) &&
         Objects.equals(this.successUrl, createPaymentIntentRequestDto.successUrl) &&
         Objects.equals(this.cancelUrl, createPaymentIntentRequestDto.cancelUrl) &&
+        Objects.equals(this.failureUrl, createPaymentIntentRequestDto.failureUrl) &&
         Objects.equals(this.language, createPaymentIntentRequestDto.language) &&
         Objects.equals(this.metadata, createPaymentIntentRequestDto.metadata) &&
         Objects.equals(this.buyerName, createPaymentIntentRequestDto.buyerName) &&
@@ -844,7 +869,7 @@ public class CreatePaymentIntentRequestDto {
 
   @Override
   public int hashCode() {
-    return Objects.hash(userId, paymentMethods, purpose, amount, currency, purposeRefType, purposeRefId, purposeDescription, callbackUrl, successUrl, cancelUrl, language, metadata, buyerName, buyerEmail, buyerPhone, merchantName, merchantBrand, merchantLogoUrl, subtotalAmount, taxAmount, discountAmount, lineItems);
+    return Objects.hash(userId, paymentMethods, purpose, amount, currency, purposeRefType, purposeRefId, purposeDescription, callbackUrl, successUrl, cancelUrl, failureUrl, language, metadata, buyerName, buyerEmail, buyerPhone, merchantName, merchantBrand, merchantLogoUrl, subtotalAmount, taxAmount, discountAmount, lineItems);
   }
 
   @Override
@@ -862,6 +887,7 @@ public class CreatePaymentIntentRequestDto {
     sb.append("    callbackUrl: ").append(toIndentedString(callbackUrl)).append("\n");
     sb.append("    successUrl: ").append(toIndentedString(successUrl)).append("\n");
     sb.append("    cancelUrl: ").append(toIndentedString(cancelUrl)).append("\n");
+    sb.append("    failureUrl: ").append(toIndentedString(failureUrl)).append("\n");
     sb.append("    language: ").append(toIndentedString(language)).append("\n");
     sb.append("    metadata: ").append(toIndentedString(metadata)).append("\n");
     sb.append("    buyerName: ").append(toIndentedString(buyerName)).append("\n");
@@ -907,6 +933,7 @@ public class CreatePaymentIntentRequestDto {
     openapiFields.add("callbackUrl");
     openapiFields.add("successUrl");
     openapiFields.add("cancelUrl");
+    openapiFields.add("failureUrl");
     openapiFields.add("language");
     openapiFields.add("metadata");
     openapiFields.add("buyerName");
@@ -991,6 +1018,9 @@ public class CreatePaymentIntentRequestDto {
       }
       if ((jsonObj.get("cancelUrl") != null && !jsonObj.get("cancelUrl").isJsonNull()) && !jsonObj.get("cancelUrl").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `cancelUrl` to be a primitive type in the JSON string but got `%s`", jsonObj.get("cancelUrl").toString()));
+      }
+      if ((jsonObj.get("failureUrl") != null && !jsonObj.get("failureUrl").isJsonNull()) && !jsonObj.get("failureUrl").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `failureUrl` to be a primitive type in the JSON string but got `%s`", jsonObj.get("failureUrl").toString()));
       }
       if ((jsonObj.get("language") != null && !jsonObj.get("language").isJsonNull()) && !jsonObj.get("language").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `language` to be a primitive type in the JSON string but got `%s`", jsonObj.get("language").toString()));

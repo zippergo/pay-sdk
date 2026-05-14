@@ -17,6 +17,7 @@
 |**paymentUrl** | **String** |  |  [optional] |
 |**merchantSuccessUrl** | **String** |  |  [optional] |
 |**merchantCancelUrl** | **String** |  |  [optional] |
+|**merchantFailureUrl** | **String** |  |  [optional] |
 |**expiresAt** | **OffsetDateTime** |  |  [optional] |
 |**merchant** | [**MerchantInfoDto**](MerchantInfoDto.md) |  |  [optional] |
 |**lineItems** | [**List&lt;LineItemDto&gt;**](LineItemDto.md) |  |  [optional] |
