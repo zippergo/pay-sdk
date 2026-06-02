@@ -125,7 +125,7 @@ Class | Method | HTTP request | Description
 *AdminConversionRatesApi* | [**list1**](docs/AdminConversionRatesApi.md#list1) | **GET** /api/v1/admin/conversion-rates | 
 *AdminJournalApi* | [**getByRef**](docs/AdminJournalApi.md#getByRef) | **GET** /api/v1/admin/journal/{refType}/{refId} | 
 *AdminJournalApi* | [**postFreeForm**](docs/AdminJournalApi.md#postFreeForm) | **POST** /api/v1/admin/journal/adjustments | 
-*AdminWalletsApi* | [**credit**](docs/AdminWalletsApi.md#credit) | **POST** /api/v1/admin/wallets/{userId}/{currency}/credit | 
+*AdminWalletsApi* | [**credit1**](docs/AdminWalletsApi.md#credit1) | **POST** /api/v1/admin/wallets/{userId}/{currency}/credit | 
 *AdminWalletsApi* | [**debit**](docs/AdminWalletsApi.md#debit) | **POST** /api/v1/admin/wallets/{userId}/{currency}/debit | 
 *AdminWalletsApi* | [**listWallets**](docs/AdminWalletsApi.md#listWallets) | **GET** /api/v1/admin/wallets/{userId} | 
 *CheckoutOpenControllerApi* | [**confirm**](docs/CheckoutOpenControllerApi.md#confirm) | **POST** /api/v1/open/checkout/{id}/confirm | 
@@ -133,10 +133,12 @@ Class | Method | HTTP request | Description
 *CheckoutOpenControllerApi* | [**getStatus**](docs/CheckoutOpenControllerApi.md#getStatus) | **GET** /api/v1/open/checkout/{id}/status | 
 *CheckoutOpenControllerApi* | [**resendOtp**](docs/CheckoutOpenControllerApi.md#resendOtp) | **POST** /api/v1/open/checkout/{id}/resend-otp | 
 *CheckoutOpenControllerApi* | [**selectMethod**](docs/CheckoutOpenControllerApi.md#selectMethod) | **POST** /api/v1/open/checkout/{id}/select-method | 
+*EventWebhookControllerApi* | [**receive**](docs/EventWebhookControllerApi.md#receive) | **POST** /api/v1/open/webhooks/events | 
 *InternalRefundsApi* | [**refundPaymentIntent**](docs/InternalRefundsApi.md#refundPaymentIntent) | **POST** /api/v1/internal/payment-intents/{intentId}/refunds | 
 *InternalRefundsApi* | [**refundWalletCharge**](docs/InternalRefundsApi.md#refundWalletCharge) | **POST** /api/v1/internal/wallet/charges/{chargeId}/refunds | 
 *InternalUsersApi* | [**onboard**](docs/InternalUsersApi.md#onboard) | **POST** /api/v1/internal/users/onboard | Register a user and provision wallets in all active credit currencies
 *InternalWalletChargesApi* | [**charge**](docs/InternalWalletChargesApi.md#charge) | **POST** /api/v1/internal/wallet/charges | Spend credits from a user&#39;s wallet (synchronous)
+*InternalWalletCreditsApi* | [**credit**](docs/InternalWalletCreditsApi.md#credit) | **POST** /api/v1/internal/wallet/credits | Add credits to a user&#39;s wallet (idempotent)
 *InternalWalletsApi* | [**entries1**](docs/InternalWalletsApi.md#entries1) | **GET** /api/v1/internal/wallets/{userId}/{currency}/entries | 
 *InternalWalletsApi* | [**getOne**](docs/InternalWalletsApi.md#getOne) | **GET** /api/v1/internal/wallets/{userId}/{currency} | 
 *InternalWalletsApi* | [**list2**](docs/InternalWalletsApi.md#list2) | **GET** /api/v1/internal/wallets | 
@@ -200,6 +202,8 @@ Class | Method | HTTP request | Description
  - [UpdateSubscriptionPlanRequestDto](docs/UpdateSubscriptionPlanRequestDto.md)
  - [WalletChargeRequestDto](docs/WalletChargeRequestDto.md)
  - [WalletChargeResponseDto](docs/WalletChargeResponseDto.md)
+ - [WalletCreditRequestDto](docs/WalletCreditRequestDto.md)
+ - [WalletCreditResponseDto](docs/WalletCreditResponseDto.md)
  - [WalletDto](docs/WalletDto.md)
  - [WalletEntryDto](docs/WalletEntryDto.md)
  - [WalletSummaryDto](docs/WalletSummaryDto.md)

@@ -24,10 +24,12 @@ docs/ConversionRateResponseDto.md
 docs/CreatePaymentIntentRequestDto.md
 docs/CreateSubscriptionPlanRequestDto.md
 docs/CreateSubscriptionRequestDto.md
+docs/EventWebhookControllerApi.md
 docs/FreeFormJournalRequestDto.md
 docs/InternalRefundsApi.md
 docs/InternalUsersApi.md
 docs/InternalWalletChargesApi.md
+docs/InternalWalletCreditsApi.md
 docs/InternalWalletsApi.md
 docs/JournalEntryDto.md
 docs/JournalEntryTreeDto.md
@@ -65,6 +67,8 @@ docs/UserPaymentIntentsApi.md
 docs/UserWalletsApi.md
 docs/WalletChargeRequestDto.md
 docs/WalletChargeResponseDto.md
+docs/WalletCreditRequestDto.md
+docs/WalletCreditResponseDto.md
 docs/WalletDto.md
 docs/WalletEntryDto.md
 docs/WalletSummaryDto.md
@@ -95,9 +99,11 @@ src/main/java/com/zipper/pay/sdk/api/AdminConversionRatesApi.java
 src/main/java/com/zipper/pay/sdk/api/AdminJournalApi.java
 src/main/java/com/zipper/pay/sdk/api/AdminWalletsApi.java
 src/main/java/com/zipper/pay/sdk/api/CheckoutOpenControllerApi.java
+src/main/java/com/zipper/pay/sdk/api/EventWebhookControllerApi.java
 src/main/java/com/zipper/pay/sdk/api/InternalRefundsApi.java
 src/main/java/com/zipper/pay/sdk/api/InternalUsersApi.java
 src/main/java/com/zipper/pay/sdk/api/InternalWalletChargesApi.java
+src/main/java/com/zipper/pay/sdk/api/InternalWalletCreditsApi.java
 src/main/java/com/zipper/pay/sdk/api/InternalWalletsApi.java
 src/main/java/com/zipper/pay/sdk/api/PaymeOpenControllerApi.java
 src/main/java/com/zipper/pay/sdk/api/PaymeSubscriptionOpenControllerApi.java
@@ -154,6 +160,8 @@ src/main/java/com/zipper/pay/sdk/model/SubscriptionResponseDto.java
 src/main/java/com/zipper/pay/sdk/model/UpdateSubscriptionPlanRequestDto.java
 src/main/java/com/zipper/pay/sdk/model/WalletChargeRequestDto.java
 src/main/java/com/zipper/pay/sdk/model/WalletChargeResponseDto.java
+src/main/java/com/zipper/pay/sdk/model/WalletCreditRequestDto.java
+src/main/java/com/zipper/pay/sdk/model/WalletCreditResponseDto.java
 src/main/java/com/zipper/pay/sdk/model/WalletDto.java
 src/main/java/com/zipper/pay/sdk/model/WalletEntryDto.java
 src/main/java/com/zipper/pay/sdk/model/WalletSummaryDto.java

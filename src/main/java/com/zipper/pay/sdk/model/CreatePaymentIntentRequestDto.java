@@ -344,6 +344,11 @@ public class CreatePaymentIntentRequestDto {
   @javax.annotation.Nullable
   private List<LineItemRequestDto> lineItems = new ArrayList<>();
 
+  public static final String SERIALIZED_NAME_EMBEDDED = "embedded";
+  @SerializedName(SERIALIZED_NAME_EMBEDDED)
+  @javax.annotation.Nullable
+  private Boolean embedded;
+
   public CreatePaymentIntentRequestDto() {
   }
 
@@ -831,6 +836,25 @@ public class CreatePaymentIntentRequestDto {
   }
 
 
+  public CreatePaymentIntentRequestDto embedded(@javax.annotation.Nullable Boolean embedded) {
+    this.embedded = embedded;
+    return this;
+  }
+
+  /**
+   * Get embedded
+   * @return embedded
+   */
+  @javax.annotation.Nullable
+  public Boolean getEmbedded() {
+    return embedded;
+  }
+
+  public void setEmbedded(@javax.annotation.Nullable Boolean embedded) {
+    this.embedded = embedded;
+  }
+
+
 
   @Override
   public boolean equals(Object o) {
@@ -864,12 +888,13 @@ public class CreatePaymentIntentRequestDto {
         Objects.equals(this.subtotalAmount, createPaymentIntentRequestDto.subtotalAmount) &&
         Objects.equals(this.taxAmount, createPaymentIntentRequestDto.taxAmount) &&
         Objects.equals(this.discountAmount, createPaymentIntentRequestDto.discountAmount) &&
-        Objects.equals(this.lineItems, createPaymentIntentRequestDto.lineItems);
+        Objects.equals(this.lineItems, createPaymentIntentRequestDto.lineItems) &&
+        Objects.equals(this.embedded, createPaymentIntentRequestDto.embedded);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(userId, paymentMethods, purpose, amount, currency, purposeRefType, purposeRefId, purposeDescription, callbackUrl, successUrl, cancelUrl, failureUrl, language, metadata, buyerName, buyerEmail, buyerPhone, merchantName, merchantBrand, merchantLogoUrl, subtotalAmount, taxAmount, discountAmount, lineItems);
+    return Objects.hash(userId, paymentMethods, purpose, amount, currency, purposeRefType, purposeRefId, purposeDescription, callbackUrl, successUrl, cancelUrl, failureUrl, language, metadata, buyerName, buyerEmail, buyerPhone, merchantName, merchantBrand, merchantLogoUrl, subtotalAmount, taxAmount, discountAmount, lineItems, embedded);
   }
 
   @Override
@@ -900,6 +925,7 @@ public class CreatePaymentIntentRequestDto {
     sb.append("    taxAmount: ").append(toIndentedString(taxAmount)).append("\n");
     sb.append("    discountAmount: ").append(toIndentedString(discountAmount)).append("\n");
     sb.append("    lineItems: ").append(toIndentedString(lineItems)).append("\n");
+    sb.append("    embedded: ").append(toIndentedString(embedded)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -946,6 +972,7 @@ public class CreatePaymentIntentRequestDto {
     openapiFields.add("taxAmount");
     openapiFields.add("discountAmount");
     openapiFields.add("lineItems");
+    openapiFields.add("embedded");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

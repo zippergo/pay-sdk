@@ -138,6 +138,8 @@ public class JSON {
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.pay.sdk.model.UpdateSubscriptionPlanRequestDto.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.pay.sdk.model.WalletChargeRequestDto.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.pay.sdk.model.WalletChargeResponseDto.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.zipper.pay.sdk.model.WalletCreditRequestDto.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.zipper.pay.sdk.model.WalletCreditResponseDto.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.pay.sdk.model.WalletDto.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.pay.sdk.model.WalletEntryDto.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.pay.sdk.model.WalletSummaryDto.CustomTypeAdapterFactory());

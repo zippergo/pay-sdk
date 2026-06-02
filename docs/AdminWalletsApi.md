@@ -4,14 +4,14 @@ All URIs are relative to *http://localhost:8089*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**credit**](AdminWalletsApi.md#credit) | **POST** /api/v1/admin/wallets/{userId}/{currency}/credit |  |
+| [**credit1**](AdminWalletsApi.md#credit1) | **POST** /api/v1/admin/wallets/{userId}/{currency}/credit |  |
 | [**debit**](AdminWalletsApi.md#debit) | **POST** /api/v1/admin/wallets/{userId}/{currency}/debit |  |
 | [**listWallets**](AdminWalletsApi.md#listWallets) | **GET** /api/v1/admin/wallets/{userId} |  |
 
 
-<a id="credit"></a>
-# **credit**
-> AdminAdjustmentResponseDto credit(userId, currency, principal, adminCreditRequestDto)
+<a id="credit1"></a>
+# **credit1**
+> AdminAdjustmentResponseDto credit1(userId, currency, principal, adminCreditRequestDto)
 
 
 
@@ -40,10 +40,10 @@ public class Example {
     AuthenticatedPrincipal principal = new AuthenticatedPrincipal(); // AuthenticatedPrincipal | 
     AdminCreditRequestDto adminCreditRequestDto = new AdminCreditRequestDto(); // AdminCreditRequestDto | 
     try {
-      AdminAdjustmentResponseDto result = apiInstance.credit(userId, currency, principal, adminCreditRequestDto);
+      AdminAdjustmentResponseDto result = apiInstance.credit1(userId, currency, principal, adminCreditRequestDto);
       System.out.println(result);
     } catch (ApiException e) {
-      System.err.println("Exception when calling AdminWalletsApi#credit");
+      System.err.println("Exception when calling AdminWalletsApi#credit1");
       System.err.println("Status code: " + e.getCode());
       System.err.println("Reason: " + e.getResponseBody());
       System.err.println("Response headers: " + e.getResponseHeaders());

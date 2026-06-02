@@ -9,6 +9,31 @@ servers:
 security:
 - bearerAuth: []
 paths:
+  /api/v1/open/webhooks/events:
+    post:
+      operationId: receive
+      parameters:
+      - explode: false
+        in: header
+        name: X-Hmac-Sha256
+        required: false
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        "200":
+          description: OK
+      tags:
+      - event-webhook-controller
+      x-content-type: application/json
+      x-accepts:
+      - application/json
   /api/v1/open/notifications/payme:
     post:
       operationId: payme
@@ -116,6 +141,46 @@ paths:
           description: OK
       tags:
       - checkout-open-controller
+      x-content-type: application/json
+      x-accepts:
+      - '*/*'
+  /api/v1/internal/wallet/credits:
+    post:
+      operationId: credit
+      parameters:
+      - explode: false
+        in: header
+        name: Idempotency-Key
+        required: true
+        schema:
+          maxLength: 128
+          minLength: 1
+          pattern: "^[A-Za-z0-9_\\-:.]{1,128}$"
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: caller
+        required: true
+        schema:
+          $ref: '#/components/schemas/AuthenticatedPrincipal'
+        style: form
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WalletCreditRequestDto'
+        required: true
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/WalletCreditResponseDto'
+          description: OK
+      summary: Add credits to a user's wallet (idempotent)
+      tags:
+      - internal-wallet-credits
       x-content-type: application/json
       x-accepts:
       - '*/*'
@@ -465,7 +530,7 @@ paths:
       - '*/*'
   /api/v1/admin/wallets/{userId}/{currency}/credit:
     post:
-      operationId: credit
+      operationId: credit_1
       parameters:
       - explode: false
         in: path
@@ -1183,6 +1248,72 @@ components:
           - WALLET
           - PAYME
           type: string
+    WalletCreditRequestDto:
+      example:
+        note: note
+        amount: 0.08018281904610115
+        issueInvoice: true
+        currency: currency
+        reasonCode: GOODWILL
+        userId: userId
+      properties:
+        userId:
+          maxLength: 64
+          minLength: 0
+          type: string
+        currency:
+          minLength: 1
+          pattern: "^[A-Z]{3,4}$"
+          type: string
+        amount:
+          minimum: 0.00010
+          type: number
+        reasonCode:
+          enum:
+          - GOODWILL
+          - PROMOTION
+          - MANUAL_TOPUP
+          - MIGRATION_FIX
+          - OTHER
+          type: string
+        note:
+          maxLength: 500
+          minLength: 0
+          type: string
+        issueInvoice:
+          type: boolean
+      required:
+      - amount
+      - currency
+      - reasonCode
+      - userId
+    AuthenticatedPrincipal:
+      properties:
+        userId:
+          type: string
+        consumerService:
+          type: string
+        roles:
+          items:
+            type: string
+          type: array
+          uniqueItems: true
+        isService:
+          type: boolean
+    WalletCreditResponseDto:
+      example:
+        journalEntryId: 0
+        adjustedAt: 2000-01-23T04:56:07.000+00:00
+        newBalance: 6.027456183070403
+      properties:
+        journalEntryId:
+          format: int64
+          type: integer
+        newBalance:
+          type: number
+        adjustedAt:
+          format: date-time
+          type: string
     WalletChargeRequestDto:
       example:
         purposeRefType: purposeRefType
@@ -1245,19 +1376,6 @@ components:
       - amount
       - currency
       - userId
-    AuthenticatedPrincipal:
-      properties:
-        userId:
-          type: string
-        consumerService:
-          type: string
-        roles:
-          items:
-            type: string
-          type: array
-          uniqueItems: true
-        isService:
-          type: boolean
     WalletChargeResponseDto:
       example:
         journalEntryId: 0
@@ -1650,19 +1768,12 @@ components:
           type: string
     CreatePaymentIntentRequestDto:
       example:
-        amount: 0.08018281904610115
         metadata:
           key: ""
         purpose: WALLET_TOPUP
         buyerEmail: buyerEmail
-        successUrl: successUrl
         discountAmount: 0.5962133916683182
         language: language
-        merchantBrand: ZIPPER
-        buyerName: buyerName
-        userId: userId
-        purposeRefId: purposeRefId
-        subtotalAmount: 0.6027456183070403
         failureUrl: failureUrl
         merchantName: merchantName
         lineItems:
@@ -1676,9 +1787,6 @@ components:
           imageUrl: imageUrl
           name: name
           description: description
-        purposeRefType: purposeRefType
-        cancelUrl: cancelUrl
-        buyerPhone: buyerPhone
         paymentMethods:
         - WALLET
         - WALLET
@@ -1686,6 +1794,17 @@ components:
         purposeDescription: purposeDescription
         callbackUrl: callbackUrl
         merchantLogoUrl: merchantLogoUrl
+        embedded: true
+        amount: 0.08018281904610115
+        successUrl: successUrl
+        merchantBrand: ZIPPER
+        buyerName: buyerName
+        userId: userId
+        purposeRefId: purposeRefId
+        subtotalAmount: 0.6027456183070403
+        purposeRefType: purposeRefType
+        cancelUrl: cancelUrl
+        buyerPhone: buyerPhone
         taxAmount: 0.14658129805029452
       properties:
         userId:
@@ -1790,6 +1909,8 @@ components:
           items:
             $ref: '#/components/schemas/LineItemRequestDto'
           type: array
+        embedded:
+          type: boolean
       required:
       - amount
       - currency
@@ -2427,6 +2548,7 @@ components:
           tax: 5.637376656633329
         currency: currency
         id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        embedded: true
         status: PENDING
       properties:
         id:
@@ -2488,6 +2610,8 @@ components:
           - REFUND_PRODUCT_PURCHASE
           - REFUND_SUBSCRIPTION_RENEWAL
           type: string
+        embedded:
+          type: boolean
     LineItemDto:
       example:
         unitPrice: 6.027456183070403

@@ -320,6 +320,11 @@ public class CheckoutDetailsDto {
   @javax.annotation.Nullable
   private PurposeEnum purpose;
 
+  public static final String SERIALIZED_NAME_EMBEDDED = "embedded";
+  @SerializedName(SERIALIZED_NAME_EMBEDDED)
+  @javax.annotation.Nullable
+  private Boolean embedded;
+
   public CheckoutDetailsDto() {
   }
 
@@ -662,6 +667,25 @@ public class CheckoutDetailsDto {
   }
 
 
+  public CheckoutDetailsDto embedded(@javax.annotation.Nullable Boolean embedded) {
+    this.embedded = embedded;
+    return this;
+  }
+
+  /**
+   * Get embedded
+   * @return embedded
+   */
+  @javax.annotation.Nullable
+  public Boolean getEmbedded() {
+    return embedded;
+  }
+
+  public void setEmbedded(@javax.annotation.Nullable Boolean embedded) {
+    this.embedded = embedded;
+  }
+
+
 
   @Override
   public boolean equals(Object o) {
@@ -688,12 +712,13 @@ public class CheckoutDetailsDto {
         Objects.equals(this.lineItems, checkoutDetailsDto.lineItems) &&
         Objects.equals(this.priceBreakdown, checkoutDetailsDto.priceBreakdown) &&
         Objects.equals(this.buyerEmail, checkoutDetailsDto.buyerEmail) &&
-        Objects.equals(this.purpose, checkoutDetailsDto.purpose);
+        Objects.equals(this.purpose, checkoutDetailsDto.purpose) &&
+        Objects.equals(this.embedded, checkoutDetailsDto.embedded);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, status, amount, currency, language, methods, selectedPaymentMethod, paymentUrl, merchantSuccessUrl, merchantCancelUrl, merchantFailureUrl, expiresAt, merchant, lineItems, priceBreakdown, buyerEmail, purpose);
+    return Objects.hash(id, status, amount, currency, language, methods, selectedPaymentMethod, paymentUrl, merchantSuccessUrl, merchantCancelUrl, merchantFailureUrl, expiresAt, merchant, lineItems, priceBreakdown, buyerEmail, purpose, embedded);
   }
 
   @Override
@@ -717,6 +742,7 @@ public class CheckoutDetailsDto {
     sb.append("    priceBreakdown: ").append(toIndentedString(priceBreakdown)).append("\n");
     sb.append("    buyerEmail: ").append(toIndentedString(buyerEmail)).append("\n");
     sb.append("    purpose: ").append(toIndentedString(purpose)).append("\n");
+    sb.append("    embedded: ").append(toIndentedString(embedded)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -756,6 +782,7 @@ public class CheckoutDetailsDto {
     openapiFields.add("priceBreakdown");
     openapiFields.add("buyerEmail");
     openapiFields.add("purpose");
+    openapiFields.add("embedded");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

@@ -24,6 +24,7 @@
 |**priceBreakdown** | [**PriceBreakdownDto**](PriceBreakdownDto.md) |  |  [optional] |
 |**buyerEmail** | **String** |  |  [optional] |
 |**purpose** | [**PurposeEnum**](#PurposeEnum) |  |  [optional] |
+|**embedded** | **Boolean** |  |  [optional] |
 
 
 

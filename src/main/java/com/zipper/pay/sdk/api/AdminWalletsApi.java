@@ -77,7 +77,7 @@ public class AdminWalletsApi {
     }
 
     /**
-     * Build call for credit
+     * Build call for credit1
      * @param userId  (required)
      * @param currency  (required)
      * @param principal  (required)
@@ -92,7 +92,7 @@ public class AdminWalletsApi {
         <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call creditCall(@javax.annotation.Nonnull String userId, @javax.annotation.Nonnull String currency, @javax.annotation.Nonnull AuthenticatedPrincipal principal, @javax.annotation.Nonnull AdminCreditRequestDto adminCreditRequestDto, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call credit1Call(@javax.annotation.Nonnull String userId, @javax.annotation.Nonnull String currency, @javax.annotation.Nonnull AuthenticatedPrincipal principal, @javax.annotation.Nonnull AdminCreditRequestDto adminCreditRequestDto, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -144,28 +144,28 @@ public class AdminWalletsApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call creditValidateBeforeCall(@javax.annotation.Nonnull String userId, @javax.annotation.Nonnull String currency, @javax.annotation.Nonnull AuthenticatedPrincipal principal, @javax.annotation.Nonnull AdminCreditRequestDto adminCreditRequestDto, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call credit1ValidateBeforeCall(@javax.annotation.Nonnull String userId, @javax.annotation.Nonnull String currency, @javax.annotation.Nonnull AuthenticatedPrincipal principal, @javax.annotation.Nonnull AdminCreditRequestDto adminCreditRequestDto, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'userId' is set
         if (userId == null) {
-            throw new ApiException("Missing the required parameter 'userId' when calling credit(Async)");
+            throw new ApiException("Missing the required parameter 'userId' when calling credit1(Async)");
         }
 
         // verify the required parameter 'currency' is set
         if (currency == null) {
-            throw new ApiException("Missing the required parameter 'currency' when calling credit(Async)");
+            throw new ApiException("Missing the required parameter 'currency' when calling credit1(Async)");
         }
 
         // verify the required parameter 'principal' is set
         if (principal == null) {
-            throw new ApiException("Missing the required parameter 'principal' when calling credit(Async)");
+            throw new ApiException("Missing the required parameter 'principal' when calling credit1(Async)");
         }
 
         // verify the required parameter 'adminCreditRequestDto' is set
         if (adminCreditRequestDto == null) {
-            throw new ApiException("Missing the required parameter 'adminCreditRequestDto' when calling credit(Async)");
+            throw new ApiException("Missing the required parameter 'adminCreditRequestDto' when calling credit1(Async)");
         }
 
-        return creditCall(userId, currency, principal, adminCreditRequestDto, _callback);
+        return credit1Call(userId, currency, principal, adminCreditRequestDto, _callback);
 
     }
 
@@ -185,8 +185,8 @@ public class AdminWalletsApi {
         <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
      </table>
      */
-    public AdminAdjustmentResponseDto credit(@javax.annotation.Nonnull String userId, @javax.annotation.Nonnull String currency, @javax.annotation.Nonnull AuthenticatedPrincipal principal, @javax.annotation.Nonnull AdminCreditRequestDto adminCreditRequestDto) throws ApiException {
-        ApiResponse<AdminAdjustmentResponseDto> localVarResp = creditWithHttpInfo(userId, currency, principal, adminCreditRequestDto);
+    public AdminAdjustmentResponseDto credit1(@javax.annotation.Nonnull String userId, @javax.annotation.Nonnull String currency, @javax.annotation.Nonnull AuthenticatedPrincipal principal, @javax.annotation.Nonnull AdminCreditRequestDto adminCreditRequestDto) throws ApiException {
+        ApiResponse<AdminAdjustmentResponseDto> localVarResp = credit1WithHttpInfo(userId, currency, principal, adminCreditRequestDto);
         return localVarResp.getData();
     }
 
@@ -206,8 +206,8 @@ public class AdminWalletsApi {
         <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<AdminAdjustmentResponseDto> creditWithHttpInfo(@javax.annotation.Nonnull String userId, @javax.annotation.Nonnull String currency, @javax.annotation.Nonnull AuthenticatedPrincipal principal, @javax.annotation.Nonnull AdminCreditRequestDto adminCreditRequestDto) throws ApiException {
-        okhttp3.Call localVarCall = creditValidateBeforeCall(userId, currency, principal, adminCreditRequestDto, null);
+    public ApiResponse<AdminAdjustmentResponseDto> credit1WithHttpInfo(@javax.annotation.Nonnull String userId, @javax.annotation.Nonnull String currency, @javax.annotation.Nonnull AuthenticatedPrincipal principal, @javax.annotation.Nonnull AdminCreditRequestDto adminCreditRequestDto) throws ApiException {
+        okhttp3.Call localVarCall = credit1ValidateBeforeCall(userId, currency, principal, adminCreditRequestDto, null);
         Type localVarReturnType = new TypeToken<AdminAdjustmentResponseDto>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
@@ -229,9 +229,9 @@ public class AdminWalletsApi {
         <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call creditAsync(@javax.annotation.Nonnull String userId, @javax.annotation.Nonnull String currency, @javax.annotation.Nonnull AuthenticatedPrincipal principal, @javax.annotation.Nonnull AdminCreditRequestDto adminCreditRequestDto, final ApiCallback<AdminAdjustmentResponseDto> _callback) throws ApiException {
+    public okhttp3.Call credit1Async(@javax.annotation.Nonnull String userId, @javax.annotation.Nonnull String currency, @javax.annotation.Nonnull AuthenticatedPrincipal principal, @javax.annotation.Nonnull AdminCreditRequestDto adminCreditRequestDto, final ApiCallback<AdminAdjustmentResponseDto> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = creditValidateBeforeCall(userId, currency, principal, adminCreditRequestDto, _callback);
+        okhttp3.Call localVarCall = credit1ValidateBeforeCall(userId, currency, principal, adminCreditRequestDto, _callback);
         Type localVarReturnType = new TypeToken<AdminAdjustmentResponseDto>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;

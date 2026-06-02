@@ -31,6 +31,7 @@
 |**taxAmount** | **BigDecimal** |  |  [optional] |
 |**discountAmount** | **BigDecimal** |  |  [optional] |
 |**lineItems** | [**List&lt;LineItemRequestDto&gt;**](LineItemRequestDto.md) |  |  [optional] |
+|**embedded** | **Boolean** |  |  [optional] |
 
 
 
