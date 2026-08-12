@@ -5,7 +5,7 @@ All URIs are relative to *http://localhost:8089*
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
 | [**create2**](PaymentIntentInternalControllerApi.md#create2) | **POST** /api/v1/internal/payment-intents |  |
-| [**get3**](PaymentIntentInternalControllerApi.md#get3) | **GET** /api/v1/internal/payment-intents/{id} |  |
+| [**getById**](PaymentIntentInternalControllerApi.md#getById) | **GET** /api/v1/internal/payment-intents/{id} |  |
 
 
 <a id="create2"></a>
@@ -77,9 +77,9 @@ public class Example {
 |-------------|-------------|------------------|
 | **200** | OK |  -  |
 
-<a id="get3"></a>
-# **get3**
-> PaymentIntentResponseDto get3(id)
+<a id="getById"></a>
+# **getById**
+> PaymentIntentResponseDto getById(id)
 
 
 
@@ -105,10 +105,10 @@ public class Example {
     PaymentIntentInternalControllerApi apiInstance = new PaymentIntentInternalControllerApi(defaultClient);
     UUID id = UUID.randomUUID(); // UUID | 
     try {
-      PaymentIntentResponseDto result = apiInstance.get3(id);
+      PaymentIntentResponseDto result = apiInstance.getById(id);
       System.out.println(result);
     } catch (ApiException e) {
-      System.err.println("Exception when calling PaymentIntentInternalControllerApi#get3");
+      System.err.println("Exception when calling PaymentIntentInternalControllerApi#getById");
       System.err.println("Status code: " + e.getCode());
       System.err.println("Reason: " + e.getResponseBody());
       System.err.println("Response headers: " + e.getResponseHeaders());

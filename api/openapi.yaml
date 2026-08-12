@@ -61,6 +61,26 @@ paths:
       x-content-type: application/json
       x-accepts:
       - application/json
+  /api/v1/open/notifications/google_pay:
+    post:
+      operationId: googlePay
+      responses:
+        "200":
+          description: OK
+      tags:
+      - payme-open-controller
+      x-accepts:
+      - application/json
+  /api/v1/open/notifications/apple_pay:
+    post:
+      operationId: applePay
+      responses:
+        "200":
+          description: OK
+      tags:
+      - payme-open-controller
+      x-accepts:
+      - application/json
   /api/v1/open/checkout/{id}/select-method:
     post:
       operationId: selectMethod
@@ -612,6 +632,8 @@ paths:
           enum:
           - WALLET
           - PAYME
+          - APPLE_PAY
+          - GOOGLE_PAY
           type: string
         style: form
       - explode: true
@@ -783,6 +805,43 @@ paths:
                 items:
                   $ref: '#/components/schemas/WalletDto'
                 type: array
+          description: OK
+      tags:
+      - user-wallets
+      x-accepts:
+      - '*/*'
+  /api/v1/user/wallets/{currency}/summary:
+    get:
+      operationId: summary
+      parameters:
+      - explode: false
+        in: path
+        name: currency
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: since
+        required: false
+        schema:
+          format: date-time
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: principal
+        required: true
+        schema:
+          $ref: '#/components/schemas/AuthenticatedPrincipal'
+        style: form
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/WalletBalanceSummaryDto'
           description: OK
       tags:
       - user-wallets
@@ -1072,7 +1131,7 @@ paths:
       - '*/*'
   /api/v1/internal/payment-intents/{id}:
     get:
-      operationId: get_3
+      operationId: getById
       parameters:
       - explode: false
         in: path
@@ -1091,6 +1150,35 @@ paths:
           description: OK
       tags:
       - payment-intent-internal-controller
+      x-accepts:
+      - '*/*'
+  /api/v1/internal/exchange-rates:
+    get:
+      operationId: list_3
+      parameters:
+      - explode: true
+        in: query
+        name: from
+        required: true
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: to
+        required: true
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/list_3_200_response'
+          description: OK
+      tags:
+      - internal-exchange-rates
       x-accepts:
       - '*/*'
   /api/v1/admin/wallets/{userId}:
@@ -1157,6 +1245,8 @@ components:
           enum:
           - WALLET
           - PAYME
+          - APPLE_PAY
+          - GOOGLE_PAY
           type: string
         internalReturnUrl:
           maxLength: 2048
@@ -1247,6 +1337,8 @@ components:
           enum:
           - WALLET
           - PAYME
+          - APPLE_PAY
+          - GOOGLE_PAY
           type: string
     WalletCreditRequestDto:
       example:
@@ -1816,6 +1908,8 @@ components:
             enum:
             - WALLET
             - PAYME
+            - APPLE_PAY
+            - GOOGLE_PAY
             type: string
           minItems: 1
           type: array
@@ -1984,6 +2078,8 @@ components:
             enum:
             - WALLET
             - PAYME
+            - APPLE_PAY
+            - GOOGLE_PAY
             type: string
           type: array
           uniqueItems: true
@@ -1991,6 +2087,8 @@ components:
           enum:
           - WALLET
           - PAYME
+          - APPLE_PAY
+          - GOOGLE_PAY
           type: string
         paymentUrl:
           type: string
@@ -2207,6 +2305,8 @@ components:
           enum:
           - WALLET
           - PAYME
+          - APPLE_PAY
+          - GOOGLE_PAY
           type: string
         moneyCurrency:
           minLength: 1
@@ -2252,6 +2352,8 @@ components:
           enum:
           - WALLET
           - PAYME
+          - APPLE_PAY
+          - GOOGLE_PAY
           type: string
         moneyCurrency:
           type: string
@@ -2347,6 +2449,18 @@ components:
         updatedAt:
           format: date-time
           type: string
+    WalletBalanceSummaryDto:
+      example:
+        available: 0.8008281904610115
+        currency: currency
+        previousAvailable: 6.027456183070403
+      properties:
+        currency:
+          type: string
+        available:
+          type: number
+        previousAvailable:
+          type: number
     Pageable:
       properties:
         page:
@@ -2579,6 +2693,8 @@ components:
           enum:
           - WALLET
           - PAYME
+          - APPLE_PAY
+          - GOOGLE_PAY
           type: string
         paymentUrl:
           type: string
@@ -2660,6 +2776,8 @@ components:
           enum:
           - WALLET
           - PAYME
+          - APPLE_PAY
+          - GOOGLE_PAY
           type: string
         displayName:
           type: string
@@ -2718,6 +2836,8 @@ components:
           enum:
           - WALLET
           - PAYME
+          - APPLE_PAY
+          - GOOGLE_PAY
           type: string
         merchantSuccessUrl:
           type: string
@@ -2731,6 +2851,22 @@ components:
         failureCode:
           type: string
         failureMessage:
+          type: string
+    ExchangeRateDto:
+      example:
+        lastUpdated: 2000-01-23T04:56:07.000+00:00
+        rate: 0.8008281904610115
+        from: from
+        to: to
+      properties:
+        from:
+          type: string
+        to:
+          type: string
+        rate:
+          type: number
+        lastUpdated:
+          format: date-time
           type: string
     JournalEntryTreeDto:
       example:
@@ -2768,6 +2904,12 @@ components:
           items:
             $ref: '#/components/schemas/JournalEntryDto'
           type: array
+    list_3_200_response:
+      oneOf:
+      - $ref: '#/components/schemas/ExchangeRateDto'
+      - items:
+          $ref: '#/components/schemas/ExchangeRateDto'
+        type: array
   securitySchemes:
     bearerAuth:
       bearerFormat: JWT

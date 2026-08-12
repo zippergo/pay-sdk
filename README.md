@@ -134,6 +134,7 @@ Class | Method | HTTP request | Description
 *CheckoutOpenControllerApi* | [**resendOtp**](docs/CheckoutOpenControllerApi.md#resendOtp) | **POST** /api/v1/open/checkout/{id}/resend-otp | 
 *CheckoutOpenControllerApi* | [**selectMethod**](docs/CheckoutOpenControllerApi.md#selectMethod) | **POST** /api/v1/open/checkout/{id}/select-method | 
 *EventWebhookControllerApi* | [**receive**](docs/EventWebhookControllerApi.md#receive) | **POST** /api/v1/open/webhooks/events | 
+*InternalExchangeRatesApi* | [**list3**](docs/InternalExchangeRatesApi.md#list3) | **GET** /api/v1/internal/exchange-rates | 
 *InternalRefundsApi* | [**refundPaymentIntent**](docs/InternalRefundsApi.md#refundPaymentIntent) | **POST** /api/v1/internal/payment-intents/{intentId}/refunds | 
 *InternalRefundsApi* | [**refundWalletCharge**](docs/InternalRefundsApi.md#refundWalletCharge) | **POST** /api/v1/internal/wallet/charges/{chargeId}/refunds | 
 *InternalUsersApi* | [**onboard**](docs/InternalUsersApi.md#onboard) | **POST** /api/v1/internal/users/onboard | Register a user and provision wallets in all active credit currencies
@@ -142,10 +143,12 @@ Class | Method | HTTP request | Description
 *InternalWalletsApi* | [**entries1**](docs/InternalWalletsApi.md#entries1) | **GET** /api/v1/internal/wallets/{userId}/{currency}/entries | 
 *InternalWalletsApi* | [**getOne**](docs/InternalWalletsApi.md#getOne) | **GET** /api/v1/internal/wallets/{userId}/{currency} | 
 *InternalWalletsApi* | [**list2**](docs/InternalWalletsApi.md#list2) | **GET** /api/v1/internal/wallets | 
+*PaymeOpenControllerApi* | [**applePay**](docs/PaymeOpenControllerApi.md#applePay) | **POST** /api/v1/open/notifications/apple_pay | 
+*PaymeOpenControllerApi* | [**googlePay**](docs/PaymeOpenControllerApi.md#googlePay) | **POST** /api/v1/open/notifications/google_pay | 
 *PaymeOpenControllerApi* | [**payme**](docs/PaymeOpenControllerApi.md#payme) | **POST** /api/v1/open/notifications/payme | 
 *PaymeSubscriptionOpenControllerApi* | [**paymeSubscription**](docs/PaymeSubscriptionOpenControllerApi.md#paymeSubscription) | **POST** /api/v1/open/notifications/payme/subscription | 
 *PaymentIntentInternalControllerApi* | [**create2**](docs/PaymentIntentInternalControllerApi.md#create2) | **POST** /api/v1/internal/payment-intents | 
-*PaymentIntentInternalControllerApi* | [**get3**](docs/PaymentIntentInternalControllerApi.md#get3) | **GET** /api/v1/internal/payment-intents/{id} | 
+*PaymentIntentInternalControllerApi* | [**getById**](docs/PaymentIntentInternalControllerApi.md#getById) | **GET** /api/v1/internal/payment-intents/{id} | 
 *SubscriptionInternalControllerApi* | [**create**](docs/SubscriptionInternalControllerApi.md#create) | **POST** /api/v1/internal/subscriptions | 
 *SubscriptionInternalControllerApi* | [**get2**](docs/SubscriptionInternalControllerApi.md#get2) | **GET** /api/v1/internal/subscriptions/{id} | 
 *SubscriptionPlanInternalControllerApi* | [**callList**](docs/SubscriptionPlanInternalControllerApi.md#callList) | **GET** /api/v1/internal/subscription-plans | 
@@ -156,6 +159,7 @@ Class | Method | HTTP request | Description
 *UserPaymentIntentsApi* | [**get1**](docs/UserPaymentIntentsApi.md#get1) | **GET** /api/v1/user/payment-intents/{id} | 
 *UserWalletsApi* | [**entries**](docs/UserWalletsApi.md#entries) | **GET** /api/v1/user/wallets/{currency}/entries | 
 *UserWalletsApi* | [**mine**](docs/UserWalletsApi.md#mine) | **GET** /api/v1/user/wallets | 
+*UserWalletsApi* | [**summary**](docs/UserWalletsApi.md#summary) | **GET** /api/v1/user/wallets/{currency}/summary | 
 
 
 ## Documentation for Models
@@ -173,11 +177,13 @@ Class | Method | HTTP request | Description
  - [CreatePaymentIntentRequestDto](docs/CreatePaymentIntentRequestDto.md)
  - [CreateSubscriptionPlanRequestDto](docs/CreateSubscriptionPlanRequestDto.md)
  - [CreateSubscriptionRequestDto](docs/CreateSubscriptionRequestDto.md)
+ - [ExchangeRateDto](docs/ExchangeRateDto.md)
  - [FreeFormJournalRequestDto](docs/FreeFormJournalRequestDto.md)
  - [JournalEntryDto](docs/JournalEntryDto.md)
  - [JournalEntryTreeDto](docs/JournalEntryTreeDto.md)
  - [LineItemDto](docs/LineItemDto.md)
  - [LineItemRequestDto](docs/LineItemRequestDto.md)
+ - [List3200Response](docs/List3200Response.md)
  - [MerchantInfoDto](docs/MerchantInfoDto.md)
  - [OnboardUserRequestDto](docs/OnboardUserRequestDto.md)
  - [OnboardUserResponseDto](docs/OnboardUserResponseDto.md)
@@ -200,6 +206,7 @@ Class | Method | HTTP request | Description
  - [SubscriptionPlanResponseDto](docs/SubscriptionPlanResponseDto.md)
  - [SubscriptionResponseDto](docs/SubscriptionResponseDto.md)
  - [UpdateSubscriptionPlanRequestDto](docs/UpdateSubscriptionPlanRequestDto.md)
+ - [WalletBalanceSummaryDto](docs/WalletBalanceSummaryDto.md)
  - [WalletChargeRequestDto](docs/WalletChargeRequestDto.md)
  - [WalletChargeResponseDto](docs/WalletChargeResponseDto.md)
  - [WalletCreditRequestDto](docs/WalletCreditRequestDto.md)

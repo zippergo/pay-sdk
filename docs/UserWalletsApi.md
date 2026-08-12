@@ -6,6 +6,7 @@ All URIs are relative to *http://localhost:8089*
 |------------- | ------------- | -------------|
 | [**entries**](UserWalletsApi.md#entries) | **GET** /api/v1/user/wallets/{currency}/entries |  |
 | [**mine**](UserWalletsApi.md#mine) | **GET** /api/v1/user/wallets |  |
+| [**summary**](UserWalletsApi.md#summary) | **GET** /api/v1/user/wallets/{currency}/summary |  |
 
 
 <a id="entries"></a>
@@ -131,6 +132,75 @@ public class Example {
 ### Return type
 
 [**List&lt;WalletDto&gt;**](WalletDto.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: */*
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | OK |  -  |
+
+<a id="summary"></a>
+# **summary**
+> WalletBalanceSummaryDto summary(currency, principal, since)
+
+
+
+### Example
+```java
+// Import classes:
+import com.zipper.pay.sdk.ApiClient;
+import com.zipper.pay.sdk.ApiException;
+import com.zipper.pay.sdk.Configuration;
+import com.zipper.pay.sdk.auth.*;
+import com.zipper.pay.sdk.models.*;
+import com.zipper.pay.sdk.api.UserWalletsApi;
+
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("http://localhost:8089");
+    
+    // Configure HTTP bearer authorization: bearerAuth
+    HttpBearerAuth bearerAuth = (HttpBearerAuth) defaultClient.getAuthentication("bearerAuth");
+    bearerAuth.setBearerToken("BEARER TOKEN");
+
+    UserWalletsApi apiInstance = new UserWalletsApi(defaultClient);
+    String currency = "currency_example"; // String | 
+    AuthenticatedPrincipal principal = new AuthenticatedPrincipal(); // AuthenticatedPrincipal | 
+    OffsetDateTime since = OffsetDateTime.now(); // OffsetDateTime | 
+    try {
+      WalletBalanceSummaryDto result = apiInstance.summary(currency, principal, since);
+      System.out.println(result);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling UserWalletsApi#summary");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **currency** | **String**|  | |
+| **principal** | [**AuthenticatedPrincipal**](.md)|  | |
+| **since** | **OffsetDateTime**|  | [optional] |
+
+### Return type
+
+[**WalletBalanceSummaryDto**](WalletBalanceSummaryDto.md)
 
 ### Authorization
 

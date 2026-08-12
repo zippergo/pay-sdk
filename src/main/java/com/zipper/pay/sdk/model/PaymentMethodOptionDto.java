@@ -59,7 +59,11 @@ public class PaymentMethodOptionDto {
   public enum MethodEnum {
     WALLET("WALLET"),
     
-    PAYME("PAYME");
+    PAYME("PAYME"),
+    
+    APPLE_PAY("APPLE_PAY"),
+    
+    GOOGLE_PAY("GOOGLE_PAY");
 
     private String value;
 

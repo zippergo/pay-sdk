@@ -122,7 +122,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **paymentMethod** | **String**|  | [optional] [enum: WALLET, PAYME] |
+| **paymentMethod** | **String**|  | [optional] [enum: WALLET, PAYME, APPLE_PAY, GOOGLE_PAY] |
 | **moneyCurrency** | **String**|  | [optional] |
 | **creditCurrency** | **String**|  | [optional] |
 

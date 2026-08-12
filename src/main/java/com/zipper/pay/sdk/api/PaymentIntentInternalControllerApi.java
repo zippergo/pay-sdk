@@ -230,7 +230,7 @@ public class PaymentIntentInternalControllerApi {
         return localVarCall;
     }
     /**
-     * Build call for get3
+     * Build call for getById
      * @param id  (required)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
@@ -242,7 +242,7 @@ public class PaymentIntentInternalControllerApi {
         <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call get3Call(@javax.annotation.Nonnull UUID id, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call getByIdCall(@javax.annotation.Nonnull UUID id, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -288,13 +288,13 @@ public class PaymentIntentInternalControllerApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call get3ValidateBeforeCall(@javax.annotation.Nonnull UUID id, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call getByIdValidateBeforeCall(@javax.annotation.Nonnull UUID id, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'id' is set
         if (id == null) {
-            throw new ApiException("Missing the required parameter 'id' when calling get3(Async)");
+            throw new ApiException("Missing the required parameter 'id' when calling getById(Async)");
         }
 
-        return get3Call(id, _callback);
+        return getByIdCall(id, _callback);
 
     }
 
@@ -311,8 +311,8 @@ public class PaymentIntentInternalControllerApi {
         <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
      </table>
      */
-    public PaymentIntentResponseDto get3(@javax.annotation.Nonnull UUID id) throws ApiException {
-        ApiResponse<PaymentIntentResponseDto> localVarResp = get3WithHttpInfo(id);
+    public PaymentIntentResponseDto getById(@javax.annotation.Nonnull UUID id) throws ApiException {
+        ApiResponse<PaymentIntentResponseDto> localVarResp = getByIdWithHttpInfo(id);
         return localVarResp.getData();
     }
 
@@ -329,8 +329,8 @@ public class PaymentIntentInternalControllerApi {
         <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<PaymentIntentResponseDto> get3WithHttpInfo(@javax.annotation.Nonnull UUID id) throws ApiException {
-        okhttp3.Call localVarCall = get3ValidateBeforeCall(id, null);
+    public ApiResponse<PaymentIntentResponseDto> getByIdWithHttpInfo(@javax.annotation.Nonnull UUID id) throws ApiException {
+        okhttp3.Call localVarCall = getByIdValidateBeforeCall(id, null);
         Type localVarReturnType = new TypeToken<PaymentIntentResponseDto>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
@@ -349,9 +349,9 @@ public class PaymentIntentInternalControllerApi {
         <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call get3Async(@javax.annotation.Nonnull UUID id, final ApiCallback<PaymentIntentResponseDto> _callback) throws ApiException {
+    public okhttp3.Call getByIdAsync(@javax.annotation.Nonnull UUID id, final ApiCallback<PaymentIntentResponseDto> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = get3ValidateBeforeCall(id, _callback);
+        okhttp3.Call localVarCall = getByIdValidateBeforeCall(id, _callback);
         Type localVarReturnType = new TypeToken<PaymentIntentResponseDto>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;

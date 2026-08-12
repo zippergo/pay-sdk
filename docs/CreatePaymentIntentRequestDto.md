@@ -41,6 +41,8 @@
 |---- | -----|
 | WALLET | &quot;WALLET&quot; |
 | PAYME | &quot;PAYME&quot; |
+| APPLE_PAY | &quot;APPLE_PAY&quot; |
+| GOOGLE_PAY | &quot;GOOGLE_PAY&quot; |
 
 
 

@@ -25,7 +25,9 @@ docs/CreatePaymentIntentRequestDto.md
 docs/CreateSubscriptionPlanRequestDto.md
 docs/CreateSubscriptionRequestDto.md
 docs/EventWebhookControllerApi.md
+docs/ExchangeRateDto.md
 docs/FreeFormJournalRequestDto.md
+docs/InternalExchangeRatesApi.md
 docs/InternalRefundsApi.md
 docs/InternalUsersApi.md
 docs/InternalWalletChargesApi.md
@@ -35,6 +37,7 @@ docs/JournalEntryDto.md
 docs/JournalEntryTreeDto.md
 docs/LineItemDto.md
 docs/LineItemRequestDto.md
+docs/List3200Response.md
 docs/MerchantInfoDto.md
 docs/OnboardUserRequestDto.md
 docs/OnboardUserResponseDto.md
@@ -65,6 +68,7 @@ docs/UpdateSubscriptionPlanRequestDto.md
 docs/UserInvoicesApi.md
 docs/UserPaymentIntentsApi.md
 docs/UserWalletsApi.md
+docs/WalletBalanceSummaryDto.md
 docs/WalletChargeRequestDto.md
 docs/WalletChargeResponseDto.md
 docs/WalletCreditRequestDto.md
@@ -100,6 +104,7 @@ src/main/java/com/zipper/pay/sdk/api/AdminJournalApi.java
 src/main/java/com/zipper/pay/sdk/api/AdminWalletsApi.java
 src/main/java/com/zipper/pay/sdk/api/CheckoutOpenControllerApi.java
 src/main/java/com/zipper/pay/sdk/api/EventWebhookControllerApi.java
+src/main/java/com/zipper/pay/sdk/api/InternalExchangeRatesApi.java
 src/main/java/com/zipper/pay/sdk/api/InternalRefundsApi.java
 src/main/java/com/zipper/pay/sdk/api/InternalUsersApi.java
 src/main/java/com/zipper/pay/sdk/api/InternalWalletChargesApi.java
@@ -131,11 +136,13 @@ src/main/java/com/zipper/pay/sdk/model/ConversionRateResponseDto.java
 src/main/java/com/zipper/pay/sdk/model/CreatePaymentIntentRequestDto.java
 src/main/java/com/zipper/pay/sdk/model/CreateSubscriptionPlanRequestDto.java
 src/main/java/com/zipper/pay/sdk/model/CreateSubscriptionRequestDto.java
+src/main/java/com/zipper/pay/sdk/model/ExchangeRateDto.java
 src/main/java/com/zipper/pay/sdk/model/FreeFormJournalRequestDto.java
 src/main/java/com/zipper/pay/sdk/model/JournalEntryDto.java
 src/main/java/com/zipper/pay/sdk/model/JournalEntryTreeDto.java
 src/main/java/com/zipper/pay/sdk/model/LineItemDto.java
 src/main/java/com/zipper/pay/sdk/model/LineItemRequestDto.java
+src/main/java/com/zipper/pay/sdk/model/List3200Response.java
 src/main/java/com/zipper/pay/sdk/model/MerchantInfoDto.java
 src/main/java/com/zipper/pay/sdk/model/OnboardUserRequestDto.java
 src/main/java/com/zipper/pay/sdk/model/OnboardUserResponseDto.java
@@ -158,6 +165,7 @@ src/main/java/com/zipper/pay/sdk/model/SortObject.java
 src/main/java/com/zipper/pay/sdk/model/SubscriptionPlanResponseDto.java
 src/main/java/com/zipper/pay/sdk/model/SubscriptionResponseDto.java
 src/main/java/com/zipper/pay/sdk/model/UpdateSubscriptionPlanRequestDto.java
+src/main/java/com/zipper/pay/sdk/model/WalletBalanceSummaryDto.java
 src/main/java/com/zipper/pay/sdk/model/WalletChargeRequestDto.java
 src/main/java/com/zipper/pay/sdk/model/WalletChargeResponseDto.java
 src/main/java/com/zipper/pay/sdk/model/WalletCreditRequestDto.java
