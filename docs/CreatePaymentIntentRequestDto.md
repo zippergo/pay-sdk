@@ -31,6 +31,7 @@
 |**taxAmount** | **BigDecimal** |  |  [optional] |
 |**discountAmount** | **BigDecimal** |  |  [optional] |
 |**lineItems** | [**List&lt;LineItemRequestDto&gt;**](LineItemRequestDto.md) |  |  [optional] |
+|**methodDiscounts** | [**List&lt;MethodDiscountRequestDto&gt;**](MethodDiscountRequestDto.md) |  |  [optional] |
 |**embedded** | **Boolean** |  |  [optional] |
 
 
@@ -43,6 +44,7 @@
 | PAYME | &quot;PAYME&quot; |
 | APPLE_PAY | &quot;APPLE_PAY&quot; |
 | GOOGLE_PAY | &quot;GOOGLE_PAY&quot; |
+| ONPAY | &quot;ONPAY&quot; |
 
 
 

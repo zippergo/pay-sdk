@@ -136,7 +136,9 @@ public class ConfirmCheckoutResponseDto {
     
     APPLE_PAY("APPLE_PAY"),
     
-    GOOGLE_PAY("GOOGLE_PAY");
+    GOOGLE_PAY("GOOGLE_PAY"),
+    
+    ONPAY("ONPAY");
 
     private String value;
 

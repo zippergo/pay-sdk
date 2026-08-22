@@ -20,6 +20,7 @@ import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.Arrays;
 
@@ -55,6 +56,16 @@ public class SelectMethodResponseDto {
   @SerializedName(SERIALIZED_NAME_PAYMENT_URL)
   @javax.annotation.Nullable
   private String paymentUrl;
+
+  public static final String SERIALIZED_NAME_AMOUNT = "amount";
+  @SerializedName(SERIALIZED_NAME_AMOUNT)
+  @javax.annotation.Nullable
+  private BigDecimal amount;
+
+  public static final String SERIALIZED_NAME_METHOD_DISCOUNT_AMOUNT = "methodDiscountAmount";
+  @SerializedName(SERIALIZED_NAME_METHOD_DISCOUNT_AMOUNT)
+  @javax.annotation.Nullable
+  private BigDecimal methodDiscountAmount;
 
   public static final String SERIALIZED_NAME_IFRAME = "iframe";
   @SerializedName(SERIALIZED_NAME_IFRAME)
@@ -135,6 +146,11 @@ public class SelectMethodResponseDto {
   @javax.annotation.Nullable
   private OffsetDateTime expiresAt;
 
+  public static final String SERIALIZED_NAME_RESUMABLE = "resumable";
+  @SerializedName(SERIALIZED_NAME_RESUMABLE)
+  @javax.annotation.Nullable
+  private Boolean resumable;
+
   public SelectMethodResponseDto() {
   }
 
@@ -154,6 +170,44 @@ public class SelectMethodResponseDto {
 
   public void setPaymentUrl(@javax.annotation.Nullable String paymentUrl) {
     this.paymentUrl = paymentUrl;
+  }
+
+
+  public SelectMethodResponseDto amount(@javax.annotation.Nullable BigDecimal amount) {
+    this.amount = amount;
+    return this;
+  }
+
+  /**
+   * Get amount
+   * @return amount
+   */
+  @javax.annotation.Nullable
+  public BigDecimal getAmount() {
+    return amount;
+  }
+
+  public void setAmount(@javax.annotation.Nullable BigDecimal amount) {
+    this.amount = amount;
+  }
+
+
+  public SelectMethodResponseDto methodDiscountAmount(@javax.annotation.Nullable BigDecimal methodDiscountAmount) {
+    this.methodDiscountAmount = methodDiscountAmount;
+    return this;
+  }
+
+  /**
+   * Get methodDiscountAmount
+   * @return methodDiscountAmount
+   */
+  @javax.annotation.Nullable
+  public BigDecimal getMethodDiscountAmount() {
+    return methodDiscountAmount;
+  }
+
+  public void setMethodDiscountAmount(@javax.annotation.Nullable BigDecimal methodDiscountAmount) {
+    this.methodDiscountAmount = methodDiscountAmount;
   }
 
 
@@ -214,6 +268,25 @@ public class SelectMethodResponseDto {
   }
 
 
+  public SelectMethodResponseDto resumable(@javax.annotation.Nullable Boolean resumable) {
+    this.resumable = resumable;
+    return this;
+  }
+
+  /**
+   * Get resumable
+   * @return resumable
+   */
+  @javax.annotation.Nullable
+  public Boolean getResumable() {
+    return resumable;
+  }
+
+  public void setResumable(@javax.annotation.Nullable Boolean resumable) {
+    this.resumable = resumable;
+  }
+
+
 
   @Override
   public boolean equals(Object o) {
@@ -225,14 +298,17 @@ public class SelectMethodResponseDto {
     }
     SelectMethodResponseDto selectMethodResponseDto = (SelectMethodResponseDto) o;
     return Objects.equals(this.paymentUrl, selectMethodResponseDto.paymentUrl) &&
+        Objects.equals(this.amount, selectMethodResponseDto.amount) &&
+        Objects.equals(this.methodDiscountAmount, selectMethodResponseDto.methodDiscountAmount) &&
         Objects.equals(this.iframe, selectMethodResponseDto.iframe) &&
         Objects.equals(this.status, selectMethodResponseDto.status) &&
-        Objects.equals(this.expiresAt, selectMethodResponseDto.expiresAt);
+        Objects.equals(this.expiresAt, selectMethodResponseDto.expiresAt) &&
+        Objects.equals(this.resumable, selectMethodResponseDto.resumable);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(paymentUrl, iframe, status, expiresAt);
+    return Objects.hash(paymentUrl, amount, methodDiscountAmount, iframe, status, expiresAt, resumable);
   }
 
   @Override
@@ -240,9 +316,12 @@ public class SelectMethodResponseDto {
     StringBuilder sb = new StringBuilder();
     sb.append("class SelectMethodResponseDto {\n");
     sb.append("    paymentUrl: ").append(toIndentedString(paymentUrl)).append("\n");
+    sb.append("    amount: ").append(toIndentedString(amount)).append("\n");
+    sb.append("    methodDiscountAmount: ").append(toIndentedString(methodDiscountAmount)).append("\n");
     sb.append("    iframe: ").append(toIndentedString(iframe)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("    expiresAt: ").append(toIndentedString(expiresAt)).append("\n");
+    sb.append("    resumable: ").append(toIndentedString(resumable)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -266,9 +345,12 @@ public class SelectMethodResponseDto {
     // a set of all properties/fields (JSON key names)
     openapiFields = new HashSet<String>();
     openapiFields.add("paymentUrl");
+    openapiFields.add("amount");
+    openapiFields.add("methodDiscountAmount");
     openapiFields.add("iframe");
     openapiFields.add("status");
     openapiFields.add("expiresAt");
+    openapiFields.add("resumable");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

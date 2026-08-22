@@ -1,18 +1,19 @@
 
 
-# SelectMethodRequestDto
+# MethodDiscountRequestDto
 
 
 ## Properties
 
 | Name | Type | Description | Notes |
 |------------ | ------------- | ------------- | -------------|
-|**paymentMethod** | [**PaymentMethodEnum**](#PaymentMethodEnum) |  |  |
-|**internalReturnUrl** | **String** |  |  |
+|**method** | [**MethodEnum**](#MethodEnum) |  |  |
+|**type** | [**TypeEnum**](#TypeEnum) |  |  |
+|**value** | **BigDecimal** |  |  |
 
 
 
-## Enum: PaymentMethodEnum
+## Enum: MethodEnum
 
 | Name | Value |
 |---- | -----|
@@ -21,6 +22,15 @@
 | APPLE_PAY | &quot;APPLE_PAY&quot; |
 | GOOGLE_PAY | &quot;GOOGLE_PAY&quot; |
 | ONPAY | &quot;ONPAY&quot; |
+
+
+
+## Enum: TypeEnum
+
+| Name | Value |
+|---- | -----|
+| PERCENT | &quot;PERCENT&quot; |
+| FIXED | &quot;FIXED&quot; |
 
 
 

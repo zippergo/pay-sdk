@@ -138,6 +138,16 @@ public class CheckoutDetailsDto {
   @javax.annotation.Nullable
   private BigDecimal amount;
 
+  public static final String SERIALIZED_NAME_BASE_AMOUNT = "baseAmount";
+  @SerializedName(SERIALIZED_NAME_BASE_AMOUNT)
+  @javax.annotation.Nullable
+  private BigDecimal baseAmount;
+
+  public static final String SERIALIZED_NAME_METHOD_DISCOUNT_AMOUNT = "methodDiscountAmount";
+  @SerializedName(SERIALIZED_NAME_METHOD_DISCOUNT_AMOUNT)
+  @javax.annotation.Nullable
+  private BigDecimal methodDiscountAmount;
+
   public static final String SERIALIZED_NAME_CURRENCY = "currency";
   @SerializedName(SERIALIZED_NAME_CURRENCY)
   @javax.annotation.Nullable
@@ -164,7 +174,9 @@ public class CheckoutDetailsDto {
     
     APPLE_PAY("APPLE_PAY"),
     
-    GOOGLE_PAY("GOOGLE_PAY");
+    GOOGLE_PAY("GOOGLE_PAY"),
+    
+    ONPAY("ONPAY");
 
     private String value;
 
@@ -329,6 +341,11 @@ public class CheckoutDetailsDto {
   @javax.annotation.Nullable
   private Boolean embedded;
 
+  public static final String SERIALIZED_NAME_RESUMABLE = "resumable";
+  @SerializedName(SERIALIZED_NAME_RESUMABLE)
+  @javax.annotation.Nullable
+  private Boolean resumable;
+
   public CheckoutDetailsDto() {
   }
 
@@ -386,6 +403,44 @@ public class CheckoutDetailsDto {
 
   public void setAmount(@javax.annotation.Nullable BigDecimal amount) {
     this.amount = amount;
+  }
+
+
+  public CheckoutDetailsDto baseAmount(@javax.annotation.Nullable BigDecimal baseAmount) {
+    this.baseAmount = baseAmount;
+    return this;
+  }
+
+  /**
+   * Get baseAmount
+   * @return baseAmount
+   */
+  @javax.annotation.Nullable
+  public BigDecimal getBaseAmount() {
+    return baseAmount;
+  }
+
+  public void setBaseAmount(@javax.annotation.Nullable BigDecimal baseAmount) {
+    this.baseAmount = baseAmount;
+  }
+
+
+  public CheckoutDetailsDto methodDiscountAmount(@javax.annotation.Nullable BigDecimal methodDiscountAmount) {
+    this.methodDiscountAmount = methodDiscountAmount;
+    return this;
+  }
+
+  /**
+   * Get methodDiscountAmount
+   * @return methodDiscountAmount
+   */
+  @javax.annotation.Nullable
+  public BigDecimal getMethodDiscountAmount() {
+    return methodDiscountAmount;
+  }
+
+  public void setMethodDiscountAmount(@javax.annotation.Nullable BigDecimal methodDiscountAmount) {
+    this.methodDiscountAmount = methodDiscountAmount;
   }
 
 
@@ -690,6 +745,25 @@ public class CheckoutDetailsDto {
   }
 
 
+  public CheckoutDetailsDto resumable(@javax.annotation.Nullable Boolean resumable) {
+    this.resumable = resumable;
+    return this;
+  }
+
+  /**
+   * Get resumable
+   * @return resumable
+   */
+  @javax.annotation.Nullable
+  public Boolean getResumable() {
+    return resumable;
+  }
+
+  public void setResumable(@javax.annotation.Nullable Boolean resumable) {
+    this.resumable = resumable;
+  }
+
+
 
   @Override
   public boolean equals(Object o) {
@@ -703,6 +777,8 @@ public class CheckoutDetailsDto {
     return Objects.equals(this.id, checkoutDetailsDto.id) &&
         Objects.equals(this.status, checkoutDetailsDto.status) &&
         Objects.equals(this.amount, checkoutDetailsDto.amount) &&
+        Objects.equals(this.baseAmount, checkoutDetailsDto.baseAmount) &&
+        Objects.equals(this.methodDiscountAmount, checkoutDetailsDto.methodDiscountAmount) &&
         Objects.equals(this.currency, checkoutDetailsDto.currency) &&
         Objects.equals(this.language, checkoutDetailsDto.language) &&
         Objects.equals(this.methods, checkoutDetailsDto.methods) &&
@@ -717,12 +793,13 @@ public class CheckoutDetailsDto {
         Objects.equals(this.priceBreakdown, checkoutDetailsDto.priceBreakdown) &&
         Objects.equals(this.buyerEmail, checkoutDetailsDto.buyerEmail) &&
         Objects.equals(this.purpose, checkoutDetailsDto.purpose) &&
-        Objects.equals(this.embedded, checkoutDetailsDto.embedded);
+        Objects.equals(this.embedded, checkoutDetailsDto.embedded) &&
+        Objects.equals(this.resumable, checkoutDetailsDto.resumable);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, status, amount, currency, language, methods, selectedPaymentMethod, paymentUrl, merchantSuccessUrl, merchantCancelUrl, merchantFailureUrl, expiresAt, merchant, lineItems, priceBreakdown, buyerEmail, purpose, embedded);
+    return Objects.hash(id, status, amount, baseAmount, methodDiscountAmount, currency, language, methods, selectedPaymentMethod, paymentUrl, merchantSuccessUrl, merchantCancelUrl, merchantFailureUrl, expiresAt, merchant, lineItems, priceBreakdown, buyerEmail, purpose, embedded, resumable);
   }
 
   @Override
@@ -732,6 +809,8 @@ public class CheckoutDetailsDto {
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("    amount: ").append(toIndentedString(amount)).append("\n");
+    sb.append("    baseAmount: ").append(toIndentedString(baseAmount)).append("\n");
+    sb.append("    methodDiscountAmount: ").append(toIndentedString(methodDiscountAmount)).append("\n");
     sb.append("    currency: ").append(toIndentedString(currency)).append("\n");
     sb.append("    language: ").append(toIndentedString(language)).append("\n");
     sb.append("    methods: ").append(toIndentedString(methods)).append("\n");
@@ -747,6 +826,7 @@ public class CheckoutDetailsDto {
     sb.append("    buyerEmail: ").append(toIndentedString(buyerEmail)).append("\n");
     sb.append("    purpose: ").append(toIndentedString(purpose)).append("\n");
     sb.append("    embedded: ").append(toIndentedString(embedded)).append("\n");
+    sb.append("    resumable: ").append(toIndentedString(resumable)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -772,6 +852,8 @@ public class CheckoutDetailsDto {
     openapiFields.add("id");
     openapiFields.add("status");
     openapiFields.add("amount");
+    openapiFields.add("baseAmount");
+    openapiFields.add("methodDiscountAmount");
     openapiFields.add("currency");
     openapiFields.add("language");
     openapiFields.add("methods");
@@ -787,6 +869,7 @@ public class CheckoutDetailsDto {
     openapiFields.add("buyerEmail");
     openapiFields.add("purpose");
     openapiFields.add("embedded");
+    openapiFields.add("resumable");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();

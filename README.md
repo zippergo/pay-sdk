@@ -123,8 +123,14 @@ Class | Method | HTTP request | Description
 *AdminConsumerServicesApi* | [**rotate**](docs/AdminConsumerServicesApi.md#rotate) | **POST** /api/v1/admin/consumer-services/{clientId}/rotate-secret | 
 *AdminConversionRatesApi* | [**insert**](docs/AdminConversionRatesApi.md#insert) | **POST** /api/v1/admin/conversion-rates | 
 *AdminConversionRatesApi* | [**list1**](docs/AdminConversionRatesApi.md#list1) | **GET** /api/v1/admin/conversion-rates | 
+*AdminInvoicesApi* | [**adminGetInvoice**](docs/AdminInvoicesApi.md#adminGetInvoice) | **GET** /api/v1/admin/invoices/{id} | Get one invoice
+*AdminInvoicesApi* | [**adminRetryInvoice**](docs/AdminInvoicesApi.md#adminRetryInvoice) | **POST** /api/v1/admin/invoices/{id}/retry | Retry a failed issuance
+*AdminInvoicesApi* | [**adminSearchInvoices**](docs/AdminInvoicesApi.md#adminSearchInvoices) | **POST** /api/v1/admin/invoices/search | Search invoices
 *AdminJournalApi* | [**getByRef**](docs/AdminJournalApi.md#getByRef) | **GET** /api/v1/admin/journal/{refType}/{refId} | 
 *AdminJournalApi* | [**postFreeForm**](docs/AdminJournalApi.md#postFreeForm) | **POST** /api/v1/admin/journal/adjustments | 
+*AdminOnpayRefundsApi* | [**adminSettleOnPayRefund**](docs/AdminOnpayRefundsApi.md#adminSettleOnPayRefund) | **POST** /api/v1/admin/onpay-refunds/{refundIntentId}/settle | Settle an ON refund
+*AdminPaymentIntentsApi* | [**adminGetPaymentIntent**](docs/AdminPaymentIntentsApi.md#adminGetPaymentIntent) | **GET** /api/v1/admin/payment-intents/{id} | Get one payment intent
+*AdminPaymentIntentsApi* | [**adminSearchPaymentIntents**](docs/AdminPaymentIntentsApi.md#adminSearchPaymentIntents) | **POST** /api/v1/admin/payment-intents/search | Search payment intents
 *AdminWalletsApi* | [**credit1**](docs/AdminWalletsApi.md#credit1) | **POST** /api/v1/admin/wallets/{userId}/{currency}/credit | 
 *AdminWalletsApi* | [**debit**](docs/AdminWalletsApi.md#debit) | **POST** /api/v1/admin/wallets/{userId}/{currency}/debit | 
 *AdminWalletsApi* | [**listWallets**](docs/AdminWalletsApi.md#listWallets) | **GET** /api/v1/admin/wallets/{userId} | 
@@ -167,6 +173,12 @@ Class | Method | HTTP request | Description
  - [AdminAdjustmentResponseDto](docs/AdminAdjustmentResponseDto.md)
  - [AdminCreditRequestDto](docs/AdminCreditRequestDto.md)
  - [AdminDebitRequestDto](docs/AdminDebitRequestDto.md)
+ - [AdminInvoiceDetailDto](docs/AdminInvoiceDetailDto.md)
+ - [AdminInvoiceRowDto](docs/AdminInvoiceRowDto.md)
+ - [AdminPaymentIntentChainNodeDto](docs/AdminPaymentIntentChainNodeDto.md)
+ - [AdminPaymentIntentDetailDto](docs/AdminPaymentIntentDetailDto.md)
+ - [AdminPaymentIntentLineItemDto](docs/AdminPaymentIntentLineItemDto.md)
+ - [AdminPaymentIntentRowDto](docs/AdminPaymentIntentRowDto.md)
  - [AuthenticatedPrincipal](docs/AuthenticatedPrincipal.md)
  - [CheckoutDetailsDto](docs/CheckoutDetailsDto.md)
  - [CheckoutStatusDto](docs/CheckoutStatusDto.md)
@@ -178,6 +190,7 @@ Class | Method | HTTP request | Description
  - [CreateSubscriptionPlanRequestDto](docs/CreateSubscriptionPlanRequestDto.md)
  - [CreateSubscriptionRequestDto](docs/CreateSubscriptionRequestDto.md)
  - [ExchangeRateDto](docs/ExchangeRateDto.md)
+ - [Filter](docs/Filter.md)
  - [FreeFormJournalRequestDto](docs/FreeFormJournalRequestDto.md)
  - [JournalEntryDto](docs/JournalEntryDto.md)
  - [JournalEntryTreeDto](docs/JournalEntryTreeDto.md)
@@ -185,11 +198,15 @@ Class | Method | HTTP request | Description
  - [LineItemRequestDto](docs/LineItemRequestDto.md)
  - [List3200Response](docs/List3200Response.md)
  - [MerchantInfoDto](docs/MerchantInfoDto.md)
+ - [MethodDiscountRequestDto](docs/MethodDiscountRequestDto.md)
  - [OnboardUserRequestDto](docs/OnboardUserRequestDto.md)
  - [OnboardUserResponseDto](docs/OnboardUserResponseDto.md)
+ - [PageResponseListAdminInvoiceRowDto](docs/PageResponseListAdminInvoiceRowDto.md)
+ - [PageResponseListAdminPaymentIntentRowDto](docs/PageResponseListAdminPaymentIntentRowDto.md)
  - [PageWalletEntryDto](docs/PageWalletEntryDto.md)
  - [Pageable](docs/Pageable.md)
  - [PageableObject](docs/PageableObject.md)
+ - [Pagination](docs/Pagination.md)
  - [PaymentIntentResponseDto](docs/PaymentIntentResponseDto.md)
  - [PaymentMethodOptionDto](docs/PaymentMethodOptionDto.md)
  - [PostingLineDto](docs/PostingLineDto.md)
@@ -200,8 +217,11 @@ Class | Method | HTTP request | Description
  - [RegisterConsumerResponseDto](docs/RegisterConsumerResponseDto.md)
  - [ResendOtpResponseDto](docs/ResendOtpResponseDto.md)
  - [RotateSecretResponseDto](docs/RotateSecretResponseDto.md)
+ - [SearchInvoicesRequest](docs/SearchInvoicesRequest.md)
+ - [SearchPaymentIntentsRequest](docs/SearchPaymentIntentsRequest.md)
  - [SelectMethodRequestDto](docs/SelectMethodRequestDto.md)
  - [SelectMethodResponseDto](docs/SelectMethodResponseDto.md)
+ - [SortField](docs/SortField.md)
  - [SortObject](docs/SortObject.md)
  - [SubscriptionPlanResponseDto](docs/SubscriptionPlanResponseDto.md)
  - [SubscriptionResponseDto](docs/SubscriptionResponseDto.md)

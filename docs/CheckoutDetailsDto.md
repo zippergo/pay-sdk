@@ -10,6 +10,8 @@
 |**id** | **UUID** |  |  [optional] |
 |**status** | [**StatusEnum**](#StatusEnum) |  |  [optional] |
 |**amount** | **BigDecimal** |  |  [optional] |
+|**baseAmount** | **BigDecimal** |  |  [optional] |
+|**methodDiscountAmount** | **BigDecimal** |  |  [optional] |
 |**currency** | **String** |  |  [optional] |
 |**language** | **String** |  |  [optional] |
 |**methods** | [**List&lt;PaymentMethodOptionDto&gt;**](PaymentMethodOptionDto.md) |  |  [optional] |
@@ -25,6 +27,7 @@
 |**buyerEmail** | **String** |  |  [optional] |
 |**purpose** | [**PurposeEnum**](#PurposeEnum) |  |  [optional] |
 |**embedded** | **Boolean** |  |  [optional] |
+|**resumable** | **Boolean** |  |  [optional] |
 
 
 
@@ -51,6 +54,7 @@
 | PAYME | &quot;PAYME&quot; |
 | APPLE_PAY | &quot;APPLE_PAY&quot; |
 | GOOGLE_PAY | &quot;GOOGLE_PAY&quot; |
+| ONPAY | &quot;ONPAY&quot; |
 
 
 

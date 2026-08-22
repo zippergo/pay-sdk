@@ -8,9 +8,12 @@
 | Name | Type | Description | Notes |
 |------------ | ------------- | ------------- | -------------|
 |**paymentUrl** | **String** |  |  [optional] |
+|**amount** | **BigDecimal** |  |  [optional] |
+|**methodDiscountAmount** | **BigDecimal** |  |  [optional] |
 |**iframe** | **Boolean** |  |  [optional] |
 |**status** | [**StatusEnum**](#StatusEnum) |  |  [optional] |
 |**expiresAt** | **OffsetDateTime** |  |  [optional] |
+|**resumable** | **Boolean** |  |  [optional] |
 
 
 

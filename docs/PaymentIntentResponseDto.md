@@ -15,6 +15,8 @@
 |**checkoutUrl** | **String** |  |  [optional] |
 |**providerRef** | **String** |  |  [optional] |
 |**amount** | **BigDecimal** |  |  [optional] |
+|**baseAmount** | **BigDecimal** |  |  [optional] |
+|**methodDiscountAmount** | **BigDecimal** |  |  [optional] |
 |**currency** | **String** |  |  [optional] |
 |**appliedRate** | **BigDecimal** |  |  [optional] |
 |**feeAmount** | **BigDecimal** |  |  [optional] |
@@ -46,6 +48,7 @@
 | PAYME | &quot;PAYME&quot; |
 | APPLE_PAY | &quot;APPLE_PAY&quot; |
 | GOOGLE_PAY | &quot;GOOGLE_PAY&quot; |
+| ONPAY | &quot;ONPAY&quot; |
 
 
 
@@ -57,6 +60,7 @@
 | PAYME | &quot;PAYME&quot; |
 | APPLE_PAY | &quot;APPLE_PAY&quot; |
 | GOOGLE_PAY | &quot;GOOGLE_PAY&quot; |
+| ONPAY | &quot;ONPAY&quot; |
 
 
 

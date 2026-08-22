@@ -66,6 +66,11 @@ public class PriceBreakdownDto {
   @javax.annotation.Nullable
   private BigDecimal discount;
 
+  public static final String SERIALIZED_NAME_METHOD_DISCOUNT = "methodDiscount";
+  @SerializedName(SERIALIZED_NAME_METHOD_DISCOUNT)
+  @javax.annotation.Nullable
+  private BigDecimal methodDiscount;
+
   public static final String SERIALIZED_NAME_TOTAL = "total";
   @SerializedName(SERIALIZED_NAME_TOTAL)
   @javax.annotation.Nullable
@@ -131,6 +136,25 @@ public class PriceBreakdownDto {
   }
 
 
+  public PriceBreakdownDto methodDiscount(@javax.annotation.Nullable BigDecimal methodDiscount) {
+    this.methodDiscount = methodDiscount;
+    return this;
+  }
+
+  /**
+   * Get methodDiscount
+   * @return methodDiscount
+   */
+  @javax.annotation.Nullable
+  public BigDecimal getMethodDiscount() {
+    return methodDiscount;
+  }
+
+  public void setMethodDiscount(@javax.annotation.Nullable BigDecimal methodDiscount) {
+    this.methodDiscount = methodDiscount;
+  }
+
+
   public PriceBreakdownDto total(@javax.annotation.Nullable BigDecimal total) {
     this.total = total;
     return this;
@@ -163,12 +187,13 @@ public class PriceBreakdownDto {
     return Objects.equals(this.subtotal, priceBreakdownDto.subtotal) &&
         Objects.equals(this.tax, priceBreakdownDto.tax) &&
         Objects.equals(this.discount, priceBreakdownDto.discount) &&
+        Objects.equals(this.methodDiscount, priceBreakdownDto.methodDiscount) &&
         Objects.equals(this.total, priceBreakdownDto.total);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(subtotal, tax, discount, total);
+    return Objects.hash(subtotal, tax, discount, methodDiscount, total);
   }
 
   @Override
@@ -178,6 +203,7 @@ public class PriceBreakdownDto {
     sb.append("    subtotal: ").append(toIndentedString(subtotal)).append("\n");
     sb.append("    tax: ").append(toIndentedString(tax)).append("\n");
     sb.append("    discount: ").append(toIndentedString(discount)).append("\n");
+    sb.append("    methodDiscount: ").append(toIndentedString(methodDiscount)).append("\n");
     sb.append("    total: ").append(toIndentedString(total)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -204,6 +230,7 @@ public class PriceBreakdownDto {
     openapiFields.add("subtotal");
     openapiFields.add("tax");
     openapiFields.add("discount");
+    openapiFields.add("methodDiscount");
     openapiFields.add("total");
 
     // a set of required properties/fields (JSON key names)

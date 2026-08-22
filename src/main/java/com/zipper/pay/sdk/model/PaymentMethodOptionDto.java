@@ -20,6 +20,7 @@ import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -63,7 +64,9 @@ public class PaymentMethodOptionDto {
     
     APPLE_PAY("APPLE_PAY"),
     
-    GOOGLE_PAY("GOOGLE_PAY");
+    GOOGLE_PAY("GOOGLE_PAY"),
+    
+    ONPAY("ONPAY");
 
     private String value;
 
@@ -180,6 +183,78 @@ public class PaymentMethodOptionDto {
   @javax.annotation.Nullable
   private Set<SupportedCardsEnum> supportedCards = new LinkedHashSet<>();
 
+  /**
+   * Gets or Sets discountType
+   */
+  @JsonAdapter(DiscountTypeEnum.Adapter.class)
+  public enum DiscountTypeEnum {
+    PERCENT("PERCENT"),
+    
+    FIXED("FIXED");
+
+    private String value;
+
+    DiscountTypeEnum(String value) {
+      this.value = value;
+    }
+
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    public static DiscountTypeEnum fromValue(String value) {
+      for (DiscountTypeEnum b : DiscountTypeEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+
+    public static class Adapter extends TypeAdapter<DiscountTypeEnum> {
+      @Override
+      public void write(final JsonWriter jsonWriter, final DiscountTypeEnum enumeration) throws IOException {
+        jsonWriter.value(enumeration.getValue());
+      }
+
+      @Override
+      public DiscountTypeEnum read(final JsonReader jsonReader) throws IOException {
+        String value =  jsonReader.nextString();
+        return DiscountTypeEnum.fromValue(value);
+      }
+    }
+
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      String value = jsonElement.getAsString();
+      DiscountTypeEnum.fromValue(value);
+    }
+  }
+
+  public static final String SERIALIZED_NAME_DISCOUNT_TYPE = "discountType";
+  @SerializedName(SERIALIZED_NAME_DISCOUNT_TYPE)
+  @javax.annotation.Nullable
+  private DiscountTypeEnum discountType;
+
+  public static final String SERIALIZED_NAME_DISCOUNT_VALUE = "discountValue";
+  @SerializedName(SERIALIZED_NAME_DISCOUNT_VALUE)
+  @javax.annotation.Nullable
+  private BigDecimal discountValue;
+
+  public static final String SERIALIZED_NAME_DISCOUNT_AMOUNT = "discountAmount";
+  @SerializedName(SERIALIZED_NAME_DISCOUNT_AMOUNT)
+  @javax.annotation.Nullable
+  private BigDecimal discountAmount;
+
+  public static final String SERIALIZED_NAME_AMOUNT_AFTER_DISCOUNT = "amountAfterDiscount";
+  @SerializedName(SERIALIZED_NAME_AMOUNT_AFTER_DISCOUNT)
+  @javax.annotation.Nullable
+  private BigDecimal amountAfterDiscount;
+
   public PaymentMethodOptionDto() {
   }
 
@@ -267,6 +342,82 @@ public class PaymentMethodOptionDto {
   }
 
 
+  public PaymentMethodOptionDto discountType(@javax.annotation.Nullable DiscountTypeEnum discountType) {
+    this.discountType = discountType;
+    return this;
+  }
+
+  /**
+   * Get discountType
+   * @return discountType
+   */
+  @javax.annotation.Nullable
+  public DiscountTypeEnum getDiscountType() {
+    return discountType;
+  }
+
+  public void setDiscountType(@javax.annotation.Nullable DiscountTypeEnum discountType) {
+    this.discountType = discountType;
+  }
+
+
+  public PaymentMethodOptionDto discountValue(@javax.annotation.Nullable BigDecimal discountValue) {
+    this.discountValue = discountValue;
+    return this;
+  }
+
+  /**
+   * Get discountValue
+   * @return discountValue
+   */
+  @javax.annotation.Nullable
+  public BigDecimal getDiscountValue() {
+    return discountValue;
+  }
+
+  public void setDiscountValue(@javax.annotation.Nullable BigDecimal discountValue) {
+    this.discountValue = discountValue;
+  }
+
+
+  public PaymentMethodOptionDto discountAmount(@javax.annotation.Nullable BigDecimal discountAmount) {
+    this.discountAmount = discountAmount;
+    return this;
+  }
+
+  /**
+   * Get discountAmount
+   * @return discountAmount
+   */
+  @javax.annotation.Nullable
+  public BigDecimal getDiscountAmount() {
+    return discountAmount;
+  }
+
+  public void setDiscountAmount(@javax.annotation.Nullable BigDecimal discountAmount) {
+    this.discountAmount = discountAmount;
+  }
+
+
+  public PaymentMethodOptionDto amountAfterDiscount(@javax.annotation.Nullable BigDecimal amountAfterDiscount) {
+    this.amountAfterDiscount = amountAfterDiscount;
+    return this;
+  }
+
+  /**
+   * Get amountAfterDiscount
+   * @return amountAfterDiscount
+   */
+  @javax.annotation.Nullable
+  public BigDecimal getAmountAfterDiscount() {
+    return amountAfterDiscount;
+  }
+
+  public void setAmountAfterDiscount(@javax.annotation.Nullable BigDecimal amountAfterDiscount) {
+    this.amountAfterDiscount = amountAfterDiscount;
+  }
+
+
 
   @Override
   public boolean equals(Object o) {
@@ -280,12 +431,16 @@ public class PaymentMethodOptionDto {
     return Objects.equals(this.method, paymentMethodOptionDto.method) &&
         Objects.equals(this.displayName, paymentMethodOptionDto.displayName) &&
         Objects.equals(this.iframe, paymentMethodOptionDto.iframe) &&
-        Objects.equals(this.supportedCards, paymentMethodOptionDto.supportedCards);
+        Objects.equals(this.supportedCards, paymentMethodOptionDto.supportedCards) &&
+        Objects.equals(this.discountType, paymentMethodOptionDto.discountType) &&
+        Objects.equals(this.discountValue, paymentMethodOptionDto.discountValue) &&
+        Objects.equals(this.discountAmount, paymentMethodOptionDto.discountAmount) &&
+        Objects.equals(this.amountAfterDiscount, paymentMethodOptionDto.amountAfterDiscount);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(method, displayName, iframe, supportedCards);
+    return Objects.hash(method, displayName, iframe, supportedCards, discountType, discountValue, discountAmount, amountAfterDiscount);
   }
 
   @Override
@@ -296,6 +451,10 @@ public class PaymentMethodOptionDto {
     sb.append("    displayName: ").append(toIndentedString(displayName)).append("\n");
     sb.append("    iframe: ").append(toIndentedString(iframe)).append("\n");
     sb.append("    supportedCards: ").append(toIndentedString(supportedCards)).append("\n");
+    sb.append("    discountType: ").append(toIndentedString(discountType)).append("\n");
+    sb.append("    discountValue: ").append(toIndentedString(discountValue)).append("\n");
+    sb.append("    discountAmount: ").append(toIndentedString(discountAmount)).append("\n");
+    sb.append("    amountAfterDiscount: ").append(toIndentedString(amountAfterDiscount)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -322,6 +481,10 @@ public class PaymentMethodOptionDto {
     openapiFields.add("displayName");
     openapiFields.add("iframe");
     openapiFields.add("supportedCards");
+    openapiFields.add("discountType");
+    openapiFields.add("discountValue");
+    openapiFields.add("discountAmount");
+    openapiFields.add("amountAfterDiscount");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();
@@ -361,6 +524,13 @@ public class PaymentMethodOptionDto {
       // ensure the optional json data is an array if present
       if (jsonObj.get("supportedCards") != null && !jsonObj.get("supportedCards").isJsonNull() && !jsonObj.get("supportedCards").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `supportedCards` to be an array in the JSON string but got `%s`", jsonObj.get("supportedCards").toString()));
+      }
+      if ((jsonObj.get("discountType") != null && !jsonObj.get("discountType").isJsonNull()) && !jsonObj.get("discountType").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `discountType` to be a primitive type in the JSON string but got `%s`", jsonObj.get("discountType").toString()));
+      }
+      // validate the optional field `discountType`
+      if (jsonObj.get("discountType") != null && !jsonObj.get("discountType").isJsonNull()) {
+        DiscountTypeEnum.validateJsonElement(jsonObj.get("discountType"));
       }
   }
 

@@ -140,7 +140,9 @@ public class PaymentIntentResponseDto {
     
     APPLE_PAY("APPLE_PAY"),
     
-    GOOGLE_PAY("GOOGLE_PAY");
+    GOOGLE_PAY("GOOGLE_PAY"),
+    
+    ONPAY("ONPAY");
 
     private String value;
 
@@ -201,7 +203,9 @@ public class PaymentIntentResponseDto {
     
     APPLE_PAY("APPLE_PAY"),
     
-    GOOGLE_PAY("GOOGLE_PAY");
+    GOOGLE_PAY("GOOGLE_PAY"),
+    
+    ONPAY("ONPAY");
 
     private String value;
 
@@ -270,6 +274,16 @@ public class PaymentIntentResponseDto {
   @SerializedName(SERIALIZED_NAME_AMOUNT)
   @javax.annotation.Nullable
   private BigDecimal amount;
+
+  public static final String SERIALIZED_NAME_BASE_AMOUNT = "baseAmount";
+  @SerializedName(SERIALIZED_NAME_BASE_AMOUNT)
+  @javax.annotation.Nullable
+  private BigDecimal baseAmount;
+
+  public static final String SERIALIZED_NAME_METHOD_DISCOUNT_AMOUNT = "methodDiscountAmount";
+  @SerializedName(SERIALIZED_NAME_METHOD_DISCOUNT_AMOUNT)
+  @javax.annotation.Nullable
+  private BigDecimal methodDiscountAmount;
 
   public static final String SERIALIZED_NAME_CURRENCY = "currency";
   @SerializedName(SERIALIZED_NAME_CURRENCY)
@@ -459,6 +473,44 @@ public class PaymentIntentResponseDto {
   }
 
 
+  public PaymentIntentResponseDto baseAmount(@javax.annotation.Nullable BigDecimal baseAmount) {
+    this.baseAmount = baseAmount;
+    return this;
+  }
+
+  /**
+   * Get baseAmount
+   * @return baseAmount
+   */
+  @javax.annotation.Nullable
+  public BigDecimal getBaseAmount() {
+    return baseAmount;
+  }
+
+  public void setBaseAmount(@javax.annotation.Nullable BigDecimal baseAmount) {
+    this.baseAmount = baseAmount;
+  }
+
+
+  public PaymentIntentResponseDto methodDiscountAmount(@javax.annotation.Nullable BigDecimal methodDiscountAmount) {
+    this.methodDiscountAmount = methodDiscountAmount;
+    return this;
+  }
+
+  /**
+   * Get methodDiscountAmount
+   * @return methodDiscountAmount
+   */
+  @javax.annotation.Nullable
+  public BigDecimal getMethodDiscountAmount() {
+    return methodDiscountAmount;
+  }
+
+  public void setMethodDiscountAmount(@javax.annotation.Nullable BigDecimal methodDiscountAmount) {
+    this.methodDiscountAmount = methodDiscountAmount;
+  }
+
+
   public PaymentIntentResponseDto currency(@javax.annotation.Nullable String currency) {
     this.currency = currency;
     return this;
@@ -572,6 +624,8 @@ public class PaymentIntentResponseDto {
         Objects.equals(this.checkoutUrl, paymentIntentResponseDto.checkoutUrl) &&
         Objects.equals(this.providerRef, paymentIntentResponseDto.providerRef) &&
         Objects.equals(this.amount, paymentIntentResponseDto.amount) &&
+        Objects.equals(this.baseAmount, paymentIntentResponseDto.baseAmount) &&
+        Objects.equals(this.methodDiscountAmount, paymentIntentResponseDto.methodDiscountAmount) &&
         Objects.equals(this.currency, paymentIntentResponseDto.currency) &&
         Objects.equals(this.appliedRate, paymentIntentResponseDto.appliedRate) &&
         Objects.equals(this.feeAmount, paymentIntentResponseDto.feeAmount) &&
@@ -581,7 +635,7 @@ public class PaymentIntentResponseDto {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, status, paymentMethods, selectedPaymentMethod, paymentUrl, checkoutUrl, providerRef, amount, currency, appliedRate, feeAmount, expiresAt, createdAt);
+    return Objects.hash(id, status, paymentMethods, selectedPaymentMethod, paymentUrl, checkoutUrl, providerRef, amount, baseAmount, methodDiscountAmount, currency, appliedRate, feeAmount, expiresAt, createdAt);
   }
 
   @Override
@@ -596,6 +650,8 @@ public class PaymentIntentResponseDto {
     sb.append("    checkoutUrl: ").append(toIndentedString(checkoutUrl)).append("\n");
     sb.append("    providerRef: ").append(toIndentedString(providerRef)).append("\n");
     sb.append("    amount: ").append(toIndentedString(amount)).append("\n");
+    sb.append("    baseAmount: ").append(toIndentedString(baseAmount)).append("\n");
+    sb.append("    methodDiscountAmount: ").append(toIndentedString(methodDiscountAmount)).append("\n");
     sb.append("    currency: ").append(toIndentedString(currency)).append("\n");
     sb.append("    appliedRate: ").append(toIndentedString(appliedRate)).append("\n");
     sb.append("    feeAmount: ").append(toIndentedString(feeAmount)).append("\n");
@@ -631,6 +687,8 @@ public class PaymentIntentResponseDto {
     openapiFields.add("checkoutUrl");
     openapiFields.add("providerRef");
     openapiFields.add("amount");
+    openapiFields.add("baseAmount");
+    openapiFields.add("methodDiscountAmount");
     openapiFields.add("currency");
     openapiFields.add("appliedRate");
     openapiFields.add("feeAmount");

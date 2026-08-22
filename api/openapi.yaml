@@ -591,6 +591,51 @@ paths:
       x-content-type: application/json
       x-accepts:
       - '*/*'
+  /api/v1/admin/payment-intents/search:
+    post:
+      description: "Search, filter, sort and page payment intents. Admin only."
+      operationId: adminSearchPaymentIntents
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchPaymentIntentsRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PageResponseListAdminPaymentIntentRowDto'
+          description: OK
+      summary: Search payment intents
+      tags:
+      - admin-payment-intents
+      x-content-type: application/json
+      x-accepts:
+      - '*/*'
+  /api/v1/admin/onpay-refunds/{refundIntentId}/settle:
+    post:
+      description: "Confirms BTB moved the money out of band: flips the refund intent\
+        \ to COMPLETED and the parent to REFUNDED/PARTIALLY_REFUNDED. Admin only."
+      operationId: adminSettleOnPayRefund
+      parameters:
+      - explode: false
+        in: path
+        name: refundIntentId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: OK
+      summary: Settle an ON refund
+      tags:
+      - admin-onpay-refunds
+      x-accepts:
+      - application/json
   /api/v1/admin/journal/adjustments:
     post:
       operationId: postFreeForm
@@ -620,6 +665,54 @@ paths:
       x-content-type: application/json
       x-accepts:
       - '*/*'
+  /api/v1/admin/invoices/{id}/retry:
+    post:
+      description: Re-enqueues the ISSUE_INVOICE outbox message. Only FAILED invoices.
+      operationId: adminRetryInvoice
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/AdminInvoiceDetailDto'
+          description: OK
+      summary: Retry a failed issuance
+      tags:
+      - admin-invoices
+      x-accepts:
+      - '*/*'
+  /api/v1/admin/invoices/search:
+    post:
+      description: "Search, filter, sort and page issued documents. Admin only."
+      operationId: adminSearchInvoices
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchInvoicesRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PageResponseListAdminInvoiceRowDto'
+          description: OK
+      summary: Search invoices
+      tags:
+      - admin-invoices
+      x-content-type: application/json
+      x-accepts:
+      - '*/*'
   /api/v1/admin/conversion-rates:
     get:
       operationId: list_1
@@ -634,6 +727,7 @@ paths:
           - PAYME
           - APPLE_PAY
           - GOOGLE_PAY
+          - ONPAY
           type: string
         style: form
       - explode: true
@@ -1205,6 +1299,31 @@ paths:
       - admin-wallets
       x-accepts:
       - '*/*'
+  /api/v1/admin/payment-intents/{id}:
+    get:
+      description: "The full record, its line items and its refund chain."
+      operationId: adminGetPaymentIntent
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/AdminPaymentIntentDetailDto'
+          description: OK
+      summary: Get one payment intent
+      tags:
+      - admin-payment-intents
+      x-accepts:
+      - '*/*'
   /api/v1/admin/journal/{refType}/{refId}:
     get:
       operationId: getByRef
@@ -1234,6 +1353,30 @@ paths:
       - admin-journal
       x-accepts:
       - '*/*'
+  /api/v1/admin/invoices/{id}:
+    get:
+      operationId: adminGetInvoice
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/AdminInvoiceDetailDto'
+          description: OK
+      summary: Get one invoice
+      tags:
+      - admin-invoices
+      x-accepts:
+      - '*/*'
 components:
   schemas:
     SelectMethodRequestDto:
@@ -1247,6 +1390,7 @@ components:
           - PAYME
           - APPLE_PAY
           - GOOGLE_PAY
+          - ONPAY
           type: string
         internalReturnUrl:
           maxLength: 2048
@@ -1257,6 +1401,9 @@ components:
       - paymentMethod
     SelectMethodResponseDto:
       example:
+        amount: 0.8008281904610115
+        methodDiscountAmount: 6.027456183070403
+        resumable: true
         paymentUrl: paymentUrl
         iframe: true
         expiresAt: 2000-01-23T04:56:07.000+00:00
@@ -1264,6 +1411,10 @@ components:
       properties:
         paymentUrl:
           type: string
+        amount:
+          type: number
+        methodDiscountAmount:
+          type: number
         iframe:
           type: boolean
         status:
@@ -1280,6 +1431,8 @@ components:
         expiresAt:
           format: date-time
           type: string
+        resumable:
+          type: boolean
     ResendOtpResponseDto:
       example:
         id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
@@ -1339,6 +1492,7 @@ components:
           - PAYME
           - APPLE_PAY
           - GOOGLE_PAY
+          - ONPAY
           type: string
     WalletCreditRequestDto:
       example:
@@ -1897,6 +2051,13 @@ components:
         purposeRefType: purposeRefType
         cancelUrl: cancelUrl
         buyerPhone: buyerPhone
+        methodDiscounts:
+        - method: WALLET
+          type: PERCENT
+          value: 0.7062401241503109
+        - method: WALLET
+          type: PERCENT
+          value: 0.7062401241503109
         taxAmount: 0.14658129805029452
       properties:
         userId:
@@ -1910,6 +2071,7 @@ components:
             - PAYME
             - APPLE_PAY
             - GOOGLE_PAY
+            - ONPAY
             type: string
           minItems: 1
           type: array
@@ -2003,6 +2165,10 @@ components:
           items:
             $ref: '#/components/schemas/LineItemRequestDto'
           type: array
+        methodDiscounts:
+          items:
+            $ref: '#/components/schemas/MethodDiscountRequestDto'
+          type: array
         embedded:
           type: boolean
       required:
@@ -2041,16 +2207,44 @@ components:
       required:
       - name
       - unitPrice
+    MethodDiscountRequestDto:
+      example:
+        method: WALLET
+        type: PERCENT
+        value: 0.7062401241503109
+      properties:
+        method:
+          enum:
+          - WALLET
+          - PAYME
+          - APPLE_PAY
+          - GOOGLE_PAY
+          - ONPAY
+          type: string
+        type:
+          enum:
+          - PERCENT
+          - FIXED
+          type: string
+        value:
+          minimum: 0.00010
+          type: number
+      required:
+      - method
+      - type
+      - value
     PaymentIntentResponseDto:
       example:
         amount: 0.8008281904610115
         paymentUrl: paymentUrl
+        baseAmount: 6.027456183070403
         expiresAt: 2000-01-23T04:56:07.000+00:00
         checkoutUrl: checkoutUrl
-        feeAmount: 1.4658129805029452
+        feeAmount: 5.637376656633329
         createdAt: 2000-01-23T04:56:07.000+00:00
         providerRef: providerRef
-        appliedRate: 6.027456183070403
+        methodDiscountAmount: 1.4658129805029452
+        appliedRate: 5.962133916683182
         selectedPaymentMethod: WALLET
         paymentMethods:
         - WALLET
@@ -2080,6 +2274,7 @@ components:
             - PAYME
             - APPLE_PAY
             - GOOGLE_PAY
+            - ONPAY
             type: string
           type: array
           uniqueItems: true
@@ -2089,6 +2284,7 @@ components:
           - PAYME
           - APPLE_PAY
           - GOOGLE_PAY
+          - ONPAY
           type: string
         paymentUrl:
           type: string
@@ -2097,6 +2293,10 @@ components:
         providerRef:
           type: string
         amount:
+          type: number
+        baseAmount:
+          type: number
+        methodDiscountAmount:
           type: number
         currency:
           type: string
@@ -2175,6 +2375,250 @@ components:
       required:
       - amount
       - reasonCode
+    Filter:
+      description: Individual filter criteria for a specific field
+      example:
+        name: email
+        logic: EQ
+        value: ""
+      properties:
+        name:
+          description: Field name to filter on
+          example: email
+          type: string
+        value: {}
+        logic:
+          description: Filter logic operator to apply
+          enum:
+          - IN
+          - NOT_IN
+          - EQ
+          - LTE
+          - GTE
+          - IS_NULL
+          - IS_NOT_NULL
+          - LIKE
+          example: EQ
+          type: string
+      required:
+      - logic
+      - name
+      - value
+    Pagination:
+      description: Pagination parameters for controlling result set size and page
+        selection
+      example:
+        pageNumber: 1
+        itemsPerPage: 10
+      properties:
+        itemsPerPage:
+          default: 50
+          description: Number of items per page. Defaults to 50 if not specified.
+          example: 10
+          format: int32
+          maximum: 1000
+          minimum: 1
+          type: integer
+        pageNumber:
+          default: 1
+          description: Page number (1-based indexing). Defaults to 1 if not specified.
+          example: 1
+          format: int32
+          minimum: 1
+          type: integer
+    SearchPaymentIntentsRequest:
+      description: |
+        Search request for payment intents, with filtering, sorting, and pagination.
+        **Query Fields** (full-text search): intent id, `buyerName`, `buyerEmail`, `providerRef`,
+        `userId` — the id is cast to text so a fragment copied off a truncated column still matches.
+        **Available Filter/Sort Fields:**
+        - `status` (PENDING | AWAITING_METHOD_SELECTION | AWAITING_PAYMENT | COMPLETED | FAILED |
+          EXPIRED | REFUNDED | PARTIALLY_REFUNDED, sortable)
+        - `purpose` (WALLET_TOPUP | PRODUCT_PURCHASE | SUBSCRIPTION_RENEWAL | REFUND_WALLET_TOPUP |
+          REFUND_PRODUCT_PURCHASE | REFUND_SUBSCRIPTION_RENEWAL, sortable)
+        - `selectedPaymentMethod` (WALLET | PAYME | APPLE_PAY | GOOGLE_PAY, sortable)
+        - `consumerService` (String, sortable)
+        - `userId` (String, sortable)
+        - `buyerEmail` (String)
+        - `currency` (String, sortable)
+        - `amount` (BigDecimal, sortable)
+        - `createdAt` (Instant, sortable) — the default sort is `createdAt DESC`
+        - `completedAt` (Instant, sortable)
+        - `expiresAt` (Instant)
+        - `parentIntentId` (UUID) — set on refund intents; filter on it to list one intent's refunds
+
+        `id` is deliberately absent: sorting UUIDs is meaningless and free-text already finds one.
+      example:
+        pagination:
+          pageNumber: 1
+          itemsPerPage: 10
+        query: John
+        filters:
+          key:
+          - name: email
+            logic: EQ
+            value: ""
+          - name: email
+            logic: EQ
+            value: ""
+        sort:
+        - fieldName: createdDate
+          direction: DESC
+        - fieldName: createdDate
+          direction: DESC
+      properties:
+        query:
+          description: Full-text search query string. Matches against predefined query
+            fields using case-insensitive LIKE.
+          example: John
+          type: string
+        filters:
+          additionalProperties:
+            items:
+              $ref: '#/components/schemas/Filter'
+          description: Filter groups with AND/OR logic. Each group contains a list
+            of filter criteria that are combined using the specified operator.
+        sort:
+          description: Sort criteria applied in order. Only sortable fields are accepted.
+          items:
+            $ref: '#/components/schemas/SortField'
+          type: array
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+    SortField:
+      description: Sort criteria for ordering results
+      example:
+        fieldName: createdDate
+        direction: DESC
+      properties:
+        fieldName:
+          description: Field name to sort by. Must be a sortable field.
+          example: createdDate
+          type: string
+        direction:
+          default: asc
+          description: Sort direction (case-insensitive)
+          enum:
+          - ASC
+          - asc
+          - DESC
+          - desc
+          example: DESC
+          type: string
+      required:
+      - fieldName
+    AdminPaymentIntentRowDto:
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        amount: 5.637376656633329
+        consumerService: consumerService
+        purpose: WALLET_TOPUP
+        buyerEmail: buyerEmail
+        selectedPaymentMethod: WALLET
+        currency: currency
+        id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        buyerName: buyerName
+        parentIntentId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        userId: userId
+        status: PENDING
+      properties:
+        id:
+          format: uuid
+          type: string
+        userId:
+          type: string
+        buyerName:
+          type: string
+        buyerEmail:
+          type: string
+        purpose:
+          enum:
+          - WALLET_TOPUP
+          - PRODUCT_PURCHASE
+          - SUBSCRIPTION_RENEWAL
+          - REFUND_WALLET_TOPUP
+          - REFUND_PRODUCT_PURCHASE
+          - REFUND_SUBSCRIPTION_RENEWAL
+          type: string
+        amount:
+          type: number
+        currency:
+          type: string
+        selectedPaymentMethod:
+          enum:
+          - WALLET
+          - PAYME
+          - APPLE_PAY
+          - GOOGLE_PAY
+          - ONPAY
+          type: string
+        status:
+          enum:
+          - PENDING
+          - AWAITING_METHOD_SELECTION
+          - AWAITING_PAYMENT
+          - COMPLETED
+          - FAILED
+          - EXPIRED
+          - REFUNDED
+          - PARTIALLY_REFUNDED
+          type: string
+        consumerService:
+          type: string
+        parentIntentId:
+          format: uuid
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+    PageResponseListAdminPaymentIntentRowDto:
+      example:
+        total: 1
+        data:
+        - createdAt: 2000-01-23T04:56:07.000+00:00
+          amount: 5.637376656633329
+          consumerService: consumerService
+          purpose: WALLET_TOPUP
+          buyerEmail: buyerEmail
+          selectedPaymentMethod: WALLET
+          currency: currency
+          id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          buyerName: buyerName
+          parentIntentId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          userId: userId
+          status: PENDING
+        - createdAt: 2000-01-23T04:56:07.000+00:00
+          amount: 5.637376656633329
+          consumerService: consumerService
+          purpose: WALLET_TOPUP
+          buyerEmail: buyerEmail
+          selectedPaymentMethod: WALLET
+          currency: currency
+          id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          buyerName: buyerName
+          parentIntentId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          userId: userId
+          status: PENDING
+        totalPages: 6
+        limit: 5
+        page: 0
+      properties:
+        page:
+          format: int32
+          type: integer
+        totalPages:
+          format: int32
+          type: integer
+        total:
+          format: int64
+          type: integer
+        limit:
+          format: int32
+          type: integer
+        data:
+          items:
+            $ref: '#/components/schemas/AdminPaymentIntentRowDto'
+          type: array
     FreeFormJournalRequestDto:
       example:
         refType: refType
@@ -2292,6 +2736,224 @@ components:
           items:
             $ref: '#/components/schemas/PostingLineDto'
           type: array
+    AdminInvoiceDetailDto:
+      example:
+        paymentIntentId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        nextRetryAt: 2000-01-23T04:56:07.000+00:00
+        lastError: lastError
+        updatedBy: updatedBy
+        docType: RECEIPT
+        retryCount: 6
+        requestPayload:
+          key: ""
+        responsePayload:
+          key: ""
+        language: language
+        providerDocId: providerDocId
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        provider: provider
+        createdBy: createdBy
+        docUrl: docUrl
+        id: 0
+        issuedAt: 2000-01-23T04:56:07.000+00:00
+        docCopyUrl: docCopyUrl
+        status: PENDING
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        id:
+          format: int64
+          type: integer
+        paymentIntentId:
+          format: uuid
+          type: string
+        docType:
+          enum:
+          - RECEIPT
+          - INVOICE
+          - INVRECEIPT
+          - CREDIT_INVOICE
+          type: string
+        status:
+          enum:
+          - PENDING
+          - ISSUED
+          - FAILED
+          type: string
+        provider:
+          type: string
+        language:
+          type: string
+        retryCount:
+          format: int32
+          type: integer
+        nextRetryAt:
+          format: date-time
+          type: string
+        providerDocId:
+          type: string
+        docUrl:
+          type: string
+        docCopyUrl:
+          type: string
+        requestPayload:
+          additionalProperties: {}
+        responsePayload:
+          additionalProperties: {}
+        lastError:
+          type: string
+        issuedAt:
+          format: date-time
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+        createdBy:
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+        updatedBy:
+          type: string
+    SearchInvoicesRequest:
+      description: |
+        Search request for issued invoices, with filtering, sorting, and pagination.
+        **Query Fields** (full-text search): invoice id, payment intent id, `providerDocId` — the ids
+        are cast to text so a fragment copied off a truncated column still matches.
+        **Available Filter/Sort Fields:**
+        - `id` (Long, sortable)
+        - `status` (PENDING | ISSUED | FAILED, sortable)
+        - `docType` (RECEIPT | INVOICE | INVRECEIPT | CREDIT_INVOICE, sortable)
+        - `provider` (String)
+        - `language` (String)
+        - `retryCount` (sortable; EQ/IN filters also work — the framework has no concept of a
+          sort-only field — but no filter UI is wired to it)
+        - `issuedAt` (Instant, sortable)
+        - `createdAt` (Instant, sortable)
+        - `nextRetryAt` (Instant)
+        - `paymentIntentId` (UUID, joined — filterable but not sortable)
+      example:
+        pagination:
+          pageNumber: 1
+          itemsPerPage: 10
+        query: John
+        filters:
+          key:
+          - name: email
+            logic: EQ
+            value: ""
+          - name: email
+            logic: EQ
+            value: ""
+        sort:
+        - fieldName: createdDate
+          direction: DESC
+        - fieldName: createdDate
+          direction: DESC
+      properties:
+        query:
+          description: Full-text search query string. Matches against predefined query
+            fields using case-insensitive LIKE.
+          example: John
+          type: string
+        filters:
+          additionalProperties:
+            items:
+              $ref: '#/components/schemas/Filter'
+          description: Filter groups with AND/OR logic. Each group contains a list
+            of filter criteria that are combined using the specified operator.
+        sort:
+          description: Sort criteria applied in order. Only sortable fields are accepted.
+          items:
+            $ref: '#/components/schemas/SortField'
+          type: array
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+    AdminInvoiceRowDto:
+      example:
+        paymentIntentId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        provider: provider
+        docType: RECEIPT
+        retryCount: 2
+        id: 5
+        providerDocId: providerDocId
+        issuedAt: 2000-01-23T04:56:07.000+00:00
+        status: PENDING
+      properties:
+        id:
+          format: int64
+          type: integer
+        paymentIntentId:
+          format: uuid
+          type: string
+        docType:
+          enum:
+          - RECEIPT
+          - INVOICE
+          - INVRECEIPT
+          - CREDIT_INVOICE
+          type: string
+        status:
+          enum:
+          - PENDING
+          - ISSUED
+          - FAILED
+          type: string
+        provider:
+          type: string
+        retryCount:
+          format: int32
+          type: integer
+        providerDocId:
+          type: string
+        issuedAt:
+          format: date-time
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+    PageResponseListAdminInvoiceRowDto:
+      example:
+        total: 1
+        data:
+        - paymentIntentId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          provider: provider
+          docType: RECEIPT
+          retryCount: 2
+          id: 5
+          providerDocId: providerDocId
+          issuedAt: 2000-01-23T04:56:07.000+00:00
+          status: PENDING
+        - paymentIntentId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          provider: provider
+          docType: RECEIPT
+          retryCount: 2
+          id: 5
+          providerDocId: providerDocId
+          issuedAt: 2000-01-23T04:56:07.000+00:00
+          status: PENDING
+        totalPages: 6
+        limit: 5
+        page: 0
+      properties:
+        page:
+          format: int32
+          type: integer
+        totalPages:
+          format: int32
+          type: integer
+        total:
+          format: int64
+          type: integer
+        limit:
+          format: int32
+          type: integer
+        data:
+          items:
+            $ref: '#/components/schemas/AdminInvoiceRowDto'
+          type: array
     ConversionRateRequestDto:
       example:
         rate: 0.08008282904610114
@@ -2307,6 +2969,7 @@ components:
           - PAYME
           - APPLE_PAY
           - GOOGLE_PAY
+          - ONPAY
           type: string
         moneyCurrency:
           minLength: 1
@@ -2354,6 +3017,7 @@ components:
           - PAYME
           - APPLE_PAY
           - GOOGLE_PAY
+          - ONPAY
           type: string
         moneyCurrency:
           type: string
@@ -2618,17 +3282,26 @@ components:
     CheckoutDetailsDto:
       example:
         amount: 0.8008281904610115
+        resumable: true
         purpose: WALLET_TOPUP
         methods:
         - method: WALLET
           displayName: displayName
+          discountAmount: 5.637376656633329
+          discountType: PERCENT
           iframe: true
+          discountValue: 5.962133916683182
+          amountAfterDiscount: 2.3021358869347655
           supportedCards:
           - VISA
           - VISA
         - method: WALLET
           displayName: displayName
+          discountAmount: 5.637376656633329
+          discountType: PERCENT
           iframe: true
+          discountValue: 5.962133916683182
+          amountAfterDiscount: 2.3021358869347655
           supportedCards:
           - VISA
           - VISA
@@ -2641,25 +3314,28 @@ components:
           logoUrl: logoUrl
         language: language
         paymentUrl: paymentUrl
+        baseAmount: 6.027456183070403
         expiresAt: 2000-01-23T04:56:07.000+00:00
         merchantFailureUrl: merchantFailureUrl
         lineItems:
-        - unitPrice: 6.027456183070403
-          quantity: 1
+        - unitPrice: 7.061401241503109
+          quantity: 9
           imageUrl: imageUrl
           name: name
           description: description
-        - unitPrice: 6.027456183070403
-          quantity: 1
+        - unitPrice: 7.061401241503109
+          quantity: 9
           imageUrl: imageUrl
           name: name
           description: description
+        methodDiscountAmount: 1.4658129805029452
         selectedPaymentMethod: WALLET
         priceBreakdown:
-          total: 7.061401241503109
-          subtotal: 5.962133916683182
-          discount: 2.3021358869347655
-          tax: 5.637376656633329
+          total: 1.2315135367772556
+          subtotal: 3.616076749251911
+          discount: 4.145608029883936
+          tax: 2.027123023002322
+          methodDiscount: 7.386281948385884
         currency: currency
         id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
         embedded: true
@@ -2681,6 +3357,10 @@ components:
           type: string
         amount:
           type: number
+        baseAmount:
+          type: number
+        methodDiscountAmount:
+          type: number
         currency:
           type: string
         language:
@@ -2695,6 +3375,7 @@ components:
           - PAYME
           - APPLE_PAY
           - GOOGLE_PAY
+          - ONPAY
           type: string
         paymentUrl:
           type: string
@@ -2728,10 +3409,12 @@ components:
           type: string
         embedded:
           type: boolean
+        resumable:
+          type: boolean
     LineItemDto:
       example:
-        unitPrice: 6.027456183070403
-        quantity: 1
+        unitPrice: 7.061401241503109
+        quantity: 9
         imageUrl: imageUrl
         name: name
         description: description
@@ -2767,7 +3450,11 @@ components:
       example:
         method: WALLET
         displayName: displayName
+        discountAmount: 5.637376656633329
+        discountType: PERCENT
         iframe: true
+        discountValue: 5.962133916683182
+        amountAfterDiscount: 2.3021358869347655
         supportedCards:
         - VISA
         - VISA
@@ -2778,6 +3465,7 @@ components:
           - PAYME
           - APPLE_PAY
           - GOOGLE_PAY
+          - ONPAY
           type: string
         displayName:
           type: string
@@ -2791,18 +3479,32 @@ components:
             type: string
           type: array
           uniqueItems: true
+        discountType:
+          enum:
+          - PERCENT
+          - FIXED
+          type: string
+        discountValue:
+          type: number
+        discountAmount:
+          type: number
+        amountAfterDiscount:
+          type: number
     PriceBreakdownDto:
       example:
-        total: 7.061401241503109
-        subtotal: 5.962133916683182
-        discount: 2.3021358869347655
-        tax: 5.637376656633329
+        total: 1.2315135367772556
+        subtotal: 3.616076749251911
+        discount: 4.145608029883936
+        tax: 2.027123023002322
+        methodDiscount: 7.386281948385884
       properties:
         subtotal:
           type: number
         tax:
           type: number
         discount:
+          type: number
+        methodDiscount:
           type: number
         total:
           type: number
@@ -2838,6 +3540,7 @@ components:
           - PAYME
           - APPLE_PAY
           - GOOGLE_PAY
+          - ONPAY
           type: string
         merchantSuccessUrl:
           type: string
@@ -2868,6 +3571,303 @@ components:
         lastUpdated:
           format: date-time
           type: string
+    AdminPaymentIntentChainNodeDto:
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        amount: 1.0246457001441578
+        purpose: WALLET_TOPUP
+        currency: currency
+        id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        status: PENDING
+      properties:
+        id:
+          format: uuid
+          type: string
+        purpose:
+          enum:
+          - WALLET_TOPUP
+          - PRODUCT_PURCHASE
+          - SUBSCRIPTION_RENEWAL
+          - REFUND_WALLET_TOPUP
+          - REFUND_PRODUCT_PURCHASE
+          - REFUND_SUBSCRIPTION_RENEWAL
+          type: string
+        amount:
+          type: number
+        currency:
+          type: string
+        status:
+          enum:
+          - PENDING
+          - AWAITING_METHOD_SELECTION
+          - AWAITING_PAYMENT
+          - COMPLETED
+          - FAILED
+          - EXPIRED
+          - REFUNDED
+          - PARTIALLY_REFUNDED
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+    AdminPaymentIntentDetailDto:
+      example:
+        metadata:
+          key: ""
+        buyerEmail: buyerEmail
+        discountAmount: 2.3021358869347655
+        language: language
+        merchantName: merchantName
+        lineItems:
+        - unitPrice: 7.386281948385884
+          quantity: 1
+          imageUrl: imageUrl
+          name: name
+          description: description
+          position: 4
+        - unitPrice: 7.386281948385884
+          quantity: 1
+          imageUrl: imageUrl
+          name: name
+          description: description
+          position: 4
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        conversionRateId: 9
+        callbackUrl: callbackUrl
+        id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        merchantLogoUrl: merchantLogoUrl
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+        completedAt: 2000-01-23T04:56:07.000+00:00
+        updatedBy: updatedBy
+        successUrl: successUrl
+        paymentUrl: paymentUrl
+        remainingRefundable: 6.84685269835264
+        baseAmount: 6.027456183070403
+        purposeRefType: purposeRefType
+        buyerPhone: buyerPhone
+        taxAmount: 5.637376656633329
+        subscriptionId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        refundedAmount: 1.4894159098541704
+        status: PENDING
+        purpose: WALLET_TOPUP
+        parentIntentId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        failureUrl: failureUrl
+        methodDiscountAmount: 1.4658129805029452
+        appliedRate: 3.616076749251911
+        paymentMethods:
+        - WALLET
+        - WALLET
+        callbackDispatchedAt: 2000-01-23T04:56:07.000+00:00
+        currency: currency
+        purposeDescription: purposeDescription
+        embedded: true
+        amount: 0.8008281904610115
+        chain:
+        - createdAt: 2000-01-23T04:56:07.000+00:00
+          amount: 1.0246457001441578
+          purpose: WALLET_TOPUP
+          currency: currency
+          id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          status: PENDING
+        - createdAt: 2000-01-23T04:56:07.000+00:00
+          amount: 1.0246457001441578
+          purpose: WALLET_TOPUP
+          currency: currency
+          id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          status: PENDING
+        failureCode: failureCode
+        idempotencyKey: idempotencyKey
+        merchantBrand: ZIPPER
+        buyerName: buyerName
+        userId: userId
+        subtotalAmount: 5.962133916683182
+        purposeRefId: purposeRefId
+        expiresAt: 2000-01-23T04:56:07.000+00:00
+        feeAmount: 7.061401241503109
+        providerRef: providerRef
+        cancelUrl: cancelUrl
+        journalEntryId: 2
+        consumerService: consumerService
+        createdBy: createdBy
+        selectedPaymentMethod: WALLET
+        failureMessage: failureMessage
+      properties:
+        id:
+          format: uuid
+          type: string
+        consumerService:
+          type: string
+        userId:
+          type: string
+        idempotencyKey:
+          type: string
+        parentIntentId:
+          format: uuid
+          type: string
+        paymentMethods:
+          items:
+            enum:
+            - WALLET
+            - PAYME
+            - APPLE_PAY
+            - GOOGLE_PAY
+            - ONPAY
+            type: string
+          type: array
+          uniqueItems: true
+        selectedPaymentMethod:
+          enum:
+          - WALLET
+          - PAYME
+          - APPLE_PAY
+          - GOOGLE_PAY
+          - ONPAY
+          type: string
+        purpose:
+          enum:
+          - WALLET_TOPUP
+          - PRODUCT_PURCHASE
+          - SUBSCRIPTION_RENEWAL
+          - REFUND_WALLET_TOPUP
+          - REFUND_PRODUCT_PURCHASE
+          - REFUND_SUBSCRIPTION_RENEWAL
+          type: string
+        amount:
+          type: number
+        baseAmount:
+          type: number
+        methodDiscountAmount:
+          type: number
+        currency:
+          type: string
+        subtotalAmount:
+          type: number
+        taxAmount:
+          type: number
+        discountAmount:
+          type: number
+        feeAmount:
+          type: number
+        conversionRateId:
+          format: int64
+          type: integer
+        appliedRate:
+          type: number
+        providerRef:
+          type: string
+        paymentUrl:
+          type: string
+        successUrl:
+          type: string
+        cancelUrl:
+          type: string
+        failureUrl:
+          type: string
+        callbackUrl:
+          type: string
+        purposeRefType:
+          type: string
+        purposeRefId:
+          type: string
+        purposeDescription:
+          type: string
+        language:
+          type: string
+        metadata:
+          additionalProperties: {}
+        status:
+          enum:
+          - PENDING
+          - AWAITING_METHOD_SELECTION
+          - AWAITING_PAYMENT
+          - COMPLETED
+          - FAILED
+          - EXPIRED
+          - REFUNDED
+          - PARTIALLY_REFUNDED
+          type: string
+        failureCode:
+          type: string
+        failureMessage:
+          type: string
+        journalEntryId:
+          format: int64
+          type: integer
+        completedAt:
+          format: date-time
+          type: string
+        callbackDispatchedAt:
+          format: date-time
+          type: string
+        expiresAt:
+          format: date-time
+          type: string
+        subscriptionId:
+          format: uuid
+          type: string
+        merchantName:
+          type: string
+        merchantBrand:
+          enum:
+          - ZIPPER
+          - GENERIC
+          - CUSTOM
+          type: string
+        merchantLogoUrl:
+          type: string
+        buyerName:
+          type: string
+        buyerEmail:
+          type: string
+        buyerPhone:
+          type: string
+        embedded:
+          type: boolean
+        lineItems:
+          items:
+            $ref: '#/components/schemas/AdminPaymentIntentLineItemDto'
+          type: array
+        chain:
+          items:
+            $ref: '#/components/schemas/AdminPaymentIntentChainNodeDto'
+          type: array
+        refundedAmount:
+          type: number
+        remainingRefundable:
+          type: number
+        createdAt:
+          format: date-time
+          type: string
+        createdBy:
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+        updatedBy:
+          type: string
+    AdminPaymentIntentLineItemDto:
+      example:
+        unitPrice: 7.386281948385884
+        quantity: 1
+        imageUrl: imageUrl
+        name: name
+        description: description
+        position: 4
+      properties:
+        position:
+          format: int32
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        imageUrl:
+          type: string
+        unitPrice:
+          type: number
+        quantity:
+          format: int32
+          type: integer
     JournalEntryTreeDto:
       example:
         entries:

@@ -20,6 +20,7 @@ import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import com.zipper.pay.sdk.model.LineItemRequestDto;
+import com.zipper.pay.sdk.model.MethodDiscountRequestDto;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -74,7 +75,9 @@ public class CreatePaymentIntentRequestDto {
     
     APPLE_PAY("APPLE_PAY"),
     
-    GOOGLE_PAY("GOOGLE_PAY");
+    GOOGLE_PAY("GOOGLE_PAY"),
+    
+    ONPAY("ONPAY");
 
     private String value;
 
@@ -347,6 +350,11 @@ public class CreatePaymentIntentRequestDto {
   @SerializedName(SERIALIZED_NAME_LINE_ITEMS)
   @javax.annotation.Nullable
   private List<LineItemRequestDto> lineItems = new ArrayList<>();
+
+  public static final String SERIALIZED_NAME_METHOD_DISCOUNTS = "methodDiscounts";
+  @SerializedName(SERIALIZED_NAME_METHOD_DISCOUNTS)
+  @javax.annotation.Nullable
+  private List<MethodDiscountRequestDto> methodDiscounts = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_EMBEDDED = "embedded";
   @SerializedName(SERIALIZED_NAME_EMBEDDED)
@@ -840,6 +848,33 @@ public class CreatePaymentIntentRequestDto {
   }
 
 
+  public CreatePaymentIntentRequestDto methodDiscounts(@javax.annotation.Nullable List<MethodDiscountRequestDto> methodDiscounts) {
+    this.methodDiscounts = methodDiscounts;
+    return this;
+  }
+
+  public CreatePaymentIntentRequestDto addMethodDiscountsItem(MethodDiscountRequestDto methodDiscountsItem) {
+    if (this.methodDiscounts == null) {
+      this.methodDiscounts = new ArrayList<>();
+    }
+    this.methodDiscounts.add(methodDiscountsItem);
+    return this;
+  }
+
+  /**
+   * Get methodDiscounts
+   * @return methodDiscounts
+   */
+  @javax.annotation.Nullable
+  public List<MethodDiscountRequestDto> getMethodDiscounts() {
+    return methodDiscounts;
+  }
+
+  public void setMethodDiscounts(@javax.annotation.Nullable List<MethodDiscountRequestDto> methodDiscounts) {
+    this.methodDiscounts = methodDiscounts;
+  }
+
+
   public CreatePaymentIntentRequestDto embedded(@javax.annotation.Nullable Boolean embedded) {
     this.embedded = embedded;
     return this;
@@ -893,12 +928,13 @@ public class CreatePaymentIntentRequestDto {
         Objects.equals(this.taxAmount, createPaymentIntentRequestDto.taxAmount) &&
         Objects.equals(this.discountAmount, createPaymentIntentRequestDto.discountAmount) &&
         Objects.equals(this.lineItems, createPaymentIntentRequestDto.lineItems) &&
+        Objects.equals(this.methodDiscounts, createPaymentIntentRequestDto.methodDiscounts) &&
         Objects.equals(this.embedded, createPaymentIntentRequestDto.embedded);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(userId, paymentMethods, purpose, amount, currency, purposeRefType, purposeRefId, purposeDescription, callbackUrl, successUrl, cancelUrl, failureUrl, language, metadata, buyerName, buyerEmail, buyerPhone, merchantName, merchantBrand, merchantLogoUrl, subtotalAmount, taxAmount, discountAmount, lineItems, embedded);
+    return Objects.hash(userId, paymentMethods, purpose, amount, currency, purposeRefType, purposeRefId, purposeDescription, callbackUrl, successUrl, cancelUrl, failureUrl, language, metadata, buyerName, buyerEmail, buyerPhone, merchantName, merchantBrand, merchantLogoUrl, subtotalAmount, taxAmount, discountAmount, lineItems, methodDiscounts, embedded);
   }
 
   @Override
@@ -929,6 +965,7 @@ public class CreatePaymentIntentRequestDto {
     sb.append("    taxAmount: ").append(toIndentedString(taxAmount)).append("\n");
     sb.append("    discountAmount: ").append(toIndentedString(discountAmount)).append("\n");
     sb.append("    lineItems: ").append(toIndentedString(lineItems)).append("\n");
+    sb.append("    methodDiscounts: ").append(toIndentedString(methodDiscounts)).append("\n");
     sb.append("    embedded: ").append(toIndentedString(embedded)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -976,6 +1013,7 @@ public class CreatePaymentIntentRequestDto {
     openapiFields.add("taxAmount");
     openapiFields.add("discountAmount");
     openapiFields.add("lineItems");
+    openapiFields.add("methodDiscounts");
     openapiFields.add("embedded");
 
     // a set of required properties/fields (JSON key names)
@@ -1089,6 +1127,20 @@ public class CreatePaymentIntentRequestDto {
           // validate the optional field `lineItems` (array)
           for (int i = 0; i < jsonArraylineItems.size(); i++) {
             LineItemRequestDto.validateJsonElement(jsonArraylineItems.get(i));
+          };
+        }
+      }
+      if (jsonObj.get("methodDiscounts") != null && !jsonObj.get("methodDiscounts").isJsonNull()) {
+        JsonArray jsonArraymethodDiscounts = jsonObj.getAsJsonArray("methodDiscounts");
+        if (jsonArraymethodDiscounts != null) {
+          // ensure the json data is an array
+          if (!jsonObj.get("methodDiscounts").isJsonArray()) {
+            throw new IllegalArgumentException(String.format("Expected the field `methodDiscounts` to be an array in the JSON string but got `%s`", jsonObj.get("methodDiscounts").toString()));
+          }
+
+          // validate the optional field `methodDiscounts` (array)
+          for (int i = 0; i < jsonArraymethodDiscounts.size(); i++) {
+            MethodDiscountRequestDto.validateJsonElement(jsonArraymethodDiscounts.get(i));
           };
         }
       }
